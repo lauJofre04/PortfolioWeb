@@ -1,0 +1,9 @@
+a{
+    color: rgb(0, 0, 0);
+}
+h5{
+    color: rgb(0, 0, 0);
+}
+:host {
+  display: block;
+}

@@ -1,0 +1,49 @@
+<section id="proyectos" style="padding-top: 100px;">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="text-primary">Proyectos</h2>
+      <button *ngIf="estaLogueado" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#proyectosModal" (click)="limpiarFormulario()">+ Agregar</button>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-4" *ngFor="let proy of misProyectos">
+        <div class="card shadow-sm h-100">
+          <div class="card-body">
+            <h5 class="card-title fw-bold">{{ proy.nombre }}</h5>
+            <h6 class="card-subtitle mb-2 text-primary">{{ proy.tecnologias }}</h6>
+            <p class="card-text">{{ proy.descripcion }}</p>
+            
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <div>
+                <a *ngIf="proy.link_repo" [href]="proy.link_repo" target="_blank" class="btn btn-sm btn-dark me-2">GitHub</a>
+                <a *ngIf="proy.link_demo" [href]="proy.link_demo" target="_blank" class="btn btn-sm btn-outline-primary">Ver Demo</a>
+              </div>
+              <button *ngIf="estaLogueado" class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#proyectosModal" (click)="cargarDatosParaEditar(proy)">Editar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="modal fade" id="proyectosModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content shadow-lg border-0 rounded-4">
+      <div class="modal-header border-0"><h5 class="fw-bold">{{ esEdicion ? 'Editar' : 'Nuevo' }} Proyecto</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body">
+        <div class="mb-3"><label class="small">NOMBRE</label><input type="text" class="form-control" [(ngModel)]="formProy.nombre" name="nombre"></div>
+        <div class="mb-3"><label class="small">TECNOLOGÍAS (Ej: Angular, Node)</label><input type="text" class="form-control" [(ngModel)]="formProy.tecnologias" name="tecnologias"></div>
+        <div class="row">
+          <div class="col-6 mb-3"><label class="small">LINK REPOSITORIO</label><input type="text" class="form-control" [(ngModel)]="formProy.link_repo" name="link_repo"></div>
+          <div class="col-6 mb-3"><label class="small">LINK DEMO</label><input type="text" class="form-control" [(ngModel)]="formProy.link_demo" name="link_demo"></div>
+        </div>
+        <div class="mb-3"><label class="small">DESCRIPCIÓN</label><textarea class="form-control" [(ngModel)]="formProy.descripcion" name="descripcion" rows="3"></textarea></div>
+      </div>
+      <div class="modal-footer border-0">
+        <button class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-primary" data-bs-dismiss="modal" (click)="guardarCambios()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,74 @@
+<header>
+    <div class="row">
+        <nav class="navbar navbar-light bg-light fixed-top">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Portfolio Lautaro Jofre</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span></button>
+                <div class="offcanvas offcanvas-end text-bg-light" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasLightNavbarLabel">Portfolio Web</h5>
+                        <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="#presentacion">Presentacion</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#estudios">Estudios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#experiencia">Experiencia</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#habilidades">Habilidades</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#proyectos">Proyectos</a>
+                        </li>
+                    </ul>
+                        
+                    <button *ngIf="!estaLogueado" type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        Ingresar
+                    </button>
+
+                    <button *ngIf="estaLogueado" type="button" class="btn btn-danger fw-bold shadow-sm" (click)="cerrarSesion()" data-bs-dismiss="offcanvas">
+                        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;">
+        <div class="modal-content shadow-lg border-0 rounded-4 p-3">
+          
+          <div class="modal-header border-0 pb-0">
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          
+          <div class="modal-body text-center pt-0">
+            <h4 class="fw-bold mb-4" style="color: #c2c2c2;">¡Bienvenido de vuelta!</h4>
+            
+            <form>
+              <div class="mb-4 text-start">
+                <label class="form-label fw-bold text-muted small mb-1">Usuario:</label>
+                <input type="text" class="form-control form-control-lg bg-light border-0" [(ngModel)]="credenciales.username" name="username" placeholder="Ej: lauJofre">
+              </div>
+              
+              <div class="mb-4 text-start">
+                <label class="form-label fw-bold text-muted small mb-1">Contraseña:</label>
+                <input type="password" class="form-control form-control-lg bg-light border-0" [(ngModel)]="credenciales.password" name="password" placeholder="********">
+              </div>
+              
+              <button type="button" class="btn btn-success btn-lg w-100 rounded-pill fw-bold shadow-sm" style="background-color: #1abc9c; border: none;" (click)="iniciarSesion()" data-bs-dismiss="modal">
+                INGRESAR
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+</header>

@@ -1,0 +1,68 @@
+<section id="estudios" style="padding-top: 100px;">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="text-primary">Educación y Cursos</h2>
+      <button *ngIf="estaLogueado" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#estudioModal" (click)="limpiarFormulario()">
+        + Agregar
+      </button>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-11 mb-3" *ngFor="let estudio of misEstudios">
+        <div class="card shadow-sm">
+          <div class="card-body d-flex justify-content-between align-items-center">
+            <div>
+              <h5 class="card-title">{{ estudio.titulo }}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">{{ estudio.institucion }}</h6>
+              <p class="card-text">{{ estudio.descripcion }}</p>
+              <span class="badge bg-info text-dark">{{ estudio.fecha_inicio | date:'yyyy' }}</span>
+            </div>
+            <button *ngIf="estaLogueado" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#estudioModal" (click)="cargarDatosParaEditar(estudio)">
+              <i class="fas fa-pen"></i> Editar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="modal fade" id="estudioModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered"> <div class="modal-content shadow-lg border-0 rounded-4"> <div class="modal-header border-0">
+        <h5 class="modal-title fw-bold" id="exampleModalLabel">
+          {{ esEdicion ? 'Editar Estudio' : 'Nuevo Estudio' }}
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="titulo" class="form-label text-muted small">TÍTULO O CARRERA</label>
+            <input type="text" class="form-control" id="titulo" [(ngModel)]="formEstudio.titulo" name="titulo" placeholder="Ej: Ingeniería en Sistemas">
+          </div>
+          <div class="mb-3">
+            <label for="institucion" class="form-label text-muted small">INSTITUCIÓN</label>
+            <input type="text" class="form-control" id="institucion" [(ngModel)]="formEstudio.institucion" name="institucion" placeholder="Ej: UTN">
+          </div>
+          <div class="mb-3">
+            <label for="descripcion" class="form-label text-muted small">DESCRIPCIÓN</label>
+            <textarea class="form-control" id="descripcion" [(ngModel)]="formEstudio.descripcion" name="descripcion" rows="3"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="fecha" class="form-label text-muted small">FECHA INICIO</label>
+            <input type="date" class="form-control" id="fecha" [(ngModel)]="formEstudio.fecha_inicio" name="fecha_inicio">
+          </div>
+        </form>
+      </div>
+      
+      <div class="modal-footer border-0 d-flex justify-content-between">
+        <button type="button" class="btn btn-light text-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary px-4 rounded-pill" data-bs-dismiss="modal" (click)="guardarCambios()">
+          {{ esEdicion ? 'Guardar Cambios' : 'Agregar' }}
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

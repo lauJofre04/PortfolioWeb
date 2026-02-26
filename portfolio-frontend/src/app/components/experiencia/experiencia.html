@@ -1,0 +1,96 @@
+<section id="experiencia" style="padding-top: 100px;">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="text-primary">Experiencia Laboral</h2>
+      <button *ngIf="estaLogueado" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#experienciaModal" (click)="limpiarFormulario()">
+        + Agregar
+      </button>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-11 mb-3" *ngFor="let exp of miExperiencia">
+        <div class="card shadow-sm">
+          <div class="row g-0 align-items-center p-3">
+            <div class="col-md-2 text-center" *ngIf="exp.imagen">
+              <img [src]="exp.logo_url" alt="Logo {{ exp.empresa }}" class="img-fluid rounded" style="max-height: 80px;">
+            </div>
+            
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title fw-bold">{{ exp.puesto }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ exp.empresa }}</h6>
+                <p class="card-text">{{ exp.descripcion }}</p>
+                <span class="badge bg-secondary">
+                  {{ exp.fecha_inicio | date:'MMM yyyy' }} - 
+                  {{ exp.fecha_fin ? (exp.fecha_fin | date:'MMM yyyy') : 'Actualidad' }}
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-2 text-end">
+              <button *ngIf="estaLogueado" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#experienciaModal" (click)="cargarDatosParaEditar(exp)">
+                Editar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="modal fade" id="experienciaModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content shadow-lg border-0 rounded-4">
+      
+      <div class="modal-header border-0">
+        <h5 class="modal-title fw-bold">{{ esEdicion ? 'Editar Experiencia' : 'Nueva Experiencia' }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      
+      <div class="modal-body">
+        <form>
+          <div class="row">
+            <div class="col-6 mb-3">
+              <label class="form-label text-muted small">PUESTO</label>
+              <input type="text" class="form-control" [(ngModel)]="formExp.puesto" name="puesto">
+            </div>
+            <div class="col-6 mb-3">
+              <label class="form-label text-muted small">EMPRESA</label>
+              <input type="text" class="form-control" [(ngModel)]="formExp.empresa" name="empresa">
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-6 mb-3">
+              <label class="form-label text-muted small">FECHA INICIO</label>
+              <input type="date" class="form-control" [(ngModel)]="formExp.fecha_inicio" name="fecha_inicio">
+            </div>
+            <div class="col-6 mb-3">
+              <label class="form-label text-muted small">FECHA FIN</label>
+              <input type="date" class="form-control" [(ngModel)]="formExp.fecha_fin" name="fecha_fin">
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label text-muted small">URL DE LA IMAGEN / LOGO</label>
+            <input type="text" class="form-control" [(ngModel)]="formExp.logo_url" name="logo_url" placeholder="https://ejemplo.com/logo.jpg">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label text-muted small">DESCRIPCIÓN</label>
+            <textarea class="form-control" [(ngModel)]="formExp.descripcion" name="descripcion" rows="3"></textarea>
+          </div>
+        </form>
+      </div>
+      
+      <div class="modal-footer border-0 d-flex justify-content-between">
+        <button type="button" class="btn btn-light text-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary px-4 rounded-pill" data-bs-dismiss="modal" (click)="guardarCambios()">
+          {{ esEdicion ? 'Guardar Cambios' : 'Agregar' }}
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
