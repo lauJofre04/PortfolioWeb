@@ -13,7 +13,11 @@ const SECRET_KEY = 'mi_clave_secreta_portfolio_2026';
 const app = express();
 
 // Middlewares
-app.use(cors()); // Permite que Angular se conecte
+app.use(cors({
+    origin: '*', // Permite peticiones de cualquier origen
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+})); // Permite que Angular se conecte
 app.use(express.json()); // Permite recibir datos en formato JSON
 
 // Configuración de la conexión
