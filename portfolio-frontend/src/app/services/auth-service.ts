@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrlLogin = '${environment.apiUrl}/api/login';
-  private apiUrlRegistro = '${environment.apiUrl}/api/registro'; // <-- Nueva ruta
+  private apiUrlLogin = environment.apiUrl+'/api/login';
+  private apiUrlRegistro = environment.apiUrl+'/api/registro'; // <-- Nueva ruta
 
   // 1. Estado de si está adentro o no
   private isLoggedIn = new BehaviorSubject<boolean>(false);
