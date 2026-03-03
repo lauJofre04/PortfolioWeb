@@ -1,8 +1,9 @@
+require('dotenv').config();
 const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
-require('dotenv').config();
+
 const jwt = require('jsonwebtoken');
 
 // Esta es la "firma" de tus pulseras. En un trabajo real, esto se esconde en un archivo .env, 
@@ -17,10 +18,11 @@ app.use(express.json()); // Permite recibir datos en formato JSON
 
 // Configuración de la conexión
 const db = mysql.createPool({
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME || 'portfolio_db',
+    host: process.env.DB_HOST, 
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER, 
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
@@ -352,7 +354,7 @@ app.post('/api/login', (req, res) => {
 
 
 // --- INICIO DEL SERVIDOR ---
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
-    console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+    console.log(`🚀 Servidor corriendo en el puerto ${PORT}`);
 });
