@@ -8,11 +8,12 @@ import { Habilidades } from './components/habilidades/habilidades';
 import { Proyectos } from './components/proyectos/proyectos';
 import { Footer } from './components/footer/footer';
 import { CommonModule } from '@angular/common';
+import { Contact } from "./components/contact/contact";
 
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule,Header,Presentacion,Estudios,Experiencia,Habilidades,Proyectos, Footer],
+  imports: [CommonModule, Header, Presentacion, Estudios, Experiencia, Habilidades, Proyectos, Footer, Contact],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

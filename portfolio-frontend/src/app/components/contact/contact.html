@@ -1,0 +1,56 @@
+<section id="contacto" class="container py-5" style="margin-top: 50px;">
+  <div class="row justify-content-center text-white">
+    <div class="col-12 col-md-8 col-lg-6">
+      <div class="card bg-dark shadow-lg border-0 rounded-4 p-4 p-md-5">
+        
+        <div class="text-center mb-4">
+          <h2 class="fw-bold text-primary">¡Hablemos!</h2>
+          <p class="text-secondary">¿Tienes un proyecto en mente? Escríbeme.</p>
+        </div>
+
+        <form action="https://formspree.io/f/xpqjvagn" method="POST">
+          
+          <div class="mb-3">
+            <label for="contact-name" class="form-label small text-uppercase fw-bold">Nombre</label>
+            <input 
+              type="text" 
+              name="name" 
+              id="contact-name" 
+              autocomplete="name" 
+              class="form-control bg-secondary bg-opacity-10 border-secondary text-white p-3" 
+              placeholder="Tu nombre" 
+              required>
+          </div>
+
+          <div class="mb-3">
+            <label for="contact-email" class="form-label small text-uppercase fw-bold">Email</label>
+            <input 
+              type="email" 
+              name="email" 
+              id="contact-email" 
+              autocomplete="email" 
+              class="form-control bg-secondary bg-opacity-10 border-secondary text-white p-3" 
+              placeholder="nombre@ejemplo.com" 
+              required>
+          </div>
+
+          <div class="mb-4">
+            <label for="contact-message" class="form-label small text-uppercase fw-bold">Mensaje</label>
+            <textarea 
+              name="message" 
+              id="contact-message" 
+              class="form-control bg-secondary bg-opacity-10 border-secondary text-white p-3" 
+              rows="4" 
+              placeholder="¿En qué puedo ayudarte?" 
+              required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100 py-3 fw-bold rounded-pill shadow-sm">
+            Enviar Mensaje
+          </button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</section>
