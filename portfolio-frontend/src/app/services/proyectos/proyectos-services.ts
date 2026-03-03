@@ -1,13 +1,14 @@
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProyectosServices {
   // La URL que apunta a tu backend en Node para Proyectos
-  private apiUrl = '${environment.apiUrl}/api/proyectos';
+  private apiUrl = environment.apiUrl+'/api/proyectos';
 
   constructor(private http: HttpClient) { }
 

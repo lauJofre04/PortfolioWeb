@@ -1,13 +1,14 @@
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HabilidadesServices {
   // La URL que apunta a tu backend en Node para Habilidades
-  private apiUrl = '${environment.apiUrl}/api/habilidades';
+  private apiUrl = environment.apiUrl+'/api/habilidades';
 
   constructor(private http: HttpClient) { }
 
