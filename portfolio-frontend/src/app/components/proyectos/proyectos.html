@@ -1,32 +1,51 @@
-<section id="proyectos" style="padding-top: 100px;">
-  <div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="text-primary">Proyectos</h2>
-      <button *ngIf="esAdmin" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#proyectosModal" (click)="limpiarFormulario()">+ Agregar</button>
-    </div>
+<section id="proyectos" class="container mb-5" style="padding-top: 80px; margin-top: -80px;">
+  
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">Proyectos</h2>
+    <button *ngIf="esAdmin" class="btn btn-success rounded-pill px-4 shadow-sm fw-bold" data-bs-toggle="modal" data-bs-target="#proyectosModal" (click)="limpiarFormulario()">
+      + Agregar
+    </button>
+  </div>
 
-    <div class="row">
-      <div class="col-md-6 mb-4" *ngFor="let proy of misProyectos">
-        <div class="card shadow-sm h-100">
-          <div class="card-body">
-            <h5 class="card-title fw-bold">{{ proy.nombre }}</h5>
-            <h6 class="card-subtitle mb-2 text-primary">{{ proy.tecnologias }}</h6>
-            <p class="card-text">{{ proy.descripcion }}</p>
+  <div class="row">
+    <div class="col-md-6 mb-4" *ngFor="let proy of misProyectos">
+      
+      <div class="card text-bg-dark border-secondary shadow-sm h-100 rounded-4">
+        
+        <div class="card-body p-4 d-flex flex-column">
+          
+          <h5 class="card-title fw-bold text-light mb-1">{{ proy.nombre }}</h5>
+          <h6 class="card-subtitle mb-3 text-info fw-bold">{{ proy.tecnologias }}</h6>
+          
+          <p class="card-text text-light" style="opacity: 0.9; flex-grow: 1;">
+            {{ proy.descripcion }}
+          </p>
+          
+          <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top border-secondary">
             
-            <div class="d-flex justify-content-between align-items-center mt-3">
-              <div>
-                <a *ngIf="proy.link_repo" [href]="proy.link_repo" target="_blank" class="btn btn-sm btn-dark me-2">GitHub</a>
-                <a *ngIf="proy.link_demo" [href]="proy.link_demo" target="_blank" class="btn btn-sm btn-outline-primary">Ver Demo</a>
-              </div>
-              <button *ngIf="esAdmin" class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#proyectosModal" (click)="cargarDatosParaEditar(proy)">Editar</button>
-              <button *ngIf="esAdmin" class="btn btn-outline-danger ms-2" (click)="borrarProyecto(proy.id)">
-                Borrar
+            <div class="d-flex gap-2">
+              <a *ngIf="proy.link_repo" [href]="proy.link_repo" target="_blank" class="btn btn-sm btn-outline-light rounded-pill px-3 fw-bold">
+                <i class="bi bi-github me-1"></i> Repo
+              </a>
+              <a *ngIf="proy.link_demo" [href]="proy.link_demo" target="_blank" class="btn btn-sm btn-primary rounded-pill px-3 fw-bold shadow-sm">
+                <i class="bi bi-box-arrow-up-right me-1"></i> Demo
+              </a>
+            </div>
+
+            <div class="d-flex gap-2" *ngIf="esAdmin">
+              <button class="btn btn-outline-warning btn-sm border-0" data-bs-toggle="modal" data-bs-target="#proyectosModal" (click)="cargarDatosParaEditar(proy)" title="Editar">
+                <i class="bi bi-pencil-square fs-5"></i>
+              </button>
+              <button class="btn btn-outline-danger btn-sm border-0" (click)="borrarProyecto(proy.id)" title="Borrar">
+                <i class="bi bi-trash fs-5"></i>
               </button>
             </div>
+            
           </div>
+
         </div>
       </div>
-    </div>
+      </div>
   </div>
 </section>
 

@@ -1,35 +1,43 @@
-<section id="estudios" style="padding-top: 100px;">
-  <div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="text-primary">Educación y Cursos</h2>
-      <button *ngIf="esAdmin" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#estudioModal" (click)="limpiarFormulario()">
-        + Agregar
-      </button>
-    </div>
+<section id="estudios" class="container mb-5" style="padding-top: 80px; margin-top: -80px;">
+  
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">Educación y Cursos</h2>
+    <button *ngIf="esAdmin" class="btn btn-success rounded-pill px-4 shadow-sm fw-bold" data-bs-toggle="modal" data-bs-target="#estudioModal" (click)="limpiarFormulario()">
+      + Agregar
+    </button>
+  </div>
 
-    <div class="row justify-content-center">
-      <div class="col-11 mb-3" *ngFor="let estudio of misEstudios">
-        <div class="card shadow-sm">
-          <div class="card-body d-flex justify-content-between align-items-center">
-            <div>
-              <h5 class="card-title">{{ estudio.titulo }}</h5>
-              <h6 class="card-subtitle mb-2 text-muted">{{ estudio.institucion }}</h6>
-              <p class="card-text">{{ estudio.descripcion }}</p>
-              <span class="badge bg-info text-dark">{{ estudio.fecha_inicio | date:'yyyy' }}</span>
+  <div class="row justify-content-center">
+    <div class="col-12 mb-4" *ngFor="let estudio of misEstudios">
+      
+      <div class="card text-bg-dark border-secondary shadow-sm rounded-4">
+        <div class="card-body p-4 d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+          
+          <div class="mb-3 mb-md-0 w-100 pe-md-3">
+            <div class="d-flex align-items-center mb-2 gap-3">
+              <h5 class="card-title fw-bold text-light mb-0">{{ estudio.titulo }}</h5>
+              <span class="badge bg-primary rounded-pill fs-6">{{ estudio.fecha_inicio | date:'yyyy' }}</span>
             </div>
-            <button *ngIf="esAdmin" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#estudioModal" (click)="cargarDatosParaEditar(estudio)">
-              <i class="fas fa-pen"></i> Editar
-            </button>
-            <button *ngIf="esAdmin" class="btn btn-outline-danger ms-2" (click)="borrarEstudios(estudio.id)">
-                Borrar
-              </button>
+            
+            <h6 class="card-subtitle mb-3 text-info fw-bold">{{ estudio.institucion }}</h6>
+            <p class="card-text text-light mb-0" style="opacity: 0.9;">{{ estudio.descripcion }}</p>
           </div>
+          
+          <div class="d-flex gap-2 flex-shrink-0" *ngIf="esAdmin">
+            <button class="btn btn-outline-warning btn-sm border-0" data-bs-toggle="modal" data-bs-target="#estudioModal" (click)="cargarDatosParaEditar(estudio)" title="Editar">
+              <i class="bi bi-pencil-square fs-5"></i>
+            </button>
+            
+            <button class="btn btn-outline-danger btn-sm border-0" (click)="borrarEstudios(estudio.id)" title="Borrar">
+              <i class="bi bi-trash fs-5"></i>
+            </button>
+          </div>
+
         </div>
       </div>
-    </div>
+      </div>
   </div>
 </section>
-
 <div class="modal fade" id="estudioModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content shadow-lg border-0 rounded-4">

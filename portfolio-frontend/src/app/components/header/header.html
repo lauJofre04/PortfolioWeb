@@ -1,47 +1,47 @@
 <header>
     <div class="row">
-        <nav class="navbar navbar-light bg-light fixed-top">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Portfolio Lautaro Jofre</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span></button>
-                <div class="offcanvas offcanvas-end text-bg-light" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="offcanvasLightNavbarLabel">Portfolio Web</h5>
-                        <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                    </div>
+        <nav class="navbar navbar-expand-lg bg-dark fixed-top shadow-sm" data-bs-theme="dark">
+            <div class="container">
+                
+                <a class="navbar-brand fw-bold text-white" href="#">
+                <span class="text-primary">&lt;/&gt;</span> Lautaro Jofre
+                </a>
+
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#menuNavegacion" aria-controls="menuNavegacion" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="menuNavegacion">
+                
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0 text-center">
+                    <li class="nav-item"><a class="nav-link text-light px-3" href="#presentacion">Presentación</a></li>
+                    <li class="nav-item"><a class="nav-link text-light px-3" href="#estudios">Estudios</a></li>
+                    <li class="nav-item"><a class="nav-link text-light px-3" href="#experiencia">Experiencia</a></li>
+                    <li class="nav-item"><a class="nav-link text-light px-3" href="#habilidades">Habilidades</a></li>
+                    <li class="nav-item"><a class="nav-link text-light px-3" href="#proyectos">Proyectos</a></li>
+                </ul>
+                <div class="d-flex justify-content-center gap-2 mt-3 mt-lg-0">
                     
-                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#presentacion">Presentacion</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#estudios">Estudios</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#experiencia">Experiencia</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#habilidades">Habilidades</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#proyectos">Proyectos</a>
-                        </li>
-                    </ul>
-                        
-                    <button *ngIf="!estaLogueado" type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#loginModal">
+                    <ng-container *ngIf="!estaLogueado">
+                    <button class="btn btn-outline-light btn-sm rounded-pill px-4 fw-bold" data-bs-toggle="modal" data-bs-target="#loginModal">
                         Ingresar
                     </button>
-                    <button *ngIf="!estaLogueado" type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#registroModal">
+                    <button class="btn btn-primary btn-sm rounded-pill px-4 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#registroModal">
                         Registrarse
                     </button>
+                    </ng-container>
 
-                    <button *ngIf="estaLogueado" type="button" class="btn btn-danger fw-bold shadow-sm" (click)="cerrarSesion()" data-bs-dismiss="offcanvas">
-                        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                    <ng-container *ngIf="estaLogueado">
+                    <button class="btn btn-outline-danger btn-sm rounded-pill px-4 fw-bold" (click)="cerrarSesion()">
+                        Cerrar Sesión
                     </button>
+                    </ng-container>
+
+                </div>
+
                 </div>
             </div>
-        </nav>
+            </nav>
     </div>
 
     <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">

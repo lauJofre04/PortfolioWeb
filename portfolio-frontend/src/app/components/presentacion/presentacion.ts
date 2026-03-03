@@ -7,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrl: './presentacion.css',
 })
 export class Presentacion {
-
+  // Agrega esta variable para controlar el giro de la tarjeta
+  isFlipped: boolean = false;
 }

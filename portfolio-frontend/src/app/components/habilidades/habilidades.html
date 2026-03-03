@@ -1,29 +1,42 @@
-<section id="habilidades" style="padding-top: 100px;">
-  <div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="text-primary">Habilidades y Tecnologías</h2>
-      <button *ngIf="esAdmin" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#habilidadesModal" (click)="limpiarFormulario()">+ Agregar</button>
-    </div>
+<section id="habilidades" class="container mb-5" style="padding-top: 80px; margin-top: -80px;">
+  
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">Habilidades y Tecnologías</h2>
+    <button *ngIf="esAdmin" class="btn btn-success rounded-pill px-4 shadow-sm fw-bold" data-bs-toggle="modal" data-bs-target="#habilidadesModal" (click)="limpiarFormulario()">
+      + Agregar
+    </button>
+  </div>
 
-    <div class="row">
-      <div class="col-md-6 mb-4" *ngFor="let hab of misHabilidades">
-        <div class="card shadow-sm h-100 p-3 d-flex flex-row align-items-center justify-content-between">
-          <div class="d-flex align-items-center w-75">
-            <img *ngIf="hab.icono_url" [src]="hab.icono_url" alt="icon" style="width: 40px; height: 40px; margin-right: 15px;">
-            <div class="w-100">
-              <h6 class="mb-1 fw-bold">{{ hab.nombre }}</h6>
-              <div class="progress" style="height: 10px;">
-                <div class="progress-bar bg-info" [style.width.%]="hab.porcentaje"></div>
-              </div>
+  <div class="row">
+    <div class="col-md-6 mb-4" *ngFor="let hab of misHabilidades">
+      
+      <div class="card text-bg-dark border-secondary shadow-sm h-100 p-3 d-flex flex-row align-items-center justify-content-between rounded-4">
+        
+        <div class="d-flex align-items-center w-75">
+          <img *ngIf="hab.icono_url" [src]="hab.icono_url" alt="{{ hab.nombre }}" style="width: 45px; height: 45px; margin-right: 15px; object-fit: contain;">
+          
+          <div class="w-100 pe-3">
+            <h6 class="mb-2 fw-bold text-light">{{ hab.nombre }}</h6>
+            <div class="progress bg-secondary" style="height: 8px;">
+              <div class="progress-bar bg-info" [style.width.%]="hab.porcentaje"></div>
             </div>
           </div>
-          <button *ngIf="esAdmin" class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#habilidadesModal" (click)="cargarDatosParaEditar(hab)">Editar</button>
-          <button *ngIf="esAdmin" class="btn btn-outline-danger ms-2" (click)="borrarHabilidad(hab.id)">
-                Borrar
-              </button>
         </div>
+
+        <div class="d-flex gap-2" *ngIf="esAdmin">
+          
+          <button class="btn btn-outline-warning btn-sm border-0" data-bs-toggle="modal" data-bs-target="#habilidadesModal" (click)="cargarDatosParaEditar(hab)" title="Editar">
+            <i class="bi bi-pencil-square fs-5"></i>
+          </button>
+          
+          <button class="btn btn-outline-danger btn-sm border-0" (click)="borrarHabilidad(hab.id)" title="Borrar">
+            <i class="bi bi-trash fs-5"></i>
+          </button>
+          
+        </div>
+
       </div>
-    </div>
+      </div>
   </div>
 </section>
 
