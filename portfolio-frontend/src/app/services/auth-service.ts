@@ -6,8 +6,8 @@ import { Observable, BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrlLogin = 'http://localhost:3000/api/login';
-  private apiUrlRegistro = 'http://localhost:3000/api/registro'; // <-- Nueva ruta
+  private apiUrlLogin = '${environment.apiUrl}/api/login';
+  private apiUrlRegistro = '${environment.apiUrl}/api/registro'; // <-- Nueva ruta
 
   // 1. Estado de si está adentro o no
   private isLoggedIn = new BehaviorSubject<boolean>(false);

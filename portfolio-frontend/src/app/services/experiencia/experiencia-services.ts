@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ExperienciaService {
-  private apiUrl = 'http://localhost:3000/api/experiencia'; // Apunta a experiencia
+  private apiUrl = '${environment.apiUrl}/api/experiencia'; // Apunta a experiencia
 
   constructor(private http: HttpClient) { }
 

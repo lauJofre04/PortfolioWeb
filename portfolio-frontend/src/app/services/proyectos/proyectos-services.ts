@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class ProyectosServices {
   // La URL que apunta a tu backend en Node para Proyectos
-  private apiUrl = 'http://localhost:3000/api/proyectos';
+  private apiUrl = '${environment.apiUrl}/api/proyectos';
 
   constructor(private http: HttpClient) { }
 

@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class HabilidadesServices {
   // La URL que apunta a tu backend en Node para Habilidades
-  private apiUrl = 'http://localhost:3000/api/habilidades';
+  private apiUrl = '${environment.apiUrl}/api/habilidades';
 
   constructor(private http: HttpClient) { }
 
