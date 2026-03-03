@@ -354,7 +354,7 @@ app.post('/api/login', (req, res) => {
 
 
 // --- INICIO DEL SERVIDOR ---
-const PORT = process.env.PORT;
+const PORT = process.env.PORT||18543;
 app.listen(PORT, () => {
     console.log(`🚀 Servidor corriendo en el puerto ${PORT}`);
 });
