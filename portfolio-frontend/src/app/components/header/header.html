@@ -32,6 +32,9 @@
                     <button *ngIf="!estaLogueado" type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#loginModal">
                         Ingresar
                     </button>
+                    <button *ngIf="!estaLogueado" type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#registroModal">
+                        Registrarse
+                    </button>
 
                     <button *ngIf="estaLogueado" type="button" class="btn btn-danger fw-bold shadow-sm" (click)="cerrarSesion()" data-bs-dismiss="offcanvas">
                         <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
@@ -52,7 +55,7 @@
           <div class="modal-body text-center pt-0">
             <h4 class="fw-bold mb-4" style="color: #c2c2c2;">¡Bienvenido de vuelta!</h4>
             
-            <form>
+            <form (ngSubmit)="iniciarSesion()">
               <div class="mb-4 text-start">
                 <label class="form-label fw-bold text-muted small mb-1">Usuario:</label>
                 <input type="text" class="form-control form-control-lg bg-light border-0" [(ngModel)]="credenciales.username" name="username" placeholder="Ej: lauJofre">
@@ -63,12 +66,44 @@
                 <input type="password" class="form-control form-control-lg bg-light border-0" [(ngModel)]="credenciales.password" name="password" placeholder="********">
               </div>
               
-              <button type="button" class="btn btn-success btn-lg w-100 rounded-pill fw-bold shadow-sm" style="background-color: #1abc9c; border: none;" (click)="iniciarSesion()" data-bs-dismiss="modal">
+              <button type="submit" class="btn btn-success btn-lg w-100 rounded-pill fw-bold shadow-sm" style="background-color: #1abc9c; border: none;" data-bs-dismiss="modal">
                 INGRESAR
               </button>
             </form>
-          </div>
+            </div>
         </div>
       </div>
     </div>
+    <div class="modal fade" id="registroModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;">
+        <div class="modal-content shadow-lg border-0 rounded-4 p-3">
+        
+        <div class="modal-header border-0 pb-0">
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        
+        <div class="modal-body text-center pt-0">
+            <h4 class="fw-bold mb-4" style="color: #c2c2c2;">Crear Cuenta</h4>
+            
+            <form (ngSubmit)="registrarse()">
+            
+            <div class="mb-4 text-start">
+                <label class="form-label fw-bold text-muted small mb-1">Nuevo Usuario:</label>
+                <input type="text" class="form-control form-control-lg bg-light border-0" [(ngModel)]="credencialesRegistro.username" name="regUsername" placeholder="Ej: visitante123">
+            </div>
+            
+            <div class="mb-4 text-start">
+                <label class="form-label fw-bold text-muted small mb-1">Contraseña:</label>
+                <input type="password" class="form-control form-control-lg bg-light border-0" [(ngModel)]="credencialesRegistro.password" name="regPassword" placeholder="********">
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-lg w-100 rounded-pill fw-bold shadow-sm" data-bs-dismiss="modal">
+                REGISTRARME
+            </button>
+            
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
 </header>

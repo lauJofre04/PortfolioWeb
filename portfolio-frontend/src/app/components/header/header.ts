@@ -1,30 +1,36 @@
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms'; 
 import { AuthService } from '../../services/auth-service';
-
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, FormsModule], // <--- Agregarlo aquí
+  imports: [CommonModule, FormsModule],
   templateUrl: './header.html',
   styleUrl: './header.css'
 })
-export class Header {
-  // Aquí guardaremos lo que escribas en el modal
+export class Header implements OnInit {
   credenciales: any = { username: '', password: '' };
+  credencialesRegistro: any = { username: '', password: '' }; // <-- Para el modal de registro
+
   estaLogueado: boolean = false;
+  rolActual: string = ''; // <-- Para guardar tu rol
 
   constructor(
     private authService: AuthService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef 
   ) {}
 
   ngOnInit(): void {
-    // Escuchamos el megáfono para saber si estamos adentro o afuera
     this.authService.isLoggedIn$.subscribe(estado => {
       this.estaLogueado = estado;
+      this.cdr.detectChanges();
+    });
+
+    // NUEVO: Escuchamos el rol
+    this.authService.userRole$.subscribe(rol => {
+      this.rolActual = rol;
       this.cdr.detectChanges();
     });
   }
@@ -32,23 +38,39 @@ export class Header {
   iniciarSesion() {
     this.authService.login(this.credenciales).subscribe({
       next: (respuesta) => {
-        alert('¡Bienvenido ' + respuesta.usuario + '!');
-        this.authService.setLoggedIn(true);
+        alert('¡Bienvenido ' + respuesta.usuario + '! Tu rol es: ' + respuesta.rol);
         
-        // Limpiamos los campos
+        // 1. GUARDAMOS EL TOKEN EN LA MEMORIA DEL NAVEGADOR
+        localStorage.setItem('token', respuesta.token); 
+        
+        this.authService.setLoggedIn(true, respuesta.rol);
         this.credenciales = { username: '', password: '' };
-
-        // OBLIGAMOS A LA PANTALLA A ACTUALIZARSE AHORA MISMO
         this.cdr.detectChanges(); 
       },
+      // ... error ...
+    });
+  }
+
+  // NUEVA FUNCIÓN: Para registrar usuarios
+  registrarse() {
+    this.authService.registro(this.credencialesRegistro).subscribe({
+      next: (respuesta) => {
+        alert('¡Usuario registrado con éxito! Ahora puedes iniciar sesión.');
+        this.credencialesRegistro = { username: '', password: '' }; // Limpiamos
+        this.cdr.detectChanges();
+      },
       error: (error) => {
-        alert('Usuario o contraseña incorrectos');
+        alert('Hubo un error al registrar el usuario.');
       }
     });
   }
+
   cerrarSesion() {
-    this.authService.setLoggedIn(false);
+    // 2. ROMPEMOS LA PULSERA AL SALIR
+    localStorage.removeItem('token'); 
+    
+    this.authService.setLoggedIn(false, '');
     alert('Has cerrado sesión exitosamente.');
-    this.cdr.detectChanges(); // <-- Agrega esto aquí también
+    this.cdr.detectChanges(); 
   }
 }

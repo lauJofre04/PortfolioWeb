@@ -2,7 +2,7 @@
   <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2 class="text-primary">Educación y Cursos</h2>
-      <button *ngIf="estaLogueado" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#estudioModal" (click)="limpiarFormulario()">
+      <button *ngIf="esAdmin" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#estudioModal" (click)="limpiarFormulario()">
         + Agregar
       </button>
     </div>
@@ -17,9 +17,12 @@
               <p class="card-text">{{ estudio.descripcion }}</p>
               <span class="badge bg-info text-dark">{{ estudio.fecha_inicio | date:'yyyy' }}</span>
             </div>
-            <button *ngIf="estaLogueado" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#estudioModal" (click)="cargarDatosParaEditar(estudio)">
+            <button *ngIf="esAdmin" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#estudioModal" (click)="cargarDatosParaEditar(estudio)">
               <i class="fas fa-pen"></i> Editar
             </button>
+            <button *ngIf="esAdmin" class="btn btn-outline-danger ms-2" (click)="borrarEstudios(estudio.id)">
+                Borrar
+              </button>
           </div>
         </div>
       </div>
@@ -28,15 +31,19 @@
 </section>
 
 <div class="modal fade" id="estudioModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered"> <div class="modal-content shadow-lg border-0 rounded-4"> <div class="modal-header border-0">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content shadow-lg border-0 rounded-4">
+      
+      <div class="modal-header border-0">
         <h5 class="modal-title fw-bold" id="exampleModalLabel">
           {{ esEdicion ? 'Editar Estudio' : 'Nuevo Estudio' }}
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       
-      <div class="modal-body">
-        <form>
+      <form (ngSubmit)="guardarCambios()">
+        
+        <div class="modal-body">
           <div class="mb-3">
             <label for="titulo" class="form-label text-muted small">TÍTULO O CARRERA</label>
             <input type="text" class="form-control" id="titulo" [(ngModel)]="formEstudio.titulo" name="titulo" placeholder="Ej: Ingeniería en Sistemas">
@@ -53,16 +60,17 @@
             <label for="fecha" class="form-label text-muted small">FECHA INICIO</label>
             <input type="date" class="form-control" id="fecha" [(ngModel)]="formEstudio.fecha_inicio" name="fecha_inicio">
           </div>
-        </form>
-      </div>
-      
-      <div class="modal-footer border-0 d-flex justify-content-between">
-        <button type="button" class="btn btn-light text-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary px-4 rounded-pill" data-bs-dismiss="modal" (click)="guardarCambios()">
-          {{ esEdicion ? 'Guardar Cambios' : 'Agregar' }}
-        </button>
-      </div>
+        </div>
+        
+        <div class="modal-footer border-0 d-flex justify-content-between">
+          <button type="button" class="btn btn-light text-secondary" data-bs-dismiss="modal">Cancelar</button>
+          
+          <button type="submit" class="btn btn-primary px-4 rounded-pill" data-bs-dismiss="modal">
+            {{ esEdicion ? 'Guardar Cambios' : 'Agregar' }}
+          </button>
+        </div>
 
-    </div>
+      </form>
+      </div>
   </div>
 </div>

@@ -18,6 +18,7 @@ export class Habilidades {
   esEdicion: boolean = false;
   idEdicion: number | null = null;
   estaLogueado: boolean = false;
+  esAdmin: boolean = false; // <--- NUEVA VARIABLE
 
   constructor(
     private habService: HabilidadesServices,
@@ -25,13 +26,22 @@ export class Habilidades {
     private authService: AuthService
   ){}
 
+  
 
-  ngOnInit(){
+
+  ngOnInit(): void {
     this.cargarHabilidades();
-    // Nos suscribimos para escuchar al "megáfono"
+
+    // Escuchamos si está logueado
     this.authService.isLoggedIn$.subscribe(estado => {
       this.estaLogueado = estado;
-      this.cdr.detectChanges(); // Actualizamos la pantalla si el estado cambia
+      this.cdr.detectChanges();
+    });
+
+    // NUEVO: Escuchamos qué rol tiene
+    this.authService.userRole$.subscribe(rol => {
+      this.esAdmin = (rol === 'admin'); // Será true solo si el rol es 'admin'
+      this.cdr.detectChanges();
     });
   }
   // Funciones (iguales a las anteriores, pero llamando a habService)
@@ -60,4 +70,27 @@ export class Habilidades {
       this.habService.crearHabilidad(this.formHab).subscribe(() => this.cargarHabilidades());
     }
   }
+  // ==========================================
+// FUNCIÓN PARA ELIMINAR EXPERIENCIA
+// ==========================================
+borrarHabilidad(id: number) {
+  // 1. Buena práctica: Pedimos confirmación antes de borrar
+  if (confirm('¿Estás seguro de que quieres eliminar esta habilidad?')) {
+    
+    // 2. Llamamos a la función que creaste en tu servicio
+    // (Asegúrate de que 'this.expService' sea el nombre que le diste a tu servicio en el constructor)
+    this.habService.borrarHabilidad(id).subscribe({
+      next: (respuesta) => {
+        alert('Habilidad eliminada correctamente.');
+        
+        // 3. Volvemos a cargar la lista para que el cambio se vea reflejado al instante
+        this.cargarHabilidades(); 
+      },
+      error: (error) => {
+        console.error('Error al borrar:', error);
+        alert('Hubo un error al eliminar la Habilidad. Revisa que tu sesión siga iniciada.');
+      }
+    });
+  }
+}
 }

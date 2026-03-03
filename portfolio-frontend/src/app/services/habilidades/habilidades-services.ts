@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -11,6 +11,13 @@ export class HabilidadesServices {
 
   constructor(private http: HttpClient) { }
 
+  private crearCabecera() {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}` // Tiene que decir 'Bearer ' seguido del token
+    });
+  }
+
   // Obtener todas las habilidades (GET)
   getHabilidades(): Observable<any> {
     return this.http.get(this.apiUrl);
@@ -18,11 +25,14 @@ export class HabilidadesServices {
 
   // Agregar una nueva habilidad (POST)
   crearHabilidad(habilidad: any): Observable<any> {
-    return this.http.post(this.apiUrl, habilidad);
+    return this.http.post(this.apiUrl, habilidad,{ headers: this.crearCabecera() });
   }
 
   // Editar una habilidad existente (PUT)
   editarHabilidad(id: number, habilidad: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, habilidad);
+    return this.http.put(`${this.apiUrl}/${id}`, habilidad,{ headers: this.crearCabecera() });
+  }
+  borrarHabilidad(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`,{ headers: this.crearCabecera() });
   }
 }

@@ -14,6 +14,7 @@ import { AuthService } from '../../services/auth-service';
 export class Proyectos {
   misProyectos: any[] = [];
   estaLogueado: boolean = false;
+  esAdmin: boolean = false; 
   formProy: any = { nombre: '', tecnologias: '', link_repo: '', link_demo: '', descripcion: '' };
   esEdicion: boolean = false;
   idEdicion: number | null = null;
@@ -24,12 +25,21 @@ export class Proyectos {
     private authService: AuthService
   ){}
 
-  ngOnInit(){
+  
+
+  ngOnInit(): void {
     this.cargarProyectos();
-    // Nos suscribimos para escuchar al "megáfono"
+
+    // Escuchamos si está logueado
     this.authService.isLoggedIn$.subscribe(estado => {
       this.estaLogueado = estado;
-      this.cdr.detectChanges(); // Actualizamos la pantalla si el estado cambia
+      this.cdr.detectChanges();
+    });
+
+    // NUEVO: Escuchamos qué rol tiene
+    this.authService.userRole$.subscribe(rol => {
+      this.esAdmin = (rol === 'admin'); // Será true solo si el rol es 'admin'
+      this.cdr.detectChanges();
     });
   }
 
@@ -58,4 +68,27 @@ export class Proyectos {
       this.proyService.crearProyecto(this.formProy).subscribe(() => this.cargarProyectos());
     }
   }
+  // ==========================================
+// FUNCIÓN PARA ELIMINAR EXPERIENCIA
+// ==========================================
+borrarProyecto(id: number) {
+  // 1. Buena práctica: Pedimos confirmación antes de borrar
+  if (confirm('¿Estás seguro de que quieres eliminar este proyecto?')) {
+    
+    // 2. Llamamos a la función que creaste en tu servicio
+    // (Asegúrate de que 'this.expService' sea el nombre que le diste a tu servicio en el constructor)
+    this.proyService.borrarProyectos(id).subscribe({
+      next: (respuesta) => {
+        alert('Proyecto eliminado correctamente.');
+        
+        // 3. Volvemos a cargar la lista para que el cambio se vea reflejado al instante
+        this.cargarProyectos(); 
+      },
+      error: (error) => {
+        console.error('Error al borrar:', error);
+        alert('Hubo un error al eliminar el proyecto. Revisa que tu sesión siga iniciada.');
+      }
+    });
+  }
+}
 }

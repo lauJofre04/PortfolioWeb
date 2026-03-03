@@ -2,7 +2,7 @@
   <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2 class="text-primary">Experiencia Laboral</h2>
-      <button *ngIf="estaLogueado" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#experienciaModal" (click)="limpiarFormulario()">
+      <button *ngIf="esAdmin" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#experienciaModal" (click)="limpiarFormulario()">
         + Agregar
       </button>
     </div>
@@ -28,8 +28,11 @@
             </div>
 
             <div class="col-md-2 text-end">
-              <button *ngIf="estaLogueado" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#experienciaModal" (click)="cargarDatosParaEditar(exp)">
+              <button *ngIf="esAdmin" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#experienciaModal" (click)="cargarDatosParaEditar(exp)">
                 Editar
+              </button>
+              <button *ngIf="esAdmin" class="btn btn-outline-danger ms-2" (click)="borrarExperiencia(exp.id)">
+                Borrar
               </button>
             </div>
           </div>
@@ -48,8 +51,9 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       
-      <div class="modal-body">
-        <form>
+      <form (ngSubmit)="guardarCambios()">
+        
+        <div class="modal-body">
           <div class="row">
             <div class="col-6 mb-3">
               <label class="form-label text-muted small">PUESTO</label>
@@ -81,16 +85,17 @@
             <label class="form-label text-muted small">DESCRIPCIÓN</label>
             <textarea class="form-control" [(ngModel)]="formExp.descripcion" name="descripcion" rows="3"></textarea>
           </div>
-        </form>
-      </div>
-      
-      <div class="modal-footer border-0 d-flex justify-content-between">
-        <button type="button" class="btn btn-light text-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary px-4 rounded-pill" data-bs-dismiss="modal" (click)="guardarCambios()">
-          {{ esEdicion ? 'Guardar Cambios' : 'Agregar' }}
-        </button>
-      </div>
+        </div>
+        
+        <div class="modal-footer border-0 d-flex justify-content-between">
+          <button type="button" class="btn btn-light text-secondary" data-bs-dismiss="modal">Cancelar</button>
+          
+          <button type="submit" class="btn btn-primary px-4 rounded-pill" data-bs-dismiss="modal">
+            {{ esEdicion ? 'Guardar Cambios' : 'Agregar' }}
+          </button>
+        </div>
 
-    </div>
+      </form>
+      </div>
   </div>
 </div>
