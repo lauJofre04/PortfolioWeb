@@ -1,0 +1,20 @@
+{
+  "NAV": {
+    "PRESENTACION": "Presentación",
+    "ESTUDIOS": "Estudios",
+    "EXPERIENCIA": "Experiencia",
+    "HABILIDADES": "Habilidades",
+    "PROYECTOS": "Proyectos",
+    "INGRESAR": "Ingresar",
+    "REGISTRARSE": "Registrarse",
+    "CERRAR_SESION": "Cerrar Sesión"
+  },
+  "THEME": {
+    "TOGGLE_DARK": "Modo Oscuro",
+    "TOGGLE_LIGHT": "Modo Claro"
+  },
+  "LANG": {
+    "SPANISH": "Español",
+    "ENGLISH": "English"
+  }
+}

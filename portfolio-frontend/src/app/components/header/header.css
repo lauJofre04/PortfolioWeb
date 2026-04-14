@@ -1,9 +1,22 @@
 a{
-    color: rgb(0, 0, 0);
+    color: var(--texto);
 }
 h5{
-    color: rgb(0, 0, 0);
+    color: var(--texto);
 }
 :host {
   display: block;
+}
+
+/* Navbar con variables */
+.navbar {
+  background-color: var(--navbar-bg) !important;
+}
+
+.navbar-brand {
+  color: var(--navbar-text) !important;
+}
+
+.nav-link {
+  color: var(--navbar-text) !important;
 }

@@ -1,6 +1,6 @@
 <header>
     <div class="row">
-        <nav class="navbar navbar-expand-lg bg-dark fixed-top shadow-sm" data-bs-theme="dark">
+        <nav class="navbar navbar-expand-lg fixed-top shadow-sm">
             <div class="container">
                 
                 <a class="navbar-brand fw-bold text-white" href="#">
@@ -14,26 +14,34 @@
                 <div class="collapse navbar-collapse" id="menuNavegacion">
                 
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0 text-center">
-                    <li class="nav-item"><a class="nav-link text-light px-3" href="#presentacion">Presentación</a></li>
-                    <li class="nav-item"><a class="nav-link text-light px-3" href="#estudios">Estudios</a></li>
-                    <li class="nav-item"><a class="nav-link text-light px-3" href="#experiencia">Experiencia</a></li>
-                    <li class="nav-item"><a class="nav-link text-light px-3" href="#habilidades">Habilidades</a></li>
-                    <li class="nav-item"><a class="nav-link text-light px-3" href="#proyectos">Proyectos</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="#presentacion">{{ 'NAV.PRESENTACION' | translate }}</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="#estudios">{{ 'NAV.ESTUDIOS' | translate }}</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="#experiencia">{{ 'NAV.EXPERIENCIA' | translate }}</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="#habilidades">{{ 'NAV.HABILIDADES' | translate }}</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="#proyectos">{{ 'NAV.PROYECTOS' | translate }}</a></li>
                 </ul>
                 <div class="d-flex justify-content-center gap-2 mt-3 mt-lg-0">
-                    
+                    <!-- Botones de tema e idioma -->
+                    <button class="btn btn-outline-secondary btn-sm rounded-pill px-3" (click)="toggleTheme()">
+                        <i class="bi" [class]="isDarkMode ? 'bi-sun' : 'bi-moon'"></i>
+                        {{ isDarkMode ? ('THEME.TOGGLE_LIGHT' | translate) : ('THEME.TOGGLE_DARK' | translate) }}
+                    </button>
+                    <button class="btn btn-outline-info btn-sm rounded-pill px-3" (click)="changeLanguage(currentLang === 'es' ? 'en' : 'es')">
+                        {{ currentLang === 'es' ? ('LANG.ENGLISH' | translate) : ('LANG.SPANISH' | translate) }}
+                    </button>
+
                     <ng-container *ngIf="!estaLogueado">
                     <button class="btn btn-outline-light btn-sm rounded-pill px-4 fw-bold" data-bs-toggle="modal" data-bs-target="#loginModal">
-                        Ingresar
+                        {{ 'NAV.INGRESAR' | translate }}
                     </button>
                     <button class="btn btn-primary btn-sm rounded-pill px-4 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#registroModal">
-                        Registrarse
+                        {{ 'NAV.REGISTRARSE' | translate }}
                     </button>
                     </ng-container>
 
                     <ng-container *ngIf="estaLogueado">
                     <button class="btn btn-outline-danger btn-sm rounded-pill px-4 fw-bold" (click)="cerrarSesion()">
-                        Cerrar Sesión
+                        {{ 'NAV.CERRAR_SESION' | translate }}
                     </button>
                     </ng-container>
 

@@ -1,9 +1,41 @@
+/* Variables CSS para colores */
+:root {
+  --fondo: #ffffff;
+  --fondo-secundario: #f8f9fa;
+  --texto: #212529;
+  --texto-secundario: #6c757d;
+  --navbar-bg: #212529;
+  --navbar-text: #ffffff;
+  --primary: #0d6efd;
+  --card-bg: #ffffff;
+  --border: #dee2e6;
+}
+
+/* Clase para modo oscuro */
+.dark-theme {
+  --fondo: #121212;
+  --fondo-secundario: #1e1e1e;
+  --texto: #ffffff;
+  --texto-secundario: #adb5bd;
+  --navbar-bg: #000000;
+  --navbar-text: #ffffff;
+  --primary: #0d6efd;
+  --card-bg: #212529;
+  --border: #495057;
+}
+
+/* Aplicar variables al body */
+body {
+  background-color: var(--fondo);
+  color: var(--texto);
+}
+
 /*styles.css o el nombre de tu archivo CSS principal */
 
 /* Esta clase le dará un relleno superior al contenido para que no lo tape el header */
 .main-content-wrapper {
     /* Ajusta este valor (80px) según la altura de tu header. Haz pruebas */
-    padding-top: 80px; 
+    padding-top: 80px;
 }
 
 /* Contenedor principal con altura fija para evitar el colapso */
@@ -35,14 +67,14 @@
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   border-radius: 1.5rem; /* rounded-4 */
-  background-color: #212529 !important; /* FORZADO MANUAL */
+  background-color: var(--card-bg) !important; /* Usar variable */
   display: flex;
   overflow: hidden; /* Evita que el contenido se salga de los bordes redondeados */
 }
 
 .flip-card-back {
   transform: rotateY(180deg);
-  border: 2px solid #0d6efd !important; /* Borde azul para distinguir el dorso */
+  border: 2px solid var(--primary) !important; /* Borde azul para distinguir el dorso */
 }
 
 /* Aseguramos que la tarjeta interna sea transparente para mostrar el fondo de la cara */
