@@ -1,6 +1,9 @@
 <header>
     <div class="row">
-        <nav class="navbar navbar-expand-lg fixed-top shadow-sm" style="background-color: var(--navbar-bg);">
+        <nav class="navbar navbar-expand-lg fixed-top shadow-sm" 
+            [class.navbar-dark]="isDarkMode" 
+            [class.navbar-light]="!isDarkMode" 
+            style="background-color: var(--navbar-bg);">
             <div class="container">
 
                 <a class="navbar-brand fw-bold" style="color: var(--navbar-text);" href="#">
