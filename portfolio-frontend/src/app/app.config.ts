@@ -8,12 +8,13 @@ import { Observable } from 'rxjs';
 
 // Custom TranslateLoader
 // En app.config.ts
+// Custom TranslateLoader
 class CustomTranslateLoader implements TranslateLoader {
   constructor(private http: HttpClient) {}
 
   getTranslation(lang: string): Observable<any> {
-    // CAMBIO ACÁ: Quitamos el "./" y dejamos la ruta directa
-    return this.http.get(`assets/i18n/${lang}.json`);
+    // AGREGAMOS LA BARRA INICIAL '/'
+    return this.http.get(`/assets/i18n/${lang}.json`); 
   }
 }
 
@@ -27,7 +28,8 @@ export const appConfig: ApplicationConfig = {
         useClass: CustomTranslateLoader,
         deps: [HttpClient]
       },
-      defaultLanguage: 'es'
+      // CAMBIAMOS defaultLanguage POR fallbackLang
+      fallbackLang: 'es' 
     })
   ]
 };
