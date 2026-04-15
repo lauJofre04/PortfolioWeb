@@ -25,10 +25,11 @@
                 </ul>
                 <div class="d-flex justify-content-center gap-2 mt-3 mt-lg-0">
                     <!-- Botones de tema e idioma -->
-                    <button class="btn btn-outline-secondary btn-sm rounded-pill px-3" (click)="toggleTheme()">
+                    <button class="btn btn-outline-secondary btn-sm rounded-pill px-3" (click)="toggleTheme()" style="color: var(--navbar-text); border-color: var(--navbar-text);">
                         <i class="bi" [class]="isDarkMode ? 'bi-sun' : 'bi-moon'"></i>
                         {{ isDarkMode ? ('THEME.TOGGLE_LIGHT' | translate) : ('THEME.TOGGLE_DARK' | translate) }}
                     </button>
+                    
                     <button class="btn btn-outline-info btn-sm rounded-pill px-3" (click)="changeLanguage(currentLang === 'es' ? 'en' : 'es')">
                         {{ currentLang === 'es' ? ('LANG.ENGLISH' | translate) : ('LANG.SPANISH' | translate) }}
                     </button>
