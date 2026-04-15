@@ -7,11 +7,13 @@ import { routes } from './app.routes';
 import { Observable } from 'rxjs';
 
 // Custom TranslateLoader
+// En app.config.ts
 class CustomTranslateLoader implements TranslateLoader {
   constructor(private http: HttpClient) {}
 
   getTranslation(lang: string): Observable<any> {
-    return this.http.get(`./assets/i18n/${lang}.json`);
+    // CAMBIO ACÁ: Quitamos el "./" y dejamos la ruta directa
+    return this.http.get(`assets/i18n/${lang}.json`);
   }
 }
 
