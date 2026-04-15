@@ -1,26 +1,29 @@
 <section id="presentacion" class="container mb-5" style="padding-top: 80px; margin-top: -80px;">
   <div class="row justify-content-center">
     <div class="col-12 col-lg-10">
-      
+
       <div class="flip-card-wrapper" (click)="isFlipped = !isFlipped">
         <div class="flip-card-inner" [class.is-flipped]="isFlipped">
-          
+
           <div class="flip-card-front shadow-lg">
             <div class="card text-center p-4 p-md-5 d-flex flex-column justify-content-center align-items-center">
               <h6 class="text-primary fw-bold text-uppercase mb-2">Full Stack Developer Junior</h6>
-              <h1 class="card-title fw-bold mb-4 display-5 text-white">Lautaro Jofre</h1>
+              
+              <h1 class="card-title fw-bold mb-4 display-5" style="color: var(--texto);">Lautaro Jofre</h1>
               <hr class="border-secondary w-50 mx-auto mb-4">
-              <p class="text-light mb-4 fs-5">
+              
+              <p class="mb-4 fs-5" style="color: var(--texto-secundario);">
                 Estudiante de Ingeniería en Sistemas y Desarrollador Web.
                 <br>
                 <span class="text-info small fw-bold mt-3 d-block">
                   <i class="bi bi-arrow-repeat me-1"></i> Haz clic para leer más sobre mí
                 </span>
               </p>
+              
               <div class="d-flex gap-3">
                 <a href="www.linkedin.com/in/lautaro-jofre" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm" (click)="$event.stopPropagation()">LinkedIn</a>
-                <a href="https://github.com/lauJofre04" class="btn btn-outline-light rounded-pill px-4 fw-bold shadow-sm" (click)="$event.stopPropagation()">GitHub</a>
-                <a href="https://drive.google.com/file/d/1bWvIHJBhc5Q34GrmSl817NVlhUegZXaD/view?usp=drive_link" class="btn btn-outline-light rounded-pill px-4 fw-bold shadow-sm" (click)="$event.stopPropagation()">Descargar CV</a>
+                <a href="https://github.com/lauJofre04" class="btn btn-outline-secondary rounded-pill px-4 fw-bold shadow-sm" (click)="$event.stopPropagation()">GitHub</a>
+                <a href="https://drive.google.com/file/d/1bWvIHJBhc5Q34GrmSl817NVlhUegZXaD/view?usp=drive_link" class="btn btn-outline-secondary rounded-pill px-4 fw-bold shadow-sm" (click)="$event.stopPropagation()">Descargar CV</a>
               </div>
             </div>
           </div>
@@ -28,12 +31,14 @@
           <div class="flip-card-back shadow-lg">
             <div class="card text-center p-4 p-md-5 d-flex flex-column justify-content-center align-items-center">
               <h3 class="fw-bold mb-4 text-primary">Perfil Profesional</h3>
-              <p class="text-light" style="font-size: 1.1rem; line-height: 1.8;">
+              
+              <p style="font-size: 1.1rem; line-height: 1.8; color: var(--texto);">
                 Desarrollador web Full Stack Jr. y estudiante de Ingeniería en Sistemas (tercer año). Interesado en 
                 Desarrollo Web (frontend y backend), con ganas de adquirir experiencia profesional y aprender nuevas 
                 herramientas en un entorno real de trabajo. Me destaco por ser resolutivo y trabajar bien en equipo.
               </p>
-              <button class="btn btn-outline-light btn-sm rounded-pill px-4 mt-4">
+              
+              <button class="btn btn-outline-secondary btn-sm rounded-pill px-4 mt-4">
                 <i class="bi bi-arrow-return-left me-1"></i> Volver
               </button>
             </div>
