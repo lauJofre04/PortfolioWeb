@@ -1,45 +1,39 @@
-<section id="presentacion" class="container mb-5" style="padding-top: 80px; margin-top: -80px;">
-  <div class="row justify-content-center">
-    <div class="col-12 col-lg-10">
+<section id="presentacion" class="container mx-auto px-4 py-10 mt-20">
+  <div class="flex justify-center">
+    <div class="w-full max-w-5xl">
 
-      <div class="flip-card-wrapper" (click)="isFlipped = !isFlipped">
+      <div class="flip-card-wrapper mx-auto w-full min-h-[420px] md:min-h-[520px] lg:min-h-[580px] hover:-translate-y-1 transition-transform duration-300" (click)="isFlipped = !isFlipped">
         <div class="flip-card-inner" [class.is-flipped]="isFlipped">
 
-          <div class="flip-card-front shadow-lg">
-            <div class="card text-center p-4 p-md-5 d-flex flex-column justify-content-center align-items-center">
-              <h6 class="text-primary fw-bold text-uppercase mb-2">Full Stack Developer Junior</h6>
-              
-              <h1 class="card-title fw-bold mb-4 display-5" style="color: var(--texto);">Lautaro Jofre</h1>
-              <hr class="border-secondary w-50 mx-auto mb-4">
-              
-              <p class="mb-4 fs-5" style="color: var(--texto-secundario);">
+          <div class="flip-card-front shadow-2xl border border-[var(--border)] rounded-[2rem] bg-[var(--fondo-secundario)]">
+            <div class="text-center p-6 md:p-10 flex flex-col justify-center items-center h-full gap-6">
+              <h6 class="text-[var(--primary)] font-bold uppercase mb-3 tracking-[0.2em]">Full Stack Developer Junior</h6>
+              <h1 class="font-bold mb-4 text-4xl md:text-5xl text-[var(--texto)]">Lautaro Jofre</h1>
+              <hr class="border-[var(--border)] w-24 mx-auto mb-2">
+              <p class="mb-6 text-base md:text-lg text-[var(--texto)] leading-relaxed max-w-2xl">
                 Estudiante de Ingeniería en Sistemas y Desarrollador Web.
-                <br>
-                <span class="text-info small fw-bold mt-3 d-block">
-                  <i class="bi bi-arrow-repeat me-1"></i> Haz clic para leer más sobre mí
-                </span>
               </p>
-              
-              <div class="d-flex gap-3">
-                <a href="www.linkedin.com/in/lautaro-jofre" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm" (click)="$event.stopPropagation()">LinkedIn</a>
-                <a href="https://github.com/lauJofre04" class="btn btn-outline-secondary rounded-pill px-4 fw-bold shadow-sm" (click)="$event.stopPropagation()">GitHub</a>
-                <a href="https://drive.google.com/file/d/1bWvIHJBhc5Q34GrmSl817NVlhUegZXaD/view?usp=drive_link" class="btn btn-outline-secondary rounded-pill px-4 fw-bold shadow-sm" (click)="$event.stopPropagation()">Descargar CV</a>
+              <span class="text-[var(--primary)] text-sm font-bold mt-3 block">
+                <i class="bi bi-arrow-repeat mr-1"></i> Haz clic para leer más sobre mí
+              </span>
+              <div class="flex flex-col gap-3 sm:flex-row sm:justify-center sm:flex-wrap w-full">
+                <a href="https://www.linkedin.com/in/lautaro-jofre" target="_blank" rel="noreferrer" class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-3 rounded-full bg-[var(--primary)] text-white font-bold shadow transition hover:bg-[rgba(13,110,253,0.9)]" (click)="$event.stopPropagation()">LinkedIn</a>
+                <a href="https://github.com/lauJofre04" target="_blank" rel="noreferrer" class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-3 rounded-full border border-[var(--border)] bg-[var(--card-bg)] text-[var(--texto)] font-bold shadow transition hover:bg-[var(--primary)] hover:text-white" (click)="$event.stopPropagation()">GitHub</a>
+                <a href="https://drive.google.com/file/d/1bWvIHJBhc5Q34GrmSl817NVlhUegZXaD/view?usp=drive_link" target="_blank" rel="noreferrer" class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-3 rounded-full border border-[var(--border)] bg-[var(--card-bg)] text-[var(--texto)] font-bold shadow transition hover:bg-[var(--primary)] hover:text-white" (click)="$event.stopPropagation()">Descargar CV</a>
               </div>
             </div>
           </div>
 
-          <div class="flip-card-back shadow-lg">
-            <div class="card text-center p-4 p-md-5 d-flex flex-column justify-content-center align-items-center">
-              <h3 class="fw-bold mb-4 text-primary">Perfil Profesional</h3>
-              
-              <p style="font-size: 1.1rem; line-height: 1.8; color: var(--texto);">
-                Desarrollador web Full Stack Jr. y estudiante de Ingeniería en Sistemas (tercer año). Interesado en 
-                Desarrollo Web (frontend y backend), con ganas de adquirir experiencia profesional y aprender nuevas 
+          <div class="flip-card-back shadow-2xl border border-[var(--border)] rounded-[2rem] bg-[var(--fondo-secundario)]">
+            <div class="text-center p-6 md:p-10 flex flex-col justify-center items-center h-full gap-6">
+              <h3 class="font-bold mb-4 text-[var(--primary)] text-2xl">Perfil Profesional</h3>
+              <p class="text-base md:text-lg leading-relaxed text-[var(--texto)] max-w-3xl">
+                Desarrollador web Full Stack Jr. y estudiante de Ingeniería en Sistemas (tercer año). Interesado en
+                Desarrollo Web (frontend y backend), con ganas de adquirir experiencia profesional y aprender nuevas
                 herramientas en un entorno real de trabajo. Me destaco por ser resolutivo y trabajar bien en equipo.
               </p>
-              
-              <button class="btn btn-outline-secondary btn-sm rounded-pill px-4 mt-4">
-                <i class="bi bi-arrow-return-left me-1"></i> Volver
+              <button class="mt-6 px-5 py-3 w-full sm:w-auto rounded-full border border-[var(--border)] bg-[var(--card-bg)] text-[var(--texto)] font-bold transition hover:bg-[var(--primary)] hover:text-white" (click)="$event.stopPropagation()">
+                <i class="bi bi-arrow-return-left mr-1"></i> Volver
               </button>
             </div>
           </div>

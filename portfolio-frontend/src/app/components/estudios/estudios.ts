@@ -22,6 +22,7 @@ export class Estudios implements OnInit {
     descripcion: '',
     fecha_inicio: ''
   };
+  showStudyModal: boolean = false;
   
   esEdicion: boolean = false; // Bandera para saber si editamos o creamos
   idEdicion: number | null = null; // Guardamos el ID si estamos editando
@@ -59,6 +60,7 @@ export class Estudios implements OnInit {
   limpiarFormulario() {
     this.esEdicion = false;
     this.formEstudio = { titulo: '', institucion: '', descripcion: '', fecha_inicio: '' };
+    this.openStudyModal();
   }
 
   // Se ejecuta al dar click en "Editar" (el lapicito)
@@ -72,6 +74,7 @@ export class Estudios implements OnInit {
     if(this.formEstudio.fecha_inicio) {
        this.formEstudio.fecha_inicio = this.formEstudio.fecha_inicio.split('T')[0];
     }
+     this.openStudyModal();
   }
 
   // Se ejecuta al dar click en el botón azul del Modal
@@ -89,6 +92,15 @@ export class Estudios implements OnInit {
         alert('Estudio creado correctamente');
       });
     }
+    this.closeStudyModal();
+  }
+
+  openStudyModal() {
+    this.showStudyModal = true;
+  }
+
+  closeStudyModal() {
+    this.showStudyModal = false;
   }
   // ==========================================
 // FUNCIÓN PARA ELIMINAR EXPERIENCIA

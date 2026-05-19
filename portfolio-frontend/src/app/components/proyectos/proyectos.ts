@@ -18,6 +18,7 @@ export class Proyectos {
   formProy: any = { nombre: '', tecnologias: '', link_repo: '', link_demo: '', descripcion: '' };
   esEdicion: boolean = false;
   idEdicion: number | null = null;
+  showProjectModal: boolean = false;
 
   constructor(
     private proyService: ProyectosServices,
@@ -53,12 +54,15 @@ export class Proyectos {
   limpiarFormulario() {
     this.esEdicion = false;
     this.formProy = { nombre: '', tecnologias: '', link_repo: '', link_demo: '', descripcion: '' };
+    this.openProjectModal();
   }
 
   cargarDatosParaEditar(proy: any) {
     this.esEdicion = true;
     this.idEdicion = proy.id;
     this.formProy = { ...proy }; 
+    // abrir modal desde el mismo flujo
+    // la llamada en template ya abre el modal
   }
 
   guardarCambios() {
@@ -67,6 +71,15 @@ export class Proyectos {
     } else {
       this.proyService.crearProyecto(this.formProy).subscribe(() => this.cargarProyectos());
     }
+    this.closeProjectModal();
+  }
+
+  openProjectModal() {
+    this.showProjectModal = true;
+  }
+
+  closeProjectModal() {
+    this.showProjectModal = false;
   }
   // ==========================================
 // FUNCIÓN PARA ELIMINAR EXPERIENCIA

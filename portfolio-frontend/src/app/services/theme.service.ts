@@ -37,8 +37,10 @@ export class ThemeService {
     if (isPlatformBrowser(this.platformId)) {
       const body = document.body;
       if (this.isDarkMode) {
-        body.classList.add('dark-theme');
+        body.classList.add('dark');
+        body.classList.remove('dark-theme');
       } else {
+        body.classList.remove('dark');
         body.classList.remove('dark-theme');
       }
     }

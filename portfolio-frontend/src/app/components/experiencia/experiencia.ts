@@ -25,6 +25,7 @@ export class Experiencia implements OnInit {
 } ;
   esEdicion: boolean = false;
   idEdicion: number | null = null;
+  showExperienceModal: boolean = false;
 
   constructor(
     private expService: ExperienciaService,
@@ -58,6 +59,7 @@ export class Experiencia implements OnInit {
   limpiarFormulario() {
     this.esEdicion = false;
     this.formExp = { empresa: '', puesto: '', fecha_inicio: '', fecha_fin: '', descripcion: '', logo_url: '' };
+    this.openExperienceModal();
 
   }
 
@@ -69,6 +71,7 @@ export class Experiencia implements OnInit {
   // Acomodamos ambas fechas para que el input type="date" las lea bien
   if(this.formExp.fecha_inicio) this.formExp.fecha_inicio = this.formExp.fecha_inicio.split('T')[0];
   if(this.formExp.fecha_fin) this.formExp.fecha_fin = this.formExp.fecha_fin.split('T')[0];
+  this.openExperienceModal();
 }
 
   guardarCambios() {
@@ -81,11 +84,20 @@ export class Experiencia implements OnInit {
         this.cargarExperiencia();
       });
     }
+    this.closeExperienceModal();
   }
+  openExperienceModal() {
+    this.showExperienceModal = true;
+  }
+
+  closeExperienceModal() {
+    this.showExperienceModal = false;
+  }
+
   // ==========================================
 // FUNCIÓN PARA ELIMINAR EXPERIENCIA
 // ==========================================
-borrarExperiencia(id: number) {
+  borrarExperiencia(id: number) {
   // 1. Buena práctica: Pedimos confirmación antes de borrar
   if (confirm('¿Estás seguro de que quieres eliminar esta experiencia?')) {
     

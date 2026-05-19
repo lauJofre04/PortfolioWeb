@@ -1,84 +1,68 @@
-<section id="estudios" class="container mb-5" style="padding-top: 80px; margin-top: -80px;">
-  
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="fw-bold">Educación y Cursos</h2>
-    <button *ngIf="esAdmin" class="btn btn-success rounded-pill px-4 shadow-sm fw-bold" data-bs-toggle="modal" data-bs-target="#estudioModal" (click)="limpiarFormulario()">
-      + Agregar
-    </button>
+<section id="estudios" class="mx-auto mb-5 pt-20 -mt-20 px-4">
+
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-bold">Educación y Cursos</h2>
+    <button *ngIf="esAdmin" class="bg-green-600 text-white rounded-full px-4 shadow font-bold" (click)="limpiarFormulario(); openStudyModal()">+ Agregar</button>
   </div>
 
-  <div class="row justify-content-center">
-    <div class="col-12 mb-4" *ngFor="let estudio of misEstudios">
-      
-      <div class="card text-bg-dark border-secondary shadow-sm rounded-4">
-        <div class="card-body p-4 d-flex flex-column flex-md-row justify-content-between align-items-md-center">
-          
-          <div class="mb-3 mb-md-0 w-100 pe-md-3">
-            <div class="d-flex align-items-center mb-2 gap-3">
-              <h5 class="card-title fw-bold text-light mb-0">{{ estudio.titulo }}</h5>
-              <span class="badge bg-primary rounded-pill fs-6">{{ estudio.fecha_inicio | date:'yyyy' }}</span>
+  <div class="flex flex-col gap-4">
+    <div *ngFor="let estudio of misEstudios" class="mb-4">
+      <div class="bg-[var(--card-bg)] border border-[var(--border)] shadow-sm rounded-2xl">
+        <div class="p-4 md:p-6 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div class="w-full md:pr-6">
+            <div class="flex items-center gap-3 mb-2">
+              <h5 class="text-lg font-bold text-[var(--texto)] mb-0">{{ estudio.titulo }}</h5>
+              <span class="bg-[var(--primary)] text-white rounded-full px-3 py-1 text-sm">{{ estudio.fecha_inicio | date:'yyyy' }}</span>
             </div>
-            
-            <h6 class="card-subtitle mb-3 text-info fw-bold">{{ estudio.institucion }}</h6>
-            <p class="card-text text-light mb-0" style="opacity: 0.9;">{{ estudio.descripcion }}</p>
+            <h6 class="mb-3 text-[var(--primary)] font-bold">{{ estudio.institucion }}</h6>
+            <p class="text-[var(--texto)] mb-0" style="opacity:0.9">{{ estudio.descripcion }}</p>
           </div>
-          
-          <div class="d-flex gap-2 flex-shrink-0" *ngIf="esAdmin">
-            <button class="btn btn-outline-warning btn-sm border-0" data-bs-toggle="modal" data-bs-target="#estudioModal" (click)="cargarDatosParaEditar(estudio)" title="Editar">
+
+          <div class="flex gap-2 flex-shrink-0" *ngIf="esAdmin">
+            <button class="p-2 text-yellow-500" (click)="cargarDatosParaEditar(estudio); openStudyModal()" title="Editar">
               <i class="bi bi-pencil-square fs-5"></i>
             </button>
-            
-            <button class="btn btn-outline-danger btn-sm border-0" (click)="borrarEstudios(estudio.id)" title="Borrar">
+            <button class="p-2 text-red-500" (click)="borrarEstudios(estudio.id)" title="Borrar">
               <i class="bi bi-trash fs-5"></i>
             </button>
           </div>
-
         </div>
       </div>
-      </div>
+    </div>
   </div>
-</section>
-<div class="modal fade" id="estudioModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content shadow-lg border-0 rounded-4">
-      
-      <div class="modal-header border-0">
-        <h5 class="modal-title fw-bold" id="exampleModalLabel">
-          {{ esEdicion ? 'Editar Estudio' : 'Nuevo Estudio' }}
-        </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      
-      <form (ngSubmit)="guardarCambios()">
-        
-        <div class="modal-body">
-          <div class="mb-3">
-            <label for="titulo" class="form-label text-muted small">TÍTULO O CARRERA</label>
-            <input type="text" class="form-control" id="titulo" [(ngModel)]="formEstudio.titulo" name="titulo" placeholder="Ej: Ingeniería en Sistemas">
-          </div>
-          <div class="mb-3">
-            <label for="institucion" class="form-label text-muted small">INSTITUCIÓN</label>
-            <input type="text" class="form-control" id="institucion" [(ngModel)]="formEstudio.institucion" name="institucion" placeholder="Ej: UTN">
-          </div>
-          <div class="mb-3">
-            <label for="descripcion" class="form-label text-muted small">DESCRIPCIÓN</label>
-            <textarea class="form-control" id="descripcion" [(ngModel)]="formEstudio.descripcion" name="descripcion" rows="3"></textarea>
-          </div>
-          <div class="mb-3">
-            <label for="fecha" class="form-label text-muted small">FECHA INICIO</label>
-            <input type="date" class="form-control" id="fecha" [(ngModel)]="formEstudio.fecha_inicio" name="fecha_inicio">
-          </div>
-        </div>
-        
-        <div class="modal-footer border-0 d-flex justify-content-between">
-          <button type="button" class="btn btn-light text-secondary" data-bs-dismiss="modal">Cancelar</button>
-          
-          <button type="submit" class="btn btn-primary px-4 rounded-pill" data-bs-dismiss="modal">
-            {{ esEdicion ? 'Guardar Cambios' : 'Agregar' }}
-          </button>
-        </div>
 
-      </form>
+</section>
+
+<!-- Estudio Modal -->
+<div *ngIf="showStudyModal" class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+  <div class="bg-[var(--card-bg)] rounded-2xl p-4 w-full max-w-md shadow-lg">
+    <div class="flex justify-between items-center mb-4">
+      <h5 class="font-bold">{{ esEdicion ? 'Editar Estudio' : 'Nuevo Estudio' }}</h5>
+      <button (click)="closeStudyModal()">✕</button>
+    </div>
+
+    <form (ngSubmit)="guardarCambios()">
+      <div class="mb-3">
+        <label class="text-sm text-muted">TÍTULO O CARRERA</label>
+        <input type="text" class="form-input w-full p-2 rounded" [(ngModel)]="formEstudio.titulo" name="titulo" placeholder="Ej: Ingeniería en Sistemas">
       </div>
+      <div class="mb-3">
+        <label class="text-sm text-muted">INSTITUCIÓN</label>
+        <input type="text" class="form-input w-full p-2 rounded" [(ngModel)]="formEstudio.institucion" name="institucion" placeholder="Ej: UTN">
+      </div>
+      <div class="mb-3">
+        <label class="text-sm text-muted">DESCRIPCIÓN</label>
+        <textarea class="form-input w-full p-2 rounded" [(ngModel)]="formEstudio.descripcion" name="descripcion" rows="3"></textarea>
+      </div>
+      <div class="mb-3">
+        <label class="text-sm text-muted">FECHA INICIO</label>
+        <input type="date" class="form-input w-full p-2 rounded" [(ngModel)]="formEstudio.fecha_inicio" name="fecha_inicio">
+      </div>
+
+      <div class="mt-4 flex justify-between">
+        <button type="button" class="px-4 py-2 rounded border" (click)="closeStudyModal()">Cancelar</button>
+        <button type="submit" class="px-4 py-2 rounded bg-[var(--primary)] text-white">{{ esEdicion ? 'Guardar Cambios' : 'Agregar' }}</button>
+      </div>
+    </form>
   </div>
 </div>

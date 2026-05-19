@@ -1,82 +1,79 @@
-<section id="proyectos" class="container mb-5" style="padding-top: 80px; margin-top: -80px;">
-  
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="fw-bold">Proyectos</h2>
-    <button *ngIf="esAdmin" class="btn btn-success rounded-pill px-4 shadow-sm fw-bold" data-bs-toggle="modal" data-bs-target="#proyectosModal" (click)="limpiarFormulario()">
+<section id="proyectos" class="container mx-auto mb-5 pt-20 -mt-20 px-4">
+
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-bold">Proyectos</h2>
+    <button *ngIf="esAdmin" class="bg-green-600 text-white rounded-full px-4 shadow font-bold" (click)="limpiarFormulario(); openProjectModal()">
       + Agregar
     </button>
   </div>
 
-  <div class="row">
-    <div class="col-md-6 mb-4" *ngFor="let proy of misProyectos">
-      
-      <div class="card text-bg-dark border-secondary shadow-sm h-100 rounded-4">
-        
-        <div class="card-body p-4 d-flex flex-column">
-          
-          <h5 class="card-title fw-bold text-light mb-1">{{ proy.nombre }}</h5>
-          <h6 class="card-subtitle mb-3 text-info fw-bold">{{ proy.tecnologias }}</h6>
-          
-          <p class="card-text text-light" style="opacity: 0.9; flex-grow: 1;">
-            {{ proy.descripcion }}
-          </p>
-          
-          <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top border-secondary">
-            
-            <div class="d-flex gap-2">
-              <a *ngIf="proy.link_repo" [href]="proy.link_repo" target="_blank" class="btn btn-sm btn-outline-light rounded-pill px-3 fw-bold">
-                <i class="bi bi-github me-1"></i> Repo
-              </a>
-              <a *ngIf="proy.link_demo" [href]="proy.link_demo" target="_blank" class="btn btn-sm btn-primary rounded-pill px-3 fw-bold shadow-sm">
-                <i class="bi bi-box-arrow-up-right me-1"></i> Demo
-              </a>
-            </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="mb-4" *ngFor="let proy of misProyectos">
+      <div class="bg-[var(--card-bg)] border border-[var(--border)] shadow-sm h-full rounded-2xl p-4 flex flex-col">
+        <h5 class="text-lg font-bold text-[var(--texto)] mb-1">{{ proy.nombre }}</h5>
+        <h6 class="mb-3 text-[var(--primary)] font-bold">{{ proy.tecnologias }}</h6>
+        <p class="text-[var(--texto)]" style="opacity:0.9; flex-grow:1">{{ proy.descripcion }}</p>
 
-            <div class="d-flex gap-2" *ngIf="esAdmin">
-              <button class="btn btn-outline-warning btn-sm border-0" data-bs-toggle="modal" data-bs-target="#proyectosModal" (click)="cargarDatosParaEditar(proy)" title="Editar">
-                <i class="bi bi-pencil-square fs-5"></i>
-              </button>
-              <button class="btn btn-outline-danger btn-sm border-0" (click)="borrarProyecto(proy.id)" title="Borrar">
-                <i class="bi bi-trash fs-5"></i>
-              </button>
-            </div>
-            
+        <div class="flex justify-between items-center mt-3 pt-3 border-t border-[var(--border)]">
+          <div class="flex gap-2">
+            <a *ngIf="proy.link_repo" [href]="proy.link_repo" target="_blank" class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--border)] text-[var(--texto)]">
+              <i class="bi bi-github"></i> <span class="font-bold">Repo</span>
+            </a>
+            <a *ngIf="proy.link_demo" [href]="proy.link_demo" target="_blank" class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--primary)] text-white">
+              <i class="bi bi-box-arrow-up-right"></i> <span class="font-bold">Demo</span>
+            </a>
           </div>
 
+          <div class="flex gap-2" *ngIf="esAdmin">
+            <button class="p-2 text-yellow-500" (click)="cargarDatosParaEditar(proy); openProjectModal()" title="Editar">
+              <i class="bi bi-pencil-square fs-5"></i>
+            </button>
+            <button class="p-2 text-red-500" (click)="borrarProyecto(proy.id)" title="Borrar">
+              <i class="bi bi-trash fs-5"></i>
+            </button>
+          </div>
         </div>
       </div>
-      </div>
+    </div>
   </div>
 </section>
 
-<div class="modal fade" id="proyectosModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content shadow-lg border-0 rounded-4">
-      
-      <div class="modal-header border-0">
-        <h5 class="fw-bold">{{ esEdicion ? 'Editar' : 'Nuevo' }} Proyecto</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      
-      <form (ngSubmit)="guardarCambios()">
-        
-        <div class="modal-body">
-          <div class="mb-3"><label class="small">NOMBRE</label><input type="text" class="form-control" [(ngModel)]="formProy.nombre" name="nombre"></div>
-          <div class="mb-3"><label class="small">TECNOLOGÍAS (Ej: Angular, Node)</label><input type="text" class="form-control" [(ngModel)]="formProy.tecnologias" name="tecnologias"></div>
-          <div class="row">
-            <div class="col-6 mb-3"><label class="small">LINK REPOSITORIO</label><input type="text" class="form-control" [(ngModel)]="formProy.link_repo" name="link_repo"></div>
-            <div class="col-6 mb-3"><label class="small">LINK DEMO</label><input type="text" class="form-control" [(ngModel)]="formProy.link_demo" name="link_demo"></div>
-          </div>
-          <div class="mb-3"><label class="small">DESCRIPCIÓN</label><textarea class="form-control" [(ngModel)]="formProy.descripcion" name="descripcion" rows="3"></textarea></div>
+<!-- Project Modal -->
+<div *ngIf="showProjectModal" class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+  <div class="bg-[var(--card-bg)] rounded-2xl p-4 w-full max-w-2xl shadow-lg">
+    <div class="flex justify-between items-center mb-4">
+      <h5 class="font-bold">{{ esEdicion ? 'Editar' : 'Nuevo' }} Proyecto</h5>
+      <button (click)="closeProjectModal()">✕</button>
+    </div>
+
+    <form (ngSubmit)="guardarCambios()">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div>
+          <label class="small">NOMBRE</label>
+          <input type="text" class="form-input w-full p-2 rounded" [(ngModel)]="formProy.nombre" name="nombre">
         </div>
-        
-        <div class="modal-footer border-0">
-          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
-          
-          <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Guardar</button>
+        <div>
+          <label class="small">TECNOLOGÍAS (Ej: Angular, Node)</label>
+          <input type="text" class="form-input w-full p-2 rounded" [(ngModel)]="formProy.tecnologias" name="tecnologias">
         </div>
-        
-      </form>
+        <div>
+          <label class="small">LINK REPOSITORIO</label>
+          <input type="text" class="form-input w-full p-2 rounded" [(ngModel)]="formProy.link_repo" name="link_repo">
+        </div>
+        <div>
+          <label class="small">LINK DEMO</label>
+          <input type="text" class="form-input w-full p-2 rounded" [(ngModel)]="formProy.link_demo" name="link_demo">
+        </div>
+        <div class="md:col-span-2">
+          <label class="small">DESCRIPCIÓN</label>
+          <textarea class="form-input w-full p-2 rounded" [(ngModel)]="formProy.descripcion" name="descripcion" rows="3"></textarea>
+        </div>
       </div>
+
+      <div class="mt-4 flex justify-end gap-2">
+        <button type="button" class="px-4 py-2 rounded border" (click)="closeProjectModal()">Cancelar</button>
+        <button type="submit" class="px-4 py-2 rounded bg-[var(--primary)] text-white">Guardar</button>
+      </div>
+    </form>
   </div>
 </div>

@@ -19,6 +19,7 @@ export class Habilidades {
   idEdicion: number | null = null;
   estaLogueado: boolean = false;
   esAdmin: boolean = false; // <--- NUEVA VARIABLE
+  showSkillsModal: boolean = false;
 
   constructor(
     private habService: HabilidadesServices,
@@ -55,6 +56,7 @@ export class Habilidades {
   limpiarFormulario() {
     this.esEdicion = false;
     this.formHab = { nombre: '', porcentaje: '', icono_url: '' };
+    this.openSkillsModal();
   }
 
   cargarDatosParaEditar(hab: any) {
@@ -69,6 +71,15 @@ export class Habilidades {
     } else {
       this.habService.crearHabilidad(this.formHab).subscribe(() => this.cargarHabilidades());
     }
+    this.closeSkillsModal();
+  }
+
+  openSkillsModal() {
+    this.showSkillsModal = true;
+  }
+
+  closeSkillsModal() {
+    this.showSkillsModal = false;
   }
   // ==========================================
 // FUNCIÓN PARA ELIMINAR EXPERIENCIA

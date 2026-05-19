@@ -18,6 +18,9 @@ export class Header implements OnInit {
 
   estaLogueado: boolean = false;
   rolActual: string = ''; // <-- Para guardar tu rol
+  menuOpen: boolean = false;
+  showLoginModal: boolean = false;
+  showRegisterModal: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -42,6 +45,25 @@ export class Header implements OnInit {
     this.themeService.toggleTheme();
   }
 
+  toggleMenu(): void {
+    this.menuOpen = !this.menuOpen;
+  }
+
+  openLogin(): void {
+    this.showLoginModal = true;
+    this.showRegisterModal = false;
+  }
+
+  openRegister(): void {
+    this.showRegisterModal = true;
+    this.showLoginModal = false;
+  }
+
+  closeModals(): void {
+    this.showLoginModal = false;
+    this.showRegisterModal = false;
+  }
+
   changeLanguage(lang: string): void {
     this.themeService.setLanguage(lang);
   }
@@ -64,6 +86,7 @@ export class Header implements OnInit {
 
         this.authService.setLoggedIn(true, respuesta.rol);
         this.credenciales = { username: '', password: '' };
+        this.closeModals();
         this.cdr.detectChanges();
       },
       error: (error: any) => {
@@ -78,6 +101,7 @@ export class Header implements OnInit {
       next: (respuesta: any) => {
         alert('¡Usuario registrado con éxito! Ahora puedes iniciar sesión.');
         this.credencialesRegistro = { username: '', password: '' }; // Limpiamos
+        this.closeModals();
         this.cdr.detectChanges();
       },
       error: (error: any) => {

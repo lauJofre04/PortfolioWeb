@@ -1,108 +1,84 @@
-<section id="experiencia" class="container mb-5" style="padding-top: 80px; margin-top: -80px;">
-  
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="fw-bold">Experiencia Laboral</h2>
-    <button *ngIf="esAdmin" class="btn btn-success rounded-pill px-4 shadow-sm fw-bold" data-bs-toggle="modal" data-bs-target="#experienciaModal" (click)="limpiarFormulario()">
-      + Agregar
-    </button>
+<section id="experiencia" class="mx-auto mb-5 pt-20 -mt-20 px-4">
+
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-bold">Experiencia Laboral</h2>
+    <button *ngIf="esAdmin" class="bg-green-600 text-white rounded-full px-4 shadow font-bold" (click)="limpiarFormulario(); openExperienceModal()">+ Agregar</button>
   </div>
 
-  <div class="row justify-content-center">
-    <div class="col-12 mb-4" *ngFor="let exp of miExperiencia">
-      
-      <div class="card text-bg-dark border-secondary shadow-sm rounded-4">
-        <div class="row g-0 align-items-center p-3 p-md-4">
-          
-          <div class="col-12 col-md-2 text-center mb-3 mb-md-0" *ngIf="exp.logo_url">
-            <img [src]="exp.logo_url" alt="Logo {{ exp.empresa }}" class="img-fluid rounded-3 bg-white p-2 shadow-sm" style="max-height: 80px; width: 80px; object-fit: contain;">
-          </div>
-          
-          <div [class]="exp.logo_url ? 'col-12 col-md-8' : 'col-12 col-md-10'">
-            <div class="card-body p-0 px-md-3">
-              
-              <div class="d-flex flex-column flex-md-row align-items-md-center gap-2 mb-2">
-                <h5 class="card-title fw-bold text-light mb-0">{{ exp.puesto }}</h5>
-                <span class="badge bg-primary rounded-pill fs-6 text-white">
-                  {{ exp.fecha_inicio | date:'MMM yyyy' }} - {{ exp.fecha_fin ? (exp.fecha_fin | date:'MMM yyyy') : 'Actualidad' }}
-                </span>
-              </div>
-              
-              <h6 class="card-subtitle mb-3 text-info fw-bold">{{ exp.empresa }}</h6>
-              <p class="card-text text-light mb-0" style="opacity: 0.9;">{{ exp.descripcion }}</p>
-              
-            </div>
+  <div class="flex flex-col gap-4">
+    <div *ngFor="let exp of miExperiencia" class="mb-4">
+      <div class="bg-[var(--card-bg)] border border-[var(--border)] shadow-sm rounded-2xl">
+        <div class="p-3 md:p-4 flex flex-col md:flex-row items-center gap-4">
+
+          <div *ngIf="exp.logo_url" class="text-center md:text-left md:w-1/6">
+            <img [src]="exp.logo_url" alt="Logo {{ exp.empresa }}" class="w-20 h-20 rounded-lg bg-white p-2 shadow-sm object-contain">
           </div>
 
-          <div class="col-12 col-md-2 d-flex justify-content-start justify-content-md-end mt-3 mt-md-0 gap-2" *ngIf="esAdmin">
-            <button class="btn btn-outline-warning btn-sm border-0" data-bs-toggle="modal" data-bs-target="#experienciaModal" (click)="cargarDatosParaEditar(exp)" title="Editar">
+          <div [class]="exp.logo_url ? 'w-full md:w-4/6' : 'w-full md:w-5/6'">
+            <div class="flex flex-col md:flex-row md:items-center gap-2 mb-2">
+              <h5 class="text-lg font-bold text-[var(--texto)] mb-0">{{ exp.puesto }}</h5>
+              <span class="bg-[var(--primary)] text-white rounded-full px-3 py-1 text-sm">{{ exp.fecha_inicio | date:'MMM yyyy' }} - {{ exp.fecha_fin ? (exp.fecha_fin | date:'MMM yyyy') : 'Actualidad' }}</span>
+            </div>
+            <h6 class="mb-3 text-[var(--primary)] font-bold">{{ exp.empresa }}</h6>
+            <p class="text-[var(--texto)] mb-0" style="opacity:0.9">{{ exp.descripcion }}</p>
+          </div>
+
+          <div class="w-full md:w-1/6 flex justify-start md:justify-end gap-2 mt-3 md:mt-0" *ngIf="esAdmin">
+            <button class="p-2 text-yellow-500" (click)="cargarDatosParaEditar(exp); openExperienceModal()" title="Editar">
               <i class="bi bi-pencil-square fs-5"></i>
             </button>
-            
-            <button class="btn btn-outline-danger btn-sm border-0" (click)="borrarExperiencia(exp.id)" title="Borrar">
+            <button class="p-2 text-red-500" (click)="borrarExperiencia(exp.id)" title="Borrar">
               <i class="bi bi-trash fs-5"></i>
             </button>
           </div>
 
         </div>
       </div>
-      </div>
+    </div>
   </div>
+
 </section>
 
-<div class="modal fade" id="experienciaModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content shadow-lg border-0 rounded-4">
-      
-      <div class="modal-header border-0">
-        <h5 class="modal-title fw-bold">{{ esEdicion ? 'Editar Experiencia' : 'Nueva Experiencia' }}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      
-      <form (ngSubmit)="guardarCambios()">
-        
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-6 mb-3">
-              <label class="form-label text-muted small">PUESTO</label>
-              <input type="text" class="form-control" [(ngModel)]="formExp.puesto" name="puesto">
-            </div>
-            <div class="col-6 mb-3">
-              <label class="form-label text-muted small">EMPRESA</label>
-              <input type="text" class="form-control" [(ngModel)]="formExp.empresa" name="empresa">
-            </div>
-          </div>
-          
-          <div class="row">
-            <div class="col-6 mb-3">
-              <label class="form-label text-muted small">FECHA INICIO</label>
-              <input type="date" class="form-control" [(ngModel)]="formExp.fecha_inicio" name="fecha_inicio">
-            </div>
-            <div class="col-6 mb-3">
-              <label class="form-label text-muted small">FECHA FIN</label>
-              <input type="date" class="form-control" [(ngModel)]="formExp.fecha_fin" name="fecha_fin">
-            </div>
-          </div>
+<!-- Experiencia Modal -->
+<div *ngIf="showExperienceModal" class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+  <div class="bg-[var(--card-bg)] rounded-2xl p-4 w-full max-w-2xl shadow-lg">
+    <div class="flex justify-between items-center mb-4">
+      <h5 class="font-bold">{{ esEdicion ? 'Editar Experiencia' : 'Nueva Experiencia' }}</h5>
+      <button (click)="closeExperienceModal()">✕</button>
+    </div>
 
-          <div class="mb-3">
-            <label class="form-label text-muted small">URL DE LA IMAGEN / LOGO</label>
-            <input type="text" class="form-control" [(ngModel)]="formExp.logo_url" name="logo_url" placeholder="https://ejemplo.com/logo.jpg">
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label text-muted small">DESCRIPCIÓN</label>
-            <textarea class="form-control" [(ngModel)]="formExp.descripcion" name="descripcion" rows="3"></textarea>
-          </div>
+    <form (ngSubmit)="guardarCambios()">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div>
+          <label class="text-sm text-muted">PUESTO</label>
+          <input type="text" class="form-input w-full p-2 rounded" [(ngModel)]="formExp.puesto" name="puesto">
         </div>
-        
-        <div class="modal-footer border-0 d-flex justify-content-between">
-          <button type="button" class="btn btn-light text-secondary" data-bs-dismiss="modal">Cancelar</button>
-          
-          <button type="submit" class="btn btn-primary px-4 rounded-pill" data-bs-dismiss="modal">
-            {{ esEdicion ? 'Guardar Cambios' : 'Agregar' }}
-          </button>
+        <div>
+          <label class="text-sm text-muted">EMPRESA</label>
+          <input type="text" class="form-input w-full p-2 rounded" [(ngModel)]="formExp.empresa" name="empresa">
         </div>
-
-      </form>
+        <div>
+          <label class="text-sm text-muted">FECHA INICIO</label>
+          <input type="date" class="form-input w-full p-2 rounded" [(ngModel)]="formExp.fecha_inicio" name="fecha_inicio">
+        </div>
+        <div>
+          <label class="text-sm text-muted">FECHA FIN</label>
+          <input type="date" class="form-input w-full p-2 rounded" [(ngModel)]="formExp.fecha_fin" name="fecha_fin">
+        </div>
+        <div class="md:col-span-2">
+          <label class="text-sm text-muted">URL DE LA IMAGEN / LOGO</label>
+          <input type="text" class="form-input w-full p-2 rounded" [(ngModel)]="formExp.logo_url" name="logo_url" placeholder="https://ejemplo.com/logo.jpg">
+        </div>
+        <div class="md:col-span-2">
+          <label class="text-sm text-muted">DESCRIPCIÓN</label>
+          <textarea class="form-input w-full p-2 rounded" [(ngModel)]="formExp.descripcion" name="descripcion" rows="3"></textarea>
+        </div>
       </div>
+
+      <div class="mt-4 flex justify-between">
+        <button type="button" class="px-4 py-2 rounded border" (click)="closeExperienceModal()">Cancelar</button>
+        <button type="submit" class="px-4 py-2 rounded bg-[var(--primary)] text-white">{{ esEdicion ? 'Guardar Cambios' : 'Agregar' }}</button>
+      </div>
+    </form>
   </div>
 </div>
