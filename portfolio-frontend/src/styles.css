@@ -92,12 +92,13 @@
 }
 
 /* Contenedor principal con altura fija para evitar el colapso */
+/* Contenedor principal con altura fija para evitar el colapso */
 .flip-card-wrapper {
   background-color: transparent;
   width: 100%;
   max-width: 64rem;
   margin: 0 auto;
-  min-height: 420px;
+  height: 420px; /* <-- CAMBIO CLAVE: height en lugar de min-height */
   perspective: 1000px;
   cursor: pointer;
   position: relative;
