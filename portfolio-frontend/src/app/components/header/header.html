@@ -73,17 +73,17 @@
                     <button (click)="closeModals()" class="text-[var(--texto)]">✕</button>
                 </div>
                 <div class="text-center pt-0">
-                    <h4 class="font-bold mb-4 text-[var(--texto)]">¡Bienvenido de vuelta!</h4>
+                    <h4 class="font-bold mb-4 text-[var(--texto)]">{{ 'LOGIN.TITLE' | translate }}</h4>
                     <form (ngSubmit)="iniciarSesion()" class="space-y-4">
                         <div class="mb-4 text-start">
-                            <label class="font-bold text-muted small mb-1">Usuario:</label>
-                            <input type="text" class="w-full bg-[var(--fondo-secundario)] border-none p-3 rounded-3xl transition duration-300 outline-none focus:ring-2 focus:ring-[var(--primary)] placeholder:text-[var(--texto-secundario)]" [(ngModel)]="credenciales.username" name="username" placeholder="Ej: lauJofre">
+                            <label class="font-bold text-muted small mb-1">{{ 'LOGIN.USERNAME_LABEL' | translate }}</label>
+                            <input type="text" class="w-full bg-[var(--fondo-secundario)] border-none p-3 rounded-3xl transition duration-300 outline-none focus:ring-2 focus:ring-[var(--primary)] placeholder:text-[var(--texto-secundario)]" [(ngModel)]="credenciales.username" name="username" placeholder="{{ 'LOGIN.USERNAME_PLACEHOLDER' | translate }}">
                         </div>
                         <div class="mb-4 text-start">
-                            <label class="font-bold text-muted small mb-1">Contraseña:</label>
-                            <input type="password" class="w-full bg-[var(--fondo-secundario)] border-none p-3 rounded-3xl transition duration-300 outline-none focus:ring-2 focus:ring-[var(--primary)] placeholder:text-[var(--texto-secundario)]" [(ngModel)]="credenciales.password" name="password" placeholder="********">
+                            <label class="font-bold text-muted small mb-1">{{ 'LOGIN.PASSWORD_LABEL' | translate }}</label>
+                            <input type="password" class="w-full bg-[var(--fondo-secundario)] border-none p-3 rounded-3xl transition duration-300 outline-none focus:ring-2 focus:ring-[var(--primary)] placeholder:text-[var(--texto-secundario)]" [(ngModel)]="credenciales.password" name="password" placeholder="{{ 'LOGIN.PASSWORD_PLACEHOLDER' | translate }}">
                         </div>
-                        <button type="submit" class="w-full px-4 py-2 rounded-full font-bold bg-[#1abc9c] text-white shadow-sm transition hover:brightness-90">INGRESAR</button>
+                        <button type="submit" class="w-full px-4 py-2 rounded-full font-bold bg-[#1abc9c] text-white shadow-sm transition hover:brightness-90">{{ 'LOGIN.BUTTON' | translate }}</button>
                     </form>
                 </div>
             </div>
@@ -96,17 +96,17 @@
                     <button (click)="closeModals()" class="text-[var(--texto)]">✕</button>
                 </div>
                 <div class="text-center pt-0">
-                    <h4 class="font-bold mb-4 text-[var(--texto)]">Crear Cuenta</h4>
+                    <h4 class="font-bold mb-4 text-[var(--texto)]">{{ 'REGISTER.TITLE' | translate }}</h4>
                     <form (ngSubmit)="registrarse()" class="space-y-4">
                         <div class="mb-4 text-start">
-                            <label class="font-bold text-muted small mb-1">Nuevo Usuario:</label>
-                            <input type="text" class="w-full bg-[var(--fondo-secundario)] border-none p-3 rounded-3xl transition duration-300 outline-none focus:ring-2 focus:ring-[var(--primary)] placeholder:text-[var(--texto-secundario)]" [(ngModel)]="credencialesRegistro.username" name="regUsername" placeholder="Ej: visitante123">
+                            <label class="font-bold text-muted small mb-1">{{ 'REGISTER.USERNAME_LABEL' | translate }}</label>
+                            <input type="text" class="w-full bg-[var(--fondo-secundario)] border-none p-3 rounded-3xl transition duration-300 outline-none focus:ring-2 focus:ring-[var(--primary)] placeholder:text-[var(--texto-secundario)]" [(ngModel)]="credencialesRegistro.username" name="regUsername" placeholder="{{ 'REGISTER.USERNAME_PLACEHOLDER' | translate }}">
                         </div>
                         <div class="mb-4 text-start">
-                            <label class="font-bold text-muted small mb-1">Contraseña:</label>
-                            <input type="password" class="w-full bg-[var(--fondo-secundario)] border-none p-3 rounded-3xl transition duration-300 outline-none focus:ring-2 focus:ring-[var(--primary)] placeholder:text-[var(--texto-secundario)]" [(ngModel)]="credencialesRegistro.password" name="regPassword" placeholder="********">
+                            <label class="font-bold text-muted small mb-1">{{ 'REGISTER.PASSWORD_LABEL' | translate }}</label>
+                            <input type="password" class="w-full bg-[var(--fondo-secundario)] border-none p-3 rounded-3xl transition duration-300 outline-none focus:ring-2 focus:ring-[var(--primary)] placeholder:text-[var(--texto-secundario)]" [(ngModel)]="credencialesRegistro.password" name="regPassword" placeholder="{{ 'REGISTER.PASSWORD_PLACEHOLDER' | translate }}">
                         </div>
-                        <button type="submit" class="w-full px-4 py-2 rounded-full font-bold bg-[var(--primary)] text-white shadow-sm transition hover:brightness-90">REGISTRARME</button>
+                        <button type="submit" class="w-full px-4 py-2 rounded-full font-bold bg-[var(--primary)] text-white shadow-sm transition hover:brightness-90">{{ 'REGISTER.BUTTON' | translate }}</button>
                     </form>
                 </div>
             </div>

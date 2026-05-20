@@ -80,9 +80,30 @@ const verificarAdmin = (req, res, next) => {
 
 // 1. Obtener Presentación
 app.get('/api/presentacion', (req, res) => {
-    db.query('SELECT * FROM presentacion LIMIT 1', (err, results) => {
+    const idiomaSolicitado = req.query.lang || 'es';
+
+    db.query('SELECT * FROM presentacion LIMIT 1', async (err, results) => {
         if (err) return res.status(500).json(err);
-        res.json(results[0]);
+
+        const presentacionDB = results[0];
+        const presentacion = presentacionDB || {
+            titulo: 'Full Stack Developer Junior',
+            nombre: 'Lautaro Jofre',
+            descripcion_corta: 'Estudiante de Ingeniería en Sistemas y Desarrollador Web.',
+            perfil: 'Desarrollador web Full Stack Jr. y estudiante de Ingeniería en Sistemas (tercer año). Interesado en Desarrollo Web (frontend y backend), con ganas de adquirir experiencia profesional y aprender nuevas herramientas en un entorno real de trabajo. Me destaco por ser resolutivo y trabajar bien en equipo.'
+        };
+
+        if (idiomaSolicitado === 'es') {
+            return res.json(presentacion);
+        }
+
+        try {
+            const presentacionTraducida = await traducirRegistro(presentacion, idiomaSolicitado);
+            res.json(presentacionTraducida);
+        } catch (error) {
+            console.error('Error traduciendo presentación:', error.message || error);
+            res.status(500).json({ error: 'Error al traducir presentación' });
+        }
     });
 });
 
@@ -179,6 +200,19 @@ const traducirRegistros = async (registros, campos = ['descripcion'], destino = 
             return itemTraducido;
         })
     );
+};
+
+const traducirRegistro = async (registro, destino = 'es') => {
+    if (destino === 'es' || !registro) return registro;
+
+    const campos = Object.keys(registro).filter(key => typeof registro[key] === 'string');
+    const registroTraducido = { ...registro };
+
+    for (const campo of campos) {
+        registroTraducido[campo] = await traducirTexto(registroTraducido[campo], destino);
+    }
+
+    return registroTraducido;
 };
 
 // 3. Obtener Experiencia

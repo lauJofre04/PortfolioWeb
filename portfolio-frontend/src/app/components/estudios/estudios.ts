@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // <--- OBLIGATORIO PARA LOS INPUTS
+import { TranslateModule } from '@ngx-translate/core';
 import { EstudiosService } from '../../services/estudios/estudiosService'; // <--- Tu nuevo servicio
 import { AuthService } from '../../services/auth-service';
 import { ThemeService } from '../../services/theme.service';
@@ -8,7 +9,7 @@ import { ThemeService } from '../../services/theme.service';
 @Component({
   selector: 'app-estudios',
   standalone: true,
-  imports: [CommonModule, FormsModule], // <--- Agregalo aquí
+  imports: [CommonModule, FormsModule, TranslateModule], // <--- Agregalo aquí
   templateUrl: './estudios.html',
   styleUrl: './estudios.css'
 })

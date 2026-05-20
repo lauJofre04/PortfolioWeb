@@ -13,8 +13,47 @@
     "TOGGLE_DARK": "Dark Mode",
     "TOGGLE_LIGHT": "Light Mode"
   },
+  "PRESENTACION": {
+    "TITLE": "Professional Profile",
+    "CLICK_HINT": "Click to read more about me",
+    "DOWNLOAD_CV": "Download CV",
+    "BACK": "Back"
+  },
+  "SECTIONS": {
+    "EDUCATION": "Education & Courses",
+    "EXPERIENCE": "Work Experience",
+    "SKILLS": "Skills and Technologies",
+    "PROJECTS": "Projects"
+  },
+  "CONTACT": {
+    "TITLE": "Let’s Talk!",
+    "DESCRIPTION": "Do you have a project in mind? Write to me.",
+    "LABEL_NAME": "Name",
+    "PLACEHOLDER_NAME": "Your name",
+    "LABEL_EMAIL": "Email",
+    "PLACEHOLDER_EMAIL": "name@example.com",
+    "LABEL_MESSAGE": "Message",
+    "PLACEHOLDER_MESSAGE": "How can I help you?",
+    "SEND_BUTTON": "Send Message"
+  },
+  "LOGIN": {
+    "TITLE": "Welcome back!",
+    "USERNAME_LABEL": "Username:",
+    "USERNAME_PLACEHOLDER": "Eg. lauJofre",
+    "PASSWORD_LABEL": "Password:",
+    "PASSWORD_PLACEHOLDER": "********",
+    "BUTTON": "Login"
+  },
+  "REGISTER": {
+    "TITLE": "Create Account",
+    "USERNAME_LABEL": "New Username:",
+    "USERNAME_PLACEHOLDER": "Eg. visitor123",
+    "PASSWORD_LABEL": "Password:",
+    "PASSWORD_PLACEHOLDER": "********",
+    "BUTTON": "Register"
+  },
   "LANG": {
     "SPANISH": "Español",
-    "English": "English"
+    "ENGLISH": "English"
   }
 }

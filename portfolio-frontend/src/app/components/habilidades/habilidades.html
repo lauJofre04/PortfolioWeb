@@ -1,7 +1,7 @@
 <section id="habilidades" class="container mx-auto mb-5 pt-20 -mt-20 px-4">
 
   <div class="flex justify-between items-center mb-4">
-    <h2 class="text-2xl font-bold">Habilidades y Tecnologías</h2>
+    <h2 class="text-2xl font-bold">{{ 'SECTIONS.SKILLS' | translate }}</h2>
     <button *ngIf="esAdmin" class="bg-green-600 text-white rounded-full px-4 shadow font-bold" (click)="limpiarFormulario(); openSkillsModal()">
       + Agregar
     </button>

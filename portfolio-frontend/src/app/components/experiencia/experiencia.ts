@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; 
+import { TranslateModule } from '@ngx-translate/core';
 import { ExperienciaService } from '../../services/experiencia/experiencia-services';
 import { AuthService } from '../../services/auth-service';
 import { ThemeService } from '../../services/theme.service';
@@ -8,7 +9,7 @@ import { ThemeService } from '../../services/theme.service';
 @Component({
   selector: 'app-experiencia',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './experiencia.html',
   styleUrl: './experiencia.css'
 })

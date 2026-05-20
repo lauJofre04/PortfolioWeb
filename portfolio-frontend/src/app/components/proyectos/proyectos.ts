@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 import { ProyectosServices } from '../../services/proyectos/proyectos-services';
 import { AuthService } from '../../services/auth-service';
 import { ThemeService } from '../../services/theme.service';
@@ -8,7 +9,7 @@ import { ThemeService } from '../../services/theme.service';
 @Component({
   selector: 'app-proyectos',
   standalone:true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule,TranslateModule],
   templateUrl: './proyectos.html',
   styleUrl: './proyectos.css',
 })

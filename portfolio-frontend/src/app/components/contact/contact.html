@@ -4,49 +4,49 @@
       <div class="bg-[var(--card-bg)] shadow-lg rounded-3xl p-4 md:p-6">
 
         <div class="text-center mb-6">
-          <h2 class="font-bold text-[var(--primary)] text-2xl">¡Hablemos!</h2>
-          <p class="text-[var(--texto-secundario)] mt-2">¿Tienes un proyecto en mente? Escríbeme.</p>
+          <h2 class="font-bold text-[var(--primary)] text-2xl">{{ 'CONTACT.TITLE' | translate }}</h2>
+          <p class="text-[var(--texto-secundario)] mt-2">{{ 'CONTACT.DESCRIPTION' | translate }}</p>
         </div>
 
         <form action="https://formspree.io/f/xpqjvagn" method="POST" class="space-y-4">
 
           <div>
-            <label for="contact-name" class="text-sm uppercase font-bold block mb-2">Nombre</label>
+            <label for="contact-name" class="text-sm uppercase font-bold block mb-2">{{ 'CONTACT.LABEL_NAME' | translate }}</label>
             <input
               type="text"
               name="name"
               id="contact-name"
               autocomplete="name"
               class="w-full bg-[var(--fondo-secundario)] bg-opacity-10 border border-[var(--border)] text-white p-4 rounded-3xl transition duration-300 ease-in-out outline-none focus:ring-2 focus:ring-[var(--primary)] placeholder:text-[var(--texto-secundario)]"
-              placeholder="Tu nombre"
+              placeholder="{{ 'CONTACT.PLACEHOLDER_NAME' | translate }}"
               required>
           </div>
 
           <div>
-            <label for="contact-email" class="text-sm uppercase font-bold block mb-2">Email</label>
+            <label for="contact-email" class="text-sm uppercase font-bold block mb-2">{{ 'CONTACT.LABEL_EMAIL' | translate }}</label>
             <input
               type="email"
               name="email"
               id="contact-email"
               autocomplete="email"
               class="w-full bg-[var(--fondo-secundario)] bg-opacity-10 border border-[var(--border)] text-white p-4 rounded-3xl transition duration-300 ease-in-out outline-none focus:ring-2 focus:ring-[var(--primary)] placeholder:text-[var(--texto-secundario)]"
-              placeholder="nombre@ejemplo.com"
+              placeholder="{{ 'CONTACT.PLACEHOLDER_EMAIL' | translate }}"
               required>
           </div>
 
           <div>
-            <label for="contact-message" class="text-sm uppercase font-bold block mb-2">Mensaje</label>
+            <label for="contact-message" class="text-sm uppercase font-bold block mb-2">{{ 'CONTACT.LABEL_MESSAGE' | translate }}</label>
             <textarea
               name="message"
               id="contact-message"
               class="w-full bg-[var(--fondo-secundario)] bg-opacity-10 border border-[var(--border)] text-white p-4 rounded-3xl transition duration-300 ease-in-out outline-none focus:ring-2 focus:ring-[var(--primary)] placeholder:text-[var(--texto-secundario)]"
               rows="5"
-              placeholder="¿En qué puedo ayudarte?"
+              placeholder="{{ 'CONTACT.PLACEHOLDER_MESSAGE' | translate }}"
               required></textarea>
           </div>
 
           <button type="submit" class="w-full py-3 font-bold rounded-full shadow-sm bg-[var(--primary)] text-white transition hover:brightness-90">
-            Enviar Mensaje
+            {{ 'CONTACT.SEND_BUTTON' | translate }}
           </button>
         </form>
 
