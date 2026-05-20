@@ -5,7 +5,7 @@ const cors = require('cors');
 const bcrypt = require('bcrypt');
 
 const jwt = require('jsonwebtoken');
-const translate = require('translate');
+const translate = require('translate').default;
 
 translate.engine = process.env.TRANSLATE_ENGINE || 'google';
 if (process.env.TRANSLATE_API_KEY) {
