@@ -5,9 +5,13 @@ const cors = require('cors');
 const bcrypt = require('bcrypt');
 
 const jwt = require('jsonwebtoken');
+const translate = require('translate');
 
-// Esta es la "firma" de tus pulseras. En un trabajo real, esto se esconde en un archivo .env, 
-// pero por ahora la dejaremos aquí para aprender cómo funciona.
+translate.engine = process.env.TRANSLATE_ENGINE || 'google';
+if (process.env.TRANSLATE_API_KEY) {
+    translate.key = process.env.TRANSLATE_API_KEY;
+}
+
 const SECRET_KEY = 'mi_clave_secreta_portfolio_2026';
 
 const app = express();
@@ -84,9 +88,18 @@ app.get('/api/presentacion', (req, res) => {
 
 // 2. Obtener Estudios
 app.get('/api/estudios', (req, res) => {
-    db.query('SELECT * FROM estudios', (err, results) => {
+    const idiomaSolicitado = req.query.lang || 'es';
+
+    db.query('SELECT * FROM estudios', async (err, results) => {
         if (err) return res.status(500).json(err);
-        res.json(results);
+
+        try {
+            const estudiosTraducidos = await traducirRegistros(results, ['titulo', 'institucion', 'descripcion'], idiomaSolicitado);
+            res.json(estudiosTraducidos);
+        } catch (error) {
+            console.error('Error traduciendo estudios:', error.message || error);
+            res.status(500).json({ error: 'Error al traducir estudios' });
+        }
     });
 });
 // Ruta para GUARDAR un nuevo estudio (POST)
@@ -139,18 +152,56 @@ app.delete('/api/estudios/:id', verificarAdmin, (req, res) => {
     });
 });
 
+const traducirTexto = async (texto = '', destino = 'es') => {
+    if (!texto || destino === 'es') return texto;
+
+    try {
+        return await translate(texto, { from: 'es', to: destino });
+    } catch (error) {
+        console.error('Error traduciendo texto:', error.message || error);
+        return texto;
+    }
+};
+
+const traducirRegistros = async (registros, campos = ['descripcion'], destino = 'es') => {
+    if (destino === 'es') return registros;
+
+    return await Promise.all(
+        registros.map(async (item) => {
+            const itemTraducido = { ...item };
+
+            for (const campo of campos) {
+                if (itemTraducido[campo]) {
+                    itemTraducido[campo] = await traducirTexto(itemTraducido[campo], destino);
+                }
+            }
+
+            return itemTraducido;
+        })
+    );
+};
+
 // 3. Obtener Experiencia
 app.get('/api/experiencia', (req, res) => {
-    db.query('SELECT * FROM experiencia', (err, results) => {
+    const idiomaSolicitado = req.query.lang || 'es';
+
+    db.query('SELECT * FROM experiencia', async (err, results) => {
         if (err) return res.status(500).json(err);
-        res.json(results);
+
+        try {
+            const experienciaTraducida = await traducirRegistros(results, ['empresa', 'puesto', 'descripcion'], idiomaSolicitado);
+            res.json(experienciaTraducida);
+        } catch (error) {
+            console.error('Error traduciendo experiencia:', error.message || error);
+            res.status(500).json({ error: 'Error al traducir experiencia' });
+        }
     });
 });
+
 // Agregar nueva experiencia
 app.post('/api/experiencia',verificarAdmin, (req, res) => {
     let { empresa, puesto, fecha_inicio, fecha_fin, descripcion, logo_url } = req.body;
     
-    // 🛠️ EL ARREGLO: Si la fecha viene vacía, la convertimos a NULL para que MySQL no se enoje
     if (!fecha_inicio) fecha_inicio = null;
     if (!fecha_fin) fecha_fin = null;
     
@@ -166,7 +217,6 @@ app.post('/api/experiencia',verificarAdmin, (req, res) => {
 app.put('/api/experiencia/:id',verificarAdmin, (req, res) => {
     let { empresa, puesto, fecha_inicio, fecha_fin, descripcion, logo_url } = req.body;
     
-    // 🛠️ EL ARREGLO: Si la fecha viene vacía, la convertimos a NULL para que MySQL no se enoje
     if (!fecha_inicio) fecha_inicio = null;
     if (!fecha_fin) fecha_fin = null;
 
@@ -178,18 +228,15 @@ app.put('/api/experiencia/:id',verificarAdmin, (req, res) => {
         res.json({ message: 'Experiencia actualizada' });
     });
 });
+
 app.delete('/api/experiencia/:id', verificarAdmin, (req, res) => {
     const { id } = req.params;
-    
-    // IMPORTANTE: Asegúrate de que aquí diga "id = ?" o "id_experiencia = ?" según tu tabla
     const query = 'DELETE FROM experiencia WHERE id = ?'; 
     
     db.query(query, [id], (err, result) => {
         if (err) return res.status(500).json({ error: 'Error al borrar' });
         
-        // ¡ESTA ES LA MAGIA NUEVA!
         if (result.affectedRows === 0) {
-            // Si no afectó ninguna fila, significa que el ID no existía
             return res.status(404).json({ error: 'No se encontró el dato para borrar' });
         }
         
@@ -224,16 +271,12 @@ app.put('/api/habilidades/:id',verificarAdmin, (req, res) => {
 });
 app.delete('/api/habilidades/:id', verificarAdmin, (req, res) => {
     const { id } = req.params;
-    
-    // IMPORTANTE: Asegúrate de que aquí diga "id = ?" o "id_experiencia = ?" según tu tabla
     const query = 'DELETE FROM habilidades WHERE id = ?'; 
     
     db.query(query, [id], (err, result) => {
         if (err) return res.status(500).json({ error: 'Error al borrar' });
         
-        // ¡ESTA ES LA MAGIA NUEVA!
         if (result.affectedRows === 0) {
-            // Si no afectó ninguna fila, significa que el ID no existía
             return res.status(404).json({ error: 'No se encontró el dato para borrar' });
         }
         
@@ -243,9 +286,18 @@ app.delete('/api/habilidades/:id', verificarAdmin, (req, res) => {
 
 // 5. Obtener Proyectos
 app.get('/api/proyectos', (req, res) => {
-    db.query('SELECT * FROM proyectos', (err, results) => {
+    const idiomaSolicitado = req.query.lang || 'es';
+
+    db.query('SELECT * FROM proyectos', async (err, results) => {
         if (err) return res.status(500).json(err);
-        res.json(results);
+
+        try {
+            const proyectosTraducidos = await traducirRegistros(results, ['descripcion'], idiomaSolicitado);
+            res.json(proyectosTraducidos);
+        } catch (error) {
+            console.error('Error traduciendo proyectos:', error.message || error);
+            res.status(500).json({ error: 'Error al traducir proyectos' });
+        }
     });
 });
 app.post('/api/proyectos',verificarAdmin, (req, res) => {
@@ -268,32 +320,19 @@ app.put('/api/proyectos/:id',verificarAdmin, (req, res) => {
 });
 app.delete('/api/proyectos/:id', verificarAdmin, (req, res) => {
     const { id } = req.params;
-    // Asegúrate de que "id" coincida con el nombre de tu columna en MySQL
-    const query = 'DELETE FROM proyectos WHERE id = ?'; 
-    
-    db.query(query, [id], (err, result) => {
-        if (err) return res.status(500).json({ error: 'Error al borrar' });
-        res.json({ message: 'Proyecto borrado' });
-    });
-});
-app.delete('/api/proyectos/:id', verificarAdmin, (req, res) => {
-    const { id } = req.params;
-    
-    // IMPORTANTE: Asegúrate de que aquí diga "id = ?" o "id_experiencia = ?" según tu tabla
     const query = 'DELETE FROM proyectos WHERE id = ?'; 
     
     db.query(query, [id], (err, result) => {
         if (err) return res.status(500).json({ error: 'Error al borrar' });
         
-        // ¡ESTA ES LA MAGIA NUEVA!
         if (result.affectedRows === 0) {
-            // Si no afectó ninguna fila, significa que el ID no existía
             return res.status(404).json({ error: 'No se encontró el dato para borrar' });
         }
         
         res.json({ message: 'Proyecto borrado correctamente' });
     });
 });
+
 // ==========================================
 // RUTA PARA REGISTRO
 // ==========================================
@@ -354,7 +393,6 @@ app.post('/api/login', (req, res) => {
         }
     });
 });
-
 
 
 // --- INICIO DEL SERVIDOR ---

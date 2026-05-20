@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
@@ -19,8 +19,9 @@ export class EstudiosService {
     });
   }
   // Obtener lista
-  getEstudios(): Observable<any> {
-    return this.http.get(this.apiUrl);
+  getEstudios(lang: string = 'es'): Observable<any> {
+    const params = new HttpParams().set('lang', lang);
+    return this.http.get(this.apiUrl, { params });
   }
 
   // Crear nuevo

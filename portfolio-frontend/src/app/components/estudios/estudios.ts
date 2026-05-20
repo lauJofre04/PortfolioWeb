@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // <--- OBLIGATORIO PARA LOS INPUTS
 import { EstudiosService } from '../../services/estudios/estudiosService'; // <--- Tu nuevo servicio
 import { AuthService } from '../../services/auth-service';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-estudios',
@@ -30,11 +31,16 @@ export class Estudios implements OnInit {
   constructor(
     private estudios: EstudiosService,
     private cdr: ChangeDetectorRef,
-    private authService: AuthService
+    private authService: AuthService,
+    private themeService: ThemeService
   ) { }
 
   ngOnInit(): void {
-  this.cargarEstudios();
+  this.cargarEstudios(this.themeService.getCurrentLang());
+
+  this.themeService.language$.subscribe(lang => {
+    this.cargarEstudios(lang);
+  });
 
   // Escuchamos si está logueado
   this.authService.isLoggedIn$.subscribe(estado => {
@@ -49,8 +55,8 @@ export class Estudios implements OnInit {
   });
 }
 
-  cargarEstudios() {
-    this.estudios.getEstudios().subscribe(data => {
+  cargarEstudios(lang: string = 'es') {
+    this.estudios.getEstudios(lang).subscribe(data => {
       this.misEstudios = data;
       this.cdr.detectChanges();
     });

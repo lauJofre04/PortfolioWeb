@@ -1,6 +1,7 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +9,8 @@ import { TranslateService } from '@ngx-translate/core';
 export class ThemeService {
   private isDarkMode = false;
   private currentLang = 'es';
+  private currentLangSubject = new BehaviorSubject<string>(this.currentLang);
+  public language$ = this.currentLangSubject.asObservable();
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -48,6 +51,7 @@ export class ThemeService {
 
   setLanguage(lang: string): void {
     this.currentLang = lang;
+    this.currentLangSubject.next(lang);
     this.translate.use(lang);
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem('language', lang);

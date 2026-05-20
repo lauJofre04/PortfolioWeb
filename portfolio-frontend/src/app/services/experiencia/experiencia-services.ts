@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
@@ -18,7 +18,10 @@ export class ExperienciaService {
     });
   }
 
-  getExperiencia(): Observable<any> { return this.http.get(this.apiUrl); }
+  getExperiencia(lang: string = 'es'): Observable<any> {
+    const params = new HttpParams().set('lang', lang);
+    return this.http.get(this.apiUrl, { params });
+  }
   crearExperiencia(exp: any): Observable<any> { return this.http.post(this.apiUrl, exp,{ headers: this.crearCabecera() }); }
   editarExperiencia(id: number, exp: any): Observable<any> { return this.http.put(`${this.apiUrl}/${id}`, exp,{ headers: this.crearCabecera() }); }
   borrarExperiencia(id: number): Observable<any> {

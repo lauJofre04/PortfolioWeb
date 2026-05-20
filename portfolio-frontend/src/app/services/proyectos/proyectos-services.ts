@@ -1,4 +1,4 @@
-import { HttpClient,HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -20,8 +20,9 @@ export class ProyectosServices {
   }
 
   // Obtener todos los proyectos (GET)
-  getProyectos(): Observable<any> {
-    return this.http.get(this.apiUrl);
+  getProyectos(lang: string = 'es'): Observable<any> {
+    const params = new HttpParams().set('lang', lang);
+    return this.http.get(this.apiUrl, { params });
   }
 
   // Agregar un nuevo proyecto (POST)

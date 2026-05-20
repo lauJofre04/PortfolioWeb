@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; 
 import { ExperienciaService } from '../../services/experiencia/experiencia-services';
 import { AuthService } from '../../services/auth-service';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-experiencia',
@@ -30,11 +31,16 @@ export class Experiencia implements OnInit {
   constructor(
     private expService: ExperienciaService,
     private cdr: ChangeDetectorRef,
-    private authService: AuthService
+    private authService: AuthService,
+    private themeService: ThemeService
   ) { }
 
   ngOnInit(): void {
-    this.cargarExperiencia();
+    this.cargarExperiencia(this.themeService.getCurrentLang());
+
+    this.themeService.language$.subscribe(lang => {
+      this.cargarExperiencia(lang);
+    });
 
     // Escuchamos si está logueado
     this.authService.isLoggedIn$.subscribe(estado => {
@@ -49,8 +55,8 @@ export class Experiencia implements OnInit {
     });
   }
 
-  cargarExperiencia() {
-    this.expService.getExperiencia().subscribe(data => {
+  cargarExperiencia(lang: string = 'es') {
+    this.expService.getExperiencia(lang).subscribe(data => {
       this.miExperiencia = data;
       this.cdr.detectChanges();
     });

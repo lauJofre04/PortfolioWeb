@@ -3,6 +3,7 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ProyectosServices } from '../../services/proyectos/proyectos-services';
 import { AuthService } from '../../services/auth-service';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-proyectos',
@@ -23,13 +24,19 @@ export class Proyectos {
   constructor(
     private proyService: ProyectosServices,
     private cdr: ChangeDetectorRef,
-    private authService: AuthService
+    private authService: AuthService,
+    private themeService: ThemeService
   ){}
 
   
 
   ngOnInit(): void {
-    this.cargarProyectos();
+    this.cargarProyectos(this.themeService.getCurrentLang());
+
+    // Escuchamos si cambió el idioma para recargar los proyectos traducidos
+    this.themeService.language$.subscribe(lang => {
+      this.cargarProyectos(lang);
+    });
 
     // Escuchamos si está logueado
     this.authService.isLoggedIn$.subscribe(estado => {
@@ -44,8 +51,8 @@ export class Proyectos {
     });
   }
 
-  cargarProyectos() {
-    this.proyService.getProyectos().subscribe(data => {
+  cargarProyectos(lang: string = 'es') {
+    this.proyService.getProyectos(lang).subscribe(data => {
       this.misProyectos = data;
       this.cdr.detectChanges();
     });
