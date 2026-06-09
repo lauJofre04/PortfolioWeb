@@ -1,0 +1,37 @@
+<div class="fixed inset-0 z-40 flex">
+  <div *ngIf="isSidebarOpen$ | async" class="fixed inset-0 bg-slate-950/40 transition-opacity duration-300" (click)="closeSidebar()"></div>
+
+  <aside [ngClass]="(isSidebarOpen$ | async) ? 'translate-x-0' : '-translate-x-full'" class="fixed inset-y-0 left-0 z-50 w-72 h-screen transform bg-white/95 px-4 py-6 shadow-2xl transition-transform duration-300 ease-in-out dark:bg-slate-950/95">
+    <div class="mb-8 flex items-center justify-between">
+      <div>
+        <span class="text-lg font-semibold text-slate-900 dark:text-slate-100">Menú</span>
+      </div>
+      <button type="button" aria-label="Cerrar sidebar" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100" (click)="closeSidebar()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <nav class="space-y-2">
+      <a href="#presentacion" (click)="closeSidebar()" class="flex items-center gap-3 rounded-2xl px-4 py-3 text-slate-700 transition hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800">
+        <i class="bi bi-person-badge text-lg"></i>
+        <span>Presentación</span>
+      </a>
+      <a href="#estudios" (click)="closeSidebar()" class="flex items-center gap-3 rounded-2xl px-4 py-3 text-slate-700 transition hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800">
+        <i class="bi bi-mortarboard text-lg"></i>
+        <span>Estudios</span>
+      </a>
+      <a href="#experiencia" (click)="closeSidebar()" class="flex items-center gap-3 rounded-2xl px-4 py-3 text-slate-700 transition hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800">
+        <i class="bi bi-briefcase text-lg"></i>
+        <span>Experiencia</span>
+      </a>
+      <a href="#habilidades" (click)="closeSidebar()" class="flex items-center gap-3 rounded-2xl px-4 py-3 text-slate-700 transition hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800">
+        <i class="bi bi-speedometer2 text-lg"></i>
+        <span>Habilidades</span>
+      </a>
+      <a href="#proyectos" (click)="closeSidebar()" class="flex items-center gap-3 rounded-2xl px-4 py-3 text-slate-700 transition hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800">
+        <i class="bi bi-kanban text-lg"></i>
+        <span>Proyectos</span>
+      </a>
+    </nav>
+  </aside>
+</div>

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth-service';
 import { ThemeService } from '../../services/theme.service';
+import { SidebarService } from '../../services/sidebar.service';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -17,15 +18,15 @@ export class Header implements OnInit {
   credencialesRegistro: any = { username: '', password: '' }; // <-- Para el modal de registro
 
   estaLogueado: boolean = false;
-  rolActual: string = ''; // <-- Para guardar tu rol
-  menuOpen: boolean = false;
+  rolActual: string = '';
   showLoginModal: boolean = false;
   showRegisterModal: boolean = false;
 
   constructor(
     private authService: AuthService,
     private themeService: ThemeService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    public sidebar: SidebarService
   ) {}
 
   ngOnInit(): void {
@@ -43,10 +44,6 @@ export class Header implements OnInit {
 
   toggleTheme(): void {
     this.themeService.toggleTheme();
-  }
-
-  toggleMenu(): void {
-    this.menuOpen = !this.menuOpen;
   }
 
   openLogin(): void {

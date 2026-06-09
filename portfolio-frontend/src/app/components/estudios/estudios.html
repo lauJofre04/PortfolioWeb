@@ -2,12 +2,12 @@
 
   <div class="flex justify-between items-center mb-4">
     <h2 class="text-2xl font-bold">{{ 'SECTIONS.EDUCATION' | translate }}</h2>
-    <button *ngIf="esAdmin" class="bg-green-600 text-white rounded-full px-4 shadow font-bold" (click)="limpiarFormulario(); openStudyModal()">+ Agregar</button>
+    <button *ngIf="esAdmin" class="btn-primary rounded-full px-4 shadow font-bold" (click)="limpiarFormulario(); openStudyModal()">+ Agregar</button>
   </div>
 
   <div class="flex flex-col gap-4">
     <div *ngFor="let estudio of misEstudios" class="mb-4">
-      <div class="bg-[var(--card-bg)] border border-[var(--border)] shadow-sm rounded-2xl">
+      <div class="card-surface">
         <div class="p-4 md:p-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <div class="w-full md:pr-6">
             <div class="flex items-center gap-3 mb-2">
@@ -35,7 +35,7 @@
 
 <!-- Estudio Modal -->
 <div *ngIf="showStudyModal" class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-  <div class="bg-[var(--card-bg)] rounded-2xl p-4 w-full max-w-md shadow-lg">
+  <div class="card-surface rounded-2xl p-4 w-full max-w-md shadow-lg">
     <div class="flex justify-between items-center mb-4">
       <h5 class="font-bold">{{ esEdicion ? 'Editar Estudio' : 'Nuevo Estudio' }}</h5>
       <button (click)="closeStudyModal()">✕</button>
@@ -44,25 +44,26 @@
     <form (ngSubmit)="guardarCambios()">
       <div class="mb-3">
         <label class="text-sm text-muted">TÍTULO O CARRERA</label>
-        <input type="text" class="form-input w-full p-2 rounded" [(ngModel)]="formEstudio.titulo" name="titulo" placeholder="Ej: Ingeniería en Sistemas">
+        <input type="text" class="form-input w-full" [(ngModel)]="formEstudio.titulo" name="titulo" placeholder="Ej: Ingeniería en Sistemas">
       </div>
       <div class="mb-3">
         <label class="text-sm text-muted">INSTITUCIÓN</label>
-        <input type="text" class="form-input w-full p-2 rounded" [(ngModel)]="formEstudio.institucion" name="institucion" placeholder="Ej: UTN">
+        <input type="text" class="form-input w-full" [(ngModel)]="formEstudio.institucion" name="institucion" placeholder="Ej: UTN">
       </div>
       <div class="mb-3">
         <label class="text-sm text-muted">DESCRIPCIÓN</label>
-        <textarea class="form-input w-full p-2 rounded" [(ngModel)]="formEstudio.descripcion" name="descripcion" rows="3"></textarea>
+        <textarea class="form-input w-full" [(ngModel)]="formEstudio.descripcion" name="descripcion" rows="3"></textarea>
       </div>
       <div class="mb-3">
         <label class="text-sm text-muted">FECHA INICIO</label>
-        <input type="date" class="form-input w-full p-2 rounded" [(ngModel)]="formEstudio.fecha_inicio" name="fecha_inicio">
+        <input type="date" class="form-input w-full" [(ngModel)]="formEstudio.fecha_inicio" name="fecha_inicio">
       </div>
 
       <div class="mt-4 flex justify-between">
-        <button type="button" class="px-4 py-2 rounded border" (click)="closeStudyModal()">Cancelar</button>
-        <button type="submit" class="px-4 py-2 rounded bg-[var(--primary)] text-white">{{ esEdicion ? 'Guardar Cambios' : 'Agregar' }}</button>
+        <button type="button" class="px-4 py-2 rounded btn-secondary" (click)="closeStudyModal()">Cancelar</button>
+        <button type="submit" class="px-4 py-2 rounded btn-primary">{{ esEdicion ? 'Guardar Cambios' : 'Agregar' }}</button>
       </div>
     </form>
   </div>
 </div>
+

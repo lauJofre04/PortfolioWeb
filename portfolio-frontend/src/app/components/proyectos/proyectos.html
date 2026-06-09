@@ -2,45 +2,65 @@
 
   <div class="flex justify-between items-center mb-4">
     <h2 class="text-2xl font-bold">{{ 'SECTIONS.PROJECTS' | translate }}</h2>
-    <button *ngIf="esAdmin" class="bg-green-600 text-white rounded-full px-4 shadow font-bold" (click)="limpiarFormulario(); openProjectModal()">
+    <button *ngIf="esAdmin" class="btn-primary rounded-full px-4 shadow font-bold" (click)="limpiarFormulario(); openProjectModal()">
       + Agregar
     </button>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <div class="mb-4" *ngFor="let proy of misProyectos">
-      <div class="bg-[var(--card-bg)] border border-[var(--border)] shadow-sm h-full rounded-2xl p-4 flex flex-col">
-        <h5 class="text-lg font-bold text-[var(--texto)] mb-1">{{ proy.nombre }}</h5>
-        <h6 class="mb-3 text-[var(--primary)] font-bold">{{ proy.tecnologias }}</h6>
-        <p class="text-[var(--texto)]" style="opacity:0.9; flex-grow:1">{{ proy.descripcion }}</p>
-
-        <div class="flex justify-between items-center mt-3 pt-3 border-t border-[var(--border)]">
-          <div class="flex gap-2">
-            <a *ngIf="proy.link_repo" [href]="proy.link_repo" target="_blank" class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--border)] text-[var(--texto)]">
-              <i class="bi bi-github"></i> <span class="font-bold">Repo</span>
-            </a>
-            <a *ngIf="proy.link_demo" [href]="proy.link_demo" target="_blank" class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--primary)] text-white">
-              <i class="bi bi-box-arrow-up-right"></i> <span class="font-bold">Demo</span>
-            </a>
+  <!-- Carousel Container -->
+  <div class="relative overflow-hidden rounded-xl">
+    <!-- Slides Container -->
+    <div class="flex transition-transform duration-500" [style.transform]="'translateX(' + (-currentSlideIndex * (100 / getVisibleSlides())) + '%)'">
+      <div *ngFor="let proy of misProyectos" [style.width]="(100 / getVisibleSlides()) + '%'" class="flex-shrink-0 px-2">
+        <div class="card-surface h-full p-4 flex flex-col">
+          <div class="mb-3 h-48 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800">
+            <img [src]="proy.imagen_url" [alt]="proy.nombre" class="w-full h-full object-cover transition hover:scale-105" />
           </div>
+          <h5 class="text-lg font-bold text-[var(--texto)] mb-1">{{ proy.nombre }}</h5>
+          <h6 class="mb-3 text-accent font-bold">{{ proy.tecnologias }}</h6>
+          <p class="text-[var(--texto)]" style="opacity:0.9; flex-grow:1">{{ proy.descripcion }}</p>
 
-          <div class="flex gap-2" *ngIf="esAdmin">
-            <button class="p-2 text-yellow-500" (click)="cargarDatosParaEditar(proy); openProjectModal()" title="Editar">
-              <i class="bi bi-pencil-square fs-5"></i>
-            </button>
-            <button class="p-2 text-red-500" (click)="borrarProyecto(proy.id)" title="Borrar">
-              <i class="bi bi-trash fs-5"></i>
-            </button>
+          <div class="flex justify-between items-center mt-3 pt-3 border-t border-base">
+            <div class="flex gap-2">
+              <a *ngIf="proy.link_repo" [href]="proy.link_repo" target="_blank" class="inline-flex items-center gap-2 px-3 py-1 rounded-full btn-secondary text-[var(--texto)]">
+                <i class="bi bi-github"></i> <span class="font-bold">Repo</span>
+              </a>
+              <a *ngIf="proy.link_demo" [href]="proy.link_demo" target="_blank" class="inline-flex items-center gap-2 px-3 py-1 rounded-full btn-primary">
+                <i class="bi bi-box-arrow-up-right"></i> <span class="font-bold">Demo</span>
+              </a>
+            </div>
+
+            <div class="flex gap-2" *ngIf="esAdmin">
+              <button class="p-2 text-yellow-500" (click)="cargarDatosParaEditar(proy); openProjectModal()" title="Editar">
+                <i class="bi bi-pencil-square fs-5"></i>
+              </button>
+              <button class="p-2 text-red-500" (click)="borrarProyecto(proy.id)" title="Borrar">
+                <i class="bi bi-trash fs-5"></i>
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Navigation Buttons -->
+    <button (click)="prevSlide()" class="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-accent/80 hover:bg-accent text-white p-2 rounded-full transition">
+      <i class="bi bi-chevron-left"></i>
+    </button>
+    <button (click)="nextSlide()" class="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-accent/80 hover:bg-accent text-white p-2 rounded-full transition">
+      <i class="bi bi-chevron-right"></i>
+    </button>
+  </div>
+
+  <!-- Pagination Dots -->
+  <div class="flex justify-center gap-2 mt-4">
+    <button *ngFor="let i of getPaginationDots()" (click)="goToSlide(i)" [class.bg-accent]="i === currentSlideIndex" class="w-2 h-2 rounded-full bg-gray-400 transition"></button>
   </div>
 </section>
 
 <!-- Project Modal -->
 <div *ngIf="showProjectModal" class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-  <div class="bg-[var(--card-bg)] rounded-2xl p-4 w-full max-w-2xl shadow-lg">
+  <div class="card-surface rounded-2xl p-4 w-full max-w-2xl shadow-lg">
     <div class="flex justify-between items-center mb-4">
       <h5 class="font-bold">{{ esEdicion ? 'Editar' : 'Nuevo' }} Proyecto</h5>
       <button (click)="closeProjectModal()">✕</button>
@@ -68,11 +88,15 @@
           <label class="small">DESCRIPCIÓN</label>
           <textarea class="form-input w-full p-2 rounded" [(ngModel)]="formProy.descripcion" name="descripcion" rows="3"></textarea>
         </div>
+        <div class="md:col-span-2">
+          <label class="small">URL IMAGEN (Cloudinary)</label>
+          <input type="text" class="form-input w-full p-2 rounded" [(ngModel)]="formProy.imagen_url" name="imagen_url" placeholder="https://res.cloudinary.com/...">
+        </div>
       </div>
 
       <div class="mt-4 flex justify-end gap-2">
-        <button type="button" class="px-4 py-2 rounded border" (click)="closeProjectModal()">Cancelar</button>
-        <button type="submit" class="px-4 py-2 rounded bg-[var(--primary)] text-white">Guardar</button>
+        <button type="button" class="px-4 py-2 rounded btn-secondary" (click)="closeProjectModal()">Cancelar</button>
+        <button type="submit" class="px-4 py-2 rounded btn-primary">Guardar</button>
       </div>
     </form>
   </div>

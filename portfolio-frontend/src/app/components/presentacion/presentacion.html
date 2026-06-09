@@ -19,9 +19,9 @@
           </span>
           
           <div class="flex flex-col gap-3 sm:flex-row sm:justify-center sm:flex-wrap w-full mt-6">
-            <a href="https://www.linkedin.com/in/lautaro-jofre" target="_blank" rel="noreferrer" class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-3 rounded-full bg-[var(--primary)] text-white font-bold shadow-lg transition duration-300 hover:scale-105" (click)="$event.stopPropagation()">LinkedIn</a>
-            <a href="https://github.com/lauJofre04" target="_blank" rel="noreferrer" class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-3 rounded-full border border-[var(--border)] bg-[var(--card-bg)] text-[var(--texto)] font-bold shadow-md transition duration-300 hover:bg-[var(--primary)] hover:text-white" (click)="$event.stopPropagation()">GitHub</a>
-            <a href="https://drive.google.com/file/d/1bWvIHJBhc5Q34GrmSl817NVlhUegZXaD/view?usp=drive_link" target="_blank" rel="noreferrer" class="w-full sm:w-auto inline-flex items-center justify-center px-5 py-3 rounded-full border border-[var(--border)] bg-[var(--card-bg)] text-[var(--texto)] font-bold shadow-md transition duration-300 hover:bg-[var(--primary)] hover:text-white" (click)="$event.stopPropagation()">{{ 'PRESENTACION.DOWNLOAD_CV' | translate }}</a>
+            <a href="https://www.linkedin.com/in/lautaro-jofre" target="_blank" rel="noreferrer" class="btn-primary w-full sm:w-auto inline-flex items-center justify-center px-5 py-3 rounded-full font-bold transition duration-300 hover:scale-105" (click)="$event.stopPropagation()">LinkedIn</a>
+            <a href="https://github.com/lauJofre04" target="_blank" rel="noreferrer" class="btn-secondary w-full sm:w-auto inline-flex items-center justify-center px-5 py-3 rounded-full font-bold transition duration-300 hover:bg-[var(--accent-soft)]" (click)="$event.stopPropagation()">GitHub</a>
+            <a href="https://drive.google.com/file/d/1bWvIHJBhc5Q34GrmSl817NVlhUegZXaD/view?usp=drive_link" target="_blank" rel="noreferrer" class="btn-secondary w-full sm:w-auto inline-flex items-center justify-center px-5 py-3 rounded-full font-bold transition duration-300 hover:bg-[var(--accent-soft)]" (click)="$event.stopPropagation()">{{ 'PRESENTACION.DOWNLOAD_CV' | translate }}</a>
           </div>
         </div>
 
@@ -33,7 +33,7 @@
             {{ presentacionData.perfil }}
           </p>
           
-          <button class="mt-8 px-6 py-3 w-full sm:w-auto rounded-full border border-[var(--border)] bg-[var(--card-bg)] text-[var(--texto)] font-bold shadow-md transition duration-300 hover:bg-[var(--primary)] hover:text-white" (click)="$event.stopPropagation()">
+          <button class="mt-8 px-6 py-3 w-full sm:w-auto rounded-full btn-secondary font-bold transition duration-300 hover:bg-[var(--accent)] hover:text-white" (click)="$event.stopPropagation()">
             <i class="bi bi-arrow-return-left mr-1"></i> {{ 'PRESENTACION.BACK' | translate }}
           </button>
         </div>

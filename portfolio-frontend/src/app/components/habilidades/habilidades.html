@@ -2,14 +2,14 @@
 
   <div class="flex justify-between items-center mb-4">
     <h2 class="text-2xl font-bold">{{ 'SECTIONS.SKILLS' | translate }}</h2>
-    <button *ngIf="esAdmin" class="bg-green-600 text-white rounded-full px-4 shadow font-bold" (click)="limpiarFormulario(); openSkillsModal()">
+    <button *ngIf="esAdmin" class="btn-primary rounded-full px-4 shadow font-bold" (click)="limpiarFormulario(); openSkillsModal()">
       + Agregar
     </button>
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div *ngFor="let hab of misHabilidades" class="mb-4">
-      <div class="bg-[var(--card-bg)] border border-[var(--border)] shadow-sm h-full p-3 flex items-center justify-between rounded-2xl">
+      <div class="card-surface h-full p-3 flex items-center justify-between rounded-2xl">
         <div class="flex items-center w-3/4">
           <img *ngIf="hab.icono_url" [src]="hab.icono_url" alt="{{ hab.nombre }}" class="w-11 h-11 mr-4 object-contain">
           <div class="w-full pr-3">
@@ -35,7 +35,7 @@
 
 <!-- Habilidades Modal -->
 <div *ngIf="showSkillsModal" class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-  <div class="bg-[var(--card-bg)] rounded-2xl p-4 w-full max-w-md shadow-lg">
+  <div class="card-surface rounded-2xl p-4 w-full max-w-md shadow-lg">
     <div class="flex justify-between items-center mb-4">
       <h5 class="font-bold">{{ esEdicion ? 'Editar' : 'Nueva' }} Habilidad</h5>
       <button (click)="closeSkillsModal()">✕</button>

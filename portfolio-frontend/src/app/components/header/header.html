@@ -5,110 +5,81 @@
             <span class="text-[var(--primary)] mr-2">&lt;/&gt;</span> Lautaro Jofre
         </a>
 
-        <button class="md:hidden p-2 border-0 text-[var(--navbar-text)]" (click)="toggleMenu()" aria-label="Toggle menu">
-            <i class="bi" [class]="menuOpen ? 'bi-x-lg' : 'bi-list'"></i>
+        <button type="button" class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/10 text-[var(--navbar-text)] transition hover:bg-white/20" (click)="sidebar.toggle()" aria-label="Open sidebar">
+            <i class="bi bi-list text-xl"></i>
         </button>
 
-        <div class="hidden md:flex md:items-center md:space-x-4">
-            <ul class="flex flex-wrap items-center gap-2 text-center">
-                <li><a class="px-3 py-2 rounded-md text-[var(--navbar-text)] hover:bg-white/10" href="#presentacion">{{ 'NAV.PRESENTACION' | translate }}</a></li>
-                <li><a class="px-3 py-2 rounded-md text-[var(--navbar-text)] hover:bg-white/10" href="#estudios">{{ 'NAV.ESTUDIOS' | translate }}</a></li>
-                <li><a class="px-3 py-2 rounded-md text-[var(--navbar-text)] hover:bg-white/10" href="#experiencia">{{ 'NAV.EXPERIENCIA' | translate }}</a></li>
-                <li><a class="px-3 py-2 rounded-md text-[var(--navbar-text)] hover:bg-white/10" href="#habilidades">{{ 'NAV.HABILIDADES' | translate }}</a></li>
-                <li><a class="px-3 py-2 rounded-md text-[var(--navbar-text)] hover:bg-white/10" href="#proyectos">{{ 'NAV.PROYECTOS' | translate }}</a></li>
-            </ul>
+        <div class="flex items-center gap-2">
+            <button class="px-3 py-1 rounded-full border border-white/20 bg-white/10 text-[var(--navbar-text)] transition hover:bg-white/20" (click)="toggleTheme()">
+                <i class="bi" [class]="isDarkMode ? 'bi-sun' : 'bi-moon'"></i>
+                <span class="ml-2 text-sm hidden sm:inline">{{ isDarkMode ? ('THEME.TOGGLE_LIGHT' | translate) : ('THEME.TOGGLE_DARK' | translate) }}</span>
+            </button>
 
-            <div class="flex items-center gap-2">
-                <button class="px-3 py-1 rounded-full border border-white/20 bg-white/10 text-[var(--navbar-text)] transition hover:bg-white/20" (click)="toggleTheme()">
-                    <i class="bi" [class]="isDarkMode ? 'bi-sun' : 'bi-moon'"></i>
-                    <span class="ml-2 text-sm">{{ isDarkMode ? ('THEME.TOGGLE_LIGHT' | translate) : ('THEME.TOGGLE_DARK' | translate) }}</span>
+            <button class="px-3 py-1 rounded-full border border-white/20 bg-white/10 text-[var(--navbar-text)] transition hover:bg-white/20" (click)="changeLanguage(currentLang === 'es' ? 'en' : 'es')">
+                <span class="text-sm">{{ currentLang === 'es' ? ('LANG.ENGLISH' | translate) : ('LANG.SPANISH' | translate) }}</span>
+            </button>
+
+            <ng-container *ngIf="!estaLogueado">
+                <button class="px-4 py-1 rounded-full btn-secondary font-bold hidden sm:block" (click)="openLogin()">
+                    {{ 'NAV.INGRESAR' | translate }}
                 </button>
-
-                <button class="px-3 py-1 rounded-full border border-white/20 bg-white/10 text-[var(--navbar-text)] transition hover:bg-white/20" (click)="changeLanguage(currentLang === 'es' ? 'en' : 'es')">
-                    <span class="text-sm">{{ currentLang === 'es' ? ('LANG.ENGLISH' | translate) : ('LANG.SPANISH' | translate) }}</span>
+                <button class="px-4 py-1 rounded-full btn-primary font-bold hidden sm:block" (click)="openRegister()">
+                    {{ 'NAV.REGISTRARSE' | translate }}
                 </button>
+            </ng-container>
 
-                <ng-container *ngIf="!estaLogueado">
-                    <button class="px-4 py-1 rounded-full border border-white/20 bg-white/10 font-bold text-[var(--navbar-text)] transition hover:bg-white/20" (click)="openLogin()">
-                        {{ 'NAV.INGRESAR' | translate }}
-                    </button>
-                    <button class="px-4 py-1 rounded-full font-bold bg-[var(--primary)] text-white shadow-sm transition hover:brightness-90" (click)="openRegister()">
-                        {{ 'NAV.REGISTRARSE' | translate }}
-                    </button>
-                </ng-container>
-
-                <ng-container *ngIf="estaLogueado">
-                    <button class="px-4 py-1 rounded-full border border-[var(--navbar-text)] font-bold text-[var(--navbar-text)] transition hover:bg-white/10" (click)="cerrarSesion()">
-                        {{ 'NAV.CERRAR_SESION' | translate }}
-                    </button>
-                </ng-container>
-            </div>
-        </div>
-
-        <!-- Mobile menu -->
-        <div class="md:hidden absolute inset-x-0 top-full bg-[var(--navbar-bg)] shadow-lg border-t border-[var(--border)]" [class.hidden]="!menuOpen">
-            <ul class="flex flex-col p-4 space-y-2">
-                <li><a class="block rounded-md px-3 py-2 text-[var(--navbar-text)] hover:bg-white/10" href="#presentacion" (click)="toggleMenu()">{{ 'NAV.PRESENTACION' | translate }}</a></li>
-                <li><a class="block rounded-md px-3 py-2 text-[var(--navbar-text)] hover:bg-white/10" href="#estudios" (click)="toggleMenu()">{{ 'NAV.ESTUDIOS' | translate }}</a></li>
-                <li><a class="block rounded-md px-3 py-2 text-[var(--navbar-text)] hover:bg-white/10" href="#experiencia" (click)="toggleMenu()">{{ 'NAV.EXPERIENCIA' | translate }}</a></li>
-                <li><a class="block rounded-md px-3 py-2 text-[var(--navbar-text)] hover:bg-white/10" href="#habilidades" (click)="toggleMenu()">{{ 'NAV.HABILIDADES' | translate }}</a></li>
-                <li><a class="block rounded-md px-3 py-2 text-[var(--navbar-text)] hover:bg-white/10" href="#proyectos" (click)="toggleMenu()">{{ 'NAV.PROYECTOS' | translate }}</a></li>
-                <li class="flex flex-col mt-2 gap-2 px-4 pb-4">
-                    <button class="w-full rounded-full border border-[var(--navbar-text)] px-4 py-2 text-[var(--navbar-text)] transition hover:bg-white/10" (click)="toggleTheme()">{{ isDarkMode ? ('THEME.TOGGLE_LIGHT' | translate) : ('THEME.TOGGLE_DARK' | translate) }}</button>
-                    <button class="w-full rounded-full border border-[var(--navbar-text)] px-4 py-2 text-[var(--navbar-text)] transition hover:bg-white/10" (click)="changeLanguage(currentLang === 'es' ? 'en' : 'es')">{{ currentLang === 'es' ? ('LANG.ENGLISH' | translate) : ('LANG.SPANISH' | translate) }}</button>
-                    <ng-container *ngIf="!estaLogueado">
-                        <button class="w-full rounded-full border border-[var(--navbar-text)] px-4 py-2 text-[var(--navbar-text)] transition hover:bg-white/10" (click)="openLogin()">{{ 'NAV.INGRESAR' | translate }}</button>
-                        <button class="w-full rounded-full bg-[var(--primary)] px-4 py-2 text-white transition hover:brightness-90" (click)="openRegister()">{{ 'NAV.REGISTRARSE' | translate }}</button>
-                    </ng-container>
-                </li>
-            </ul>
+            <ng-container *ngIf="estaLogueado">
+                <button class="px-4 py-1 rounded-full border border-[var(--navbar-text)] font-bold text-[var(--navbar-text)] transition hover:bg-white/10 hidden sm:block" (click)="cerrarSesion()">
+                    {{ 'NAV.CERRAR_SESION' | translate }}
+                </button>
+            </ng-container>
         </div>
 
     </nav>
 
-        <!-- Login Modal (Angular controlled) -->
-        <div *ngIf="showLoginModal" class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-            <div class="bg-[var(--card-bg)] rounded-2xl p-4 w-full max-w-md shadow-lg">
-                <div class="flex justify-end">
-                    <button (click)="closeModals()" class="text-[var(--texto)]">✕</button>
-                </div>
-                <div class="text-center pt-0">
-                    <h4 class="font-bold mb-4 text-[var(--texto)]">{{ 'LOGIN.TITLE' | translate }}</h4>
-                    <form (ngSubmit)="iniciarSesion()" class="space-y-4">
-                        <div class="mb-4 text-start">
-                            <label class="font-bold text-muted small mb-1">{{ 'LOGIN.USERNAME_LABEL' | translate }}</label>
-                            <input type="text" class="w-full bg-[var(--fondo-secundario)] border-none p-3 rounded-3xl transition duration-300 outline-none focus:ring-2 focus:ring-[var(--primary)] placeholder:text-[var(--texto-secundario)]" [(ngModel)]="credenciales.username" name="username" placeholder="{{ 'LOGIN.USERNAME_PLACEHOLDER' | translate }}">
-                        </div>
-                        <div class="mb-4 text-start">
-                            <label class="font-bold text-muted small mb-1">{{ 'LOGIN.PASSWORD_LABEL' | translate }}</label>
-                            <input type="password" class="w-full bg-[var(--fondo-secundario)] border-none p-3 rounded-3xl transition duration-300 outline-none focus:ring-2 focus:ring-[var(--primary)] placeholder:text-[var(--texto-secundario)]" [(ngModel)]="credenciales.password" name="password" placeholder="{{ 'LOGIN.PASSWORD_PLACEHOLDER' | translate }}">
-                        </div>
-                        <button type="submit" class="w-full px-4 py-2 rounded-full font-bold bg-[#1abc9c] text-white shadow-sm transition hover:brightness-90">{{ 'LOGIN.BUTTON' | translate }}</button>
-                    </form>
-                </div>
+    <!-- Login Modal (Angular controlled) -->
+    <div *ngIf="showLoginModal" class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+        <div class="bg-[var(--card-bg)] rounded-2xl p-4 w-full max-w-md shadow-lg">
+            <div class="flex justify-end">
+                <button (click)="closeModals()" class="text-[var(--texto)]">✕</button>
+            </div>
+            <div class="text-center pt-0">
+                <h4 class="font-bold mb-4 text-[var(--texto)]">{{ 'LOGIN.TITLE' | translate }}</h4>
+                <form (ngSubmit)="iniciarSesion()" class="space-y-4">
+                    <div class="mb-4 text-start">
+                        <label class="font-bold text-muted small mb-1">{{ 'LOGIN.USERNAME_LABEL' | translate }}</label>
+                        <input type="text" class="w-full bg-[var(--fondo-secundario)] border-none p-3 rounded-3xl transition duration-300 outline-none focus:ring-2 focus:ring-[var(--primary)] placeholder:text-[var(--texto-secundario)]" [(ngModel)]="credenciales.username" name="username" placeholder="{{ 'LOGIN.USERNAME_PLACEHOLDER' | translate }}">
+                    </div>
+                    <div class="mb-4 text-start">
+                        <label class="font-bold text-muted small mb-1">{{ 'LOGIN.PASSWORD_LABEL' | translate }}</label>
+                        <input type="password" class="w-full bg-[var(--fondo-secundario)] border-none p-3 rounded-3xl transition duration-300 outline-none focus:ring-2 focus:ring-[var(--primary)] placeholder:text-[var(--texto-secundario)]" [(ngModel)]="credenciales.password" name="password" placeholder="{{ 'LOGIN.PASSWORD_PLACEHOLDER' | translate }}">
+                    </div>
+                    <button type="submit" class="w-full px-4 py-2 rounded-full font-bold bg-[#1abc9c] text-white shadow-sm transition hover:brightness-90">{{ 'LOGIN.BUTTON' | translate }}</button>
+                </form>
             </div>
         </div>
+    </div>
 
-        <!-- Register Modal (Angular controlled) -->
-        <div *ngIf="showRegisterModal" class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-            <div class="bg-[var(--card-bg)] rounded-2xl p-4 w-full max-w-md shadow-lg">
-                <div class="flex justify-end">
-                    <button (click)="closeModals()" class="text-[var(--texto)]">✕</button>
-                </div>
-                <div class="text-center pt-0">
-                    <h4 class="font-bold mb-4 text-[var(--texto)]">{{ 'REGISTER.TITLE' | translate }}</h4>
-                    <form (ngSubmit)="registrarse()" class="space-y-4">
-                        <div class="mb-4 text-start">
-                            <label class="font-bold text-muted small mb-1">{{ 'REGISTER.USERNAME_LABEL' | translate }}</label>
-                            <input type="text" class="w-full bg-[var(--fondo-secundario)] border-none p-3 rounded-3xl transition duration-300 outline-none focus:ring-2 focus:ring-[var(--primary)] placeholder:text-[var(--texto-secundario)]" [(ngModel)]="credencialesRegistro.username" name="regUsername" placeholder="{{ 'REGISTER.USERNAME_PLACEHOLDER' | translate }}">
-                        </div>
-                        <div class="mb-4 text-start">
-                            <label class="font-bold text-muted small mb-1">{{ 'REGISTER.PASSWORD_LABEL' | translate }}</label>
-                            <input type="password" class="w-full bg-[var(--fondo-secundario)] border-none p-3 rounded-3xl transition duration-300 outline-none focus:ring-2 focus:ring-[var(--primary)] placeholder:text-[var(--texto-secundario)]" [(ngModel)]="credencialesRegistro.password" name="regPassword" placeholder="{{ 'REGISTER.PASSWORD_PLACEHOLDER' | translate }}">
-                        </div>
-                        <button type="submit" class="w-full px-4 py-2 rounded-full font-bold bg-[var(--primary)] text-white shadow-sm transition hover:brightness-90">{{ 'REGISTER.BUTTON' | translate }}</button>
-                    </form>
-                </div>
+    <!-- Register Modal (Angular controlled) -->
+    <div *ngIf="showRegisterModal" class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+        <div class="bg-[var(--card-bg)] rounded-2xl p-4 w-full max-w-md shadow-lg">
+            <div class="flex justify-end">
+                <button (click)="closeModals()" class="text-[var(--texto)]">✕</button>
+            </div>
+            <div class="text-center pt-0">
+                <h4 class="font-bold mb-4 text-[var(--texto)]">{{ 'REGISTER.TITLE' | translate }}</h4>
+                <form (ngSubmit)="registrarse()" class="space-y-4">
+                    <div class="mb-4 text-start">
+                        <label class="font-bold text-muted small mb-1">{{ 'REGISTER.USERNAME_LABEL' | translate }}</label>
+                        <input type="text" class="w-full bg-[var(--fondo-secundario)] border-none p-3 rounded-3xl transition duration-300 outline-none focus:ring-2 focus:ring-[var(--primary)] placeholder:text-[var(--texto-secundario)]" [(ngModel)]="credencialesRegistro.username" name="regUsername" placeholder="{{ 'REGISTER.USERNAME_PLACEHOLDER' | translate }}">
+                    </div>
+                    <div class="mb-4 text-start">
+                        <label class="font-bold text-muted small mb-1">{{ 'REGISTER.PASSWORD_LABEL' | translate }}</label>
+                        <input type="password" class="w-full bg-[var(--fondo-secundario)] border-none p-3 rounded-3xl transition duration-300 outline-none focus:ring-2 focus:ring-[var(--primary)] placeholder:text-[var(--texto-secundario)]" [(ngModel)]="credencialesRegistro.password" name="regPassword" placeholder="{{ 'REGISTER.PASSWORD_PLACEHOLDER' | translate }}">
+                    </div>
+                    <button type="submit" class="w-full px-4 py-2 rounded-full font-bold bg-[var(--primary)] text-white shadow-sm transition hover:brightness-90">{{ 'REGISTER.BUTTON' | translate }}</button>
+                </form>
             </div>
         </div>
+    </div>
 </header>

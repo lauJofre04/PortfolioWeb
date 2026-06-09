@@ -2,12 +2,12 @@
 
   <div class="flex justify-between items-center mb-4">
     <h2 class="text-2xl font-bold">{{ 'SECTIONS.EXPERIENCE' | translate }}</h2>
-    <button *ngIf="esAdmin" class="bg-green-600 text-white rounded-full px-4 shadow font-bold" (click)="limpiarFormulario(); openExperienceModal()">+ Agregar</button>
+    <button *ngIf="esAdmin" class="btn-primary rounded-full px-4 shadow font-bold" (click)="limpiarFormulario(); openExperienceModal()">+ Agregar</button>
   </div>
 
   <div class="flex flex-col gap-4">
     <div *ngFor="let exp of miExperiencia" class="mb-4">
-      <div class="bg-[var(--card-bg)] border border-[var(--border)] shadow-sm rounded-2xl">
+      <div class="card-surface">
         <div class="p-3 md:p-4 flex flex-col md:flex-row items-center gap-4">
 
           <div *ngIf="exp.logo_url" class="text-center md:text-left md:w-1/6">
@@ -41,17 +41,16 @@
 
 <!-- Experiencia Modal -->
 <div *ngIf="showExperienceModal" class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-  <div class="bg-[var(--card-bg)] rounded-2xl p-4 w-full max-w-2xl shadow-lg">
+  <div class="card-surface rounded-2xl p-4 w-full max-w-2xl shadow-lg">
     <div class="flex justify-between items-center mb-4">
       <h5 class="font-bold">{{ esEdicion ? 'Editar Experiencia' : 'Nueva Experiencia' }}</h5>
       <button (click)="closeExperienceModal()">✕</button>
     </div>
-
     <form (ngSubmit)="guardarCambios()">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
         <div>
           <label class="text-sm text-muted">PUESTO</label>
-          <input type="text" class="form-input w-full p-2 rounded" [(ngModel)]="formExp.puesto" name="puesto">
+          <input type="text" class="form-input w-full" [(ngModel)]="formExp.puesto" name="puesto">
         </div>
         <div>
           <label class="text-sm text-muted">EMPRESA</label>

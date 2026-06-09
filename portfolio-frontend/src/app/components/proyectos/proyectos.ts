@@ -8,46 +8,43 @@ import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-proyectos',
-  standalone:true,
-  imports: [CommonModule,FormsModule,TranslateModule],
+  standalone: true,
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './proyectos.html',
   styleUrl: './proyectos.css',
 })
 export class Proyectos {
   misProyectos: any[] = [];
   estaLogueado: boolean = false;
-  esAdmin: boolean = false; 
-  formProy: any = { nombre: '', tecnologias: '', link_repo: '', link_demo: '', descripcion: '' };
+  esAdmin: boolean = false;
+  formProy: any = { nombre: '', tecnologias: '', link_repo: '', link_demo: '', descripcion: '', imagen_url: '' };
   esEdicion: boolean = false;
   idEdicion: number | null = null;
   showProjectModal: boolean = false;
+
+  currentSlideIndex: number = 0;
 
   constructor(
     private proyService: ProyectosServices,
     private cdr: ChangeDetectorRef,
     private authService: AuthService,
     private themeService: ThemeService
-  ){}
-
-  
+  ) {}
 
   ngOnInit(): void {
     this.cargarProyectos(this.themeService.getCurrentLang());
 
-    // Escuchamos si cambió el idioma para recargar los proyectos traducidos
     this.themeService.language$.subscribe(lang => {
       this.cargarProyectos(lang);
     });
 
-    // Escuchamos si está logueado
     this.authService.isLoggedIn$.subscribe(estado => {
       this.estaLogueado = estado;
       this.cdr.detectChanges();
     });
 
-    // NUEVO: Escuchamos qué rol tiene
     this.authService.userRole$.subscribe(rol => {
-      this.esAdmin = (rol === 'admin'); // Será true solo si el rol es 'admin'
+      this.esAdmin = (rol === 'admin');
       this.cdr.detectChanges();
     });
   }
@@ -59,18 +56,45 @@ export class Proyectos {
     });
   }
 
+  getVisibleSlides(): number {
+    if (window.innerWidth < 768) return 1;
+    if (window.innerWidth < 1024) return 2;
+    return 3;
+  }
+
+  getPaginationDots(): number[] {
+    const visibleSlides = this.getVisibleSlides();
+    const totalDots = Math.ceil(this.misProyectos.length / visibleSlides);
+    return Array.from({ length: totalDots }, (_, i) => i);
+  }
+
+  nextSlide(): void {
+    const visibleSlides = this.getVisibleSlides();
+    const maxIndex = Math.ceil(this.misProyectos.length / visibleSlides) - 1;
+    this.currentSlideIndex = (this.currentSlideIndex + 1) % (maxIndex + 1);
+  }
+
+  prevSlide(): void {
+    const visibleSlides = this.getVisibleSlides();
+    const maxIndex = Math.ceil(this.misProyectos.length / visibleSlides) - 1;
+    this.currentSlideIndex = (this.currentSlideIndex - 1 + (maxIndex + 1)) % (maxIndex + 1);
+  }
+
+  goToSlide(index: number): void {
+    this.currentSlideIndex = index;
+  }
+
   limpiarFormulario() {
     this.esEdicion = false;
-    this.formProy = { nombre: '', tecnologias: '', link_repo: '', link_demo: '', descripcion: '' };
+    this.formProy = { nombre: '', tecnologias: '', link_repo: '', link_demo: '', descripcion: '', imagen_url: '' };
     this.openProjectModal();
   }
 
   cargarDatosParaEditar(proy: any) {
     this.esEdicion = true;
     this.idEdicion = proy.id;
-    this.formProy = { ...proy }; 
-    // abrir modal desde el mismo flujo
-    // la llamada en template ya abre el modal
+    this.formProy = { ...proy };
+    this.openProjectModal();
   }
 
   guardarCambios() {
@@ -89,27 +113,19 @@ export class Proyectos {
   closeProjectModal() {
     this.showProjectModal = false;
   }
-  // ==========================================
-// FUNCIÓN PARA ELIMINAR EXPERIENCIA
-// ==========================================
-borrarProyecto(id: number) {
-  // 1. Buena práctica: Pedimos confirmación antes de borrar
-  if (confirm('¿Estás seguro de que quieres eliminar este proyecto?')) {
-    
-    // 2. Llamamos a la función que creaste en tu servicio
-    // (Asegúrate de que 'this.expService' sea el nombre que le diste a tu servicio en el constructor)
-    this.proyService.borrarProyectos(id).subscribe({
-      next: (respuesta) => {
-        alert('Proyecto eliminado correctamente.');
-        
-        // 3. Volvemos a cargar la lista para que el cambio se vea reflejado al instante
-        this.cargarProyectos(); 
-      },
-      error: (error) => {
-        console.error('Error al borrar:', error);
-        alert('Hubo un error al eliminar el proyecto. Revisa que tu sesión siga iniciada.');
-      }
-    });
+
+  borrarProyecto(id: number) {
+    if (confirm('¿Estás seguro de que quieres eliminar este proyecto?')) {
+      this.proyService.borrarProyectos(id).subscribe({
+        next: (respuesta) => {
+          alert('Proyecto eliminado correctamente.');
+          this.cargarProyectos();
+        },
+        error: (error) => {
+          console.error('Error al borrar:', error);
+          alert('Hubo un error al eliminar el proyecto. Revisa que tu sesión siga iniciada.');
+        }
+      });
+    }
   }
-}
 }

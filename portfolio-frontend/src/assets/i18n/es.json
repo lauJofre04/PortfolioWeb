@@ -1,4 +1,7 @@
 {
+  "COMMON": {
+    "CANCEL": "Cancelar"
+  },
   "NAV": {
     "PRESENTACION": "Presentación",
     "ESTUDIOS": "Estudios",
