@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth-service';
 import { ThemeService } from '../../services/theme.service';
-import { SidebarService } from '../../services/sidebar.service';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -19,14 +18,14 @@ export class Header implements OnInit {
 
   estaLogueado: boolean = false;
   rolActual: string = '';
+  menuOpen: boolean = false;
   showLoginModal: boolean = false;
   showRegisterModal: boolean = false;
 
   constructor(
     private authService: AuthService,
     private themeService: ThemeService,
-    private cdr: ChangeDetectorRef,
-    public sidebar: SidebarService
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -44,6 +43,10 @@ export class Header implements OnInit {
 
   toggleTheme(): void {
     this.themeService.toggleTheme();
+  }
+
+  toggleMenu(): void {
+    this.menuOpen = !this.menuOpen;
   }
 
   openLogin(): void {

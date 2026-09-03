@@ -1,41 +1,67 @@
-<header class="fixed top-0 left-0 right-0 z-50 bg-[var(--navbar-bg)] text-[var(--navbar-text)] shadow-sm">
-    <nav class="container mx-auto max-w-screen-xl px-4 flex flex-wrap items-center justify-between h-16">
+<header class="header-shell fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-[var(--navbar-bg)]/90 text-[var(--navbar-text)] shadow-sm backdrop-blur-xl">
+    <nav class="container mx-auto flex h-16 max-w-screen-xl flex-wrap items-center justify-between px-4 py-3">
 
-        <a class="flex items-center font-bold text-[var(--navbar-text)]" href="#">
-            <span class="text-[var(--primary)] mr-2">&lt;/&gt;</span> Lautaro Jofre
+        <a class="flex items-center text-sm font-semibold tracking-[0.2em] text-[var(--navbar-text)] uppercase" href="#">
+            <span class="mr-2 text-[var(--primary)]">&lt;/&gt;</span> Lautaro Jofre
         </a>
 
-        <button type="button" class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/10 text-[var(--navbar-text)] transition hover:bg-white/20" (click)="sidebar.toggle()" aria-label="Open sidebar">
-            <i class="bi bi-list text-xl"></i>
+        <button class="order-first inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/10 text-[var(--navbar-text)] transition hover:bg-white/20 md:order-none md:hidden" (click)="toggleMenu()" aria-label="Toggle menu">
+            <i class="bi text-lg" [class]="menuOpen ? 'bi-x-lg' : 'bi-list'"></i>
         </button>
 
+        <div class="hidden items-center gap-1 md:flex">
+            <a class="nav-link rounded-full px-3 py-2 text-sm font-medium" href="#presentacion">{{ 'NAV.PRESENTACION' | translate }}</a>
+            <a class="nav-link rounded-full px-3 py-2 text-sm font-medium" href="#estudios">{{ 'NAV.ESTUDIOS' | translate }}</a>
+            <a class="nav-link rounded-full px-3 py-2 text-sm font-medium" href="#experiencia">{{ 'NAV.EXPERIENCIA' | translate }}</a>
+            <a class="nav-link rounded-full px-3 py-2 text-sm font-medium" href="#habilidades">{{ 'NAV.HABILIDADES' | translate }}</a>
+            <a class="nav-link rounded-full px-3 py-2 text-sm font-medium" href="#proyectos">{{ 'NAV.PROYECTOS' | translate }}</a>
+        </div>
+
         <div class="flex items-center gap-2">
-            <button class="px-3 py-1 rounded-full border border-white/20 bg-white/10 text-[var(--navbar-text)] transition hover:bg-white/20" (click)="toggleTheme()">
+            <button class="rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[var(--navbar-text)] transition hover:bg-white/20" (click)="toggleTheme()">
                 <i class="bi" [class]="isDarkMode ? 'bi-sun' : 'bi-moon'"></i>
-                <span class="ml-2 text-sm hidden sm:inline">{{ isDarkMode ? ('THEME.TOGGLE_LIGHT' | translate) : ('THEME.TOGGLE_DARK' | translate) }}</span>
+                <span class="ml-2 hidden text-sm sm:inline">{{ isDarkMode ? ('THEME.TOGGLE_LIGHT' | translate) : ('THEME.TOGGLE_DARK' | translate) }}</span>
             </button>
 
-            <button class="px-3 py-1 rounded-full border border-white/20 bg-white/10 text-[var(--navbar-text)] transition hover:bg-white/20" (click)="changeLanguage(currentLang === 'es' ? 'en' : 'es')">
+            <button class="rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[var(--navbar-text)] transition hover:bg-white/20" (click)="changeLanguage(currentLang === 'es' ? 'en' : 'es')">
                 <span class="text-sm">{{ currentLang === 'es' ? ('LANG.ENGLISH' | translate) : ('LANG.SPANISH' | translate) }}</span>
             </button>
 
             <ng-container *ngIf="!estaLogueado">
-                <button class="px-4 py-1 rounded-full btn-secondary font-bold hidden sm:block" (click)="openLogin()">
+                <button class="btn-secondary hidden rounded-full px-4 py-1.5 font-semibold sm:block" (click)="openLogin()">
                     {{ 'NAV.INGRESAR' | translate }}
                 </button>
-                <button class="px-4 py-1 rounded-full btn-primary font-bold hidden sm:block" (click)="openRegister()">
+                <button class="btn-primary hidden rounded-full px-4 py-1.5 font-semibold sm:block" (click)="openRegister()">
                     {{ 'NAV.REGISTRARSE' | translate }}
                 </button>
             </ng-container>
 
             <ng-container *ngIf="estaLogueado">
-                <button class="px-4 py-1 rounded-full border border-[var(--navbar-text)] font-bold text-[var(--navbar-text)] transition hover:bg-white/10 hidden sm:block" (click)="cerrarSesion()">
+                <button class="hidden rounded-full border border-[var(--navbar-text)] px-4 py-1.5 font-semibold text-[var(--navbar-text)] transition hover:bg-white/10 sm:block" (click)="cerrarSesion()">
                     {{ 'NAV.CERRAR_SESION' | translate }}
                 </button>
             </ng-container>
         </div>
 
     </nav>
+
+    <div class="mobile-panel overflow-hidden border-t border-white/10 bg-[var(--navbar-bg)]/95 shadow-lg backdrop-blur-xl transition-all duration-300 ease-out md:hidden" [class.max-h-96]="menuOpen" [class.max-h-0]="!menuOpen">
+        <ul class="flex flex-col p-4 space-y-2">
+            <li><a class="block rounded-full px-3 py-2 text-[var(--navbar-text)] transition hover:bg-white/10" href="#presentacion" (click)="toggleMenu()">{{ 'NAV.PRESENTACION' | translate }}</a></li>
+            <li><a class="block rounded-full px-3 py-2 text-[var(--navbar-text)] transition hover:bg-white/10" href="#estudios" (click)="toggleMenu()">{{ 'NAV.ESTUDIOS' | translate }}</a></li>
+            <li><a class="block rounded-full px-3 py-2 text-[var(--navbar-text)] transition hover:bg-white/10" href="#experiencia" (click)="toggleMenu()">{{ 'NAV.EXPERIENCIA' | translate }}</a></li>
+            <li><a class="block rounded-full px-3 py-2 text-[var(--navbar-text)] transition hover:bg-white/10" href="#habilidades" (click)="toggleMenu()">{{ 'NAV.HABILIDADES' | translate }}</a></li>
+            <li><a class="block rounded-full px-3 py-2 text-[var(--navbar-text)] transition hover:bg-white/10" href="#proyectos" (click)="toggleMenu()">{{ 'NAV.PROYECTOS' | translate }}</a></li>
+            <li class="mt-2 flex flex-col gap-2 px-1 pb-2">
+                <button class="w-full rounded-full btn-secondary" (click)="toggleTheme()">{{ isDarkMode ? ('THEME.TOGGLE_LIGHT' | translate) : ('THEME.TOGGLE_DARK' | translate) }}</button>
+                <button class="w-full rounded-full btn-secondary" (click)="changeLanguage(currentLang === 'es' ? 'en' : 'es')">{{ currentLang === 'es' ? ('LANG.ENGLISH' | translate) : ('LANG.SPANISH' | translate) }}</button>
+                <ng-container *ngIf="!estaLogueado">
+                    <button class="w-full rounded-full btn-secondary" (click)="openLogin()">{{ 'NAV.INGRESAR' | translate }}</button>
+                    <button class="w-full rounded-full btn-primary" (click)="openRegister()">{{ 'NAV.REGISTRARSE' | translate }}</button>
+                </ng-container>
+            </li>
+        </ul>
+    </div>
 
     <!-- Login Modal (Angular controlled) -->
     <div *ngIf="showLoginModal" class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">

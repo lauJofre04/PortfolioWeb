@@ -2,15 +2,22 @@
   display: block;
 }
 
-/* Navbar con variables */
-.navbar {
-  background-color: var(--navbar-bg) !important;
-}
-
-.navbar-brand {
-  color: var(--navbar-text) !important;
+.header-shell {
+  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+  backdrop-filter: blur(16px);
 }
 
 .nav-link {
-  color: var(--navbar-text) !important;
+  color: var(--navbar-text);
+  transition: background-color 180ms ease, transform 180ms ease, color 180ms ease;
+}
+
+.nav-link:hover,
+.nav-link:focus-visible {
+  background-color: rgba(148, 163, 184, 0.16);
+  transform: translateY(-1px);
+}
+
+.mobile-panel {
+  backdrop-filter: blur(16px);
 }

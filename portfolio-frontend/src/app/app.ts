@@ -9,12 +9,11 @@ import { Proyectos } from './components/proyectos/proyectos';
 import { Footer } from './components/footer/footer';
 import { CommonModule } from '@angular/common';
 import { Contact } from "./components/contact/contact";
-import { Sidebar } from './components/sidebar/sidebar';
 
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, Sidebar, Header, Presentacion, Estudios, Experiencia, Habilidades, Proyectos, Footer, Contact],
+  imports: [CommonModule, Header, Presentacion, Estudios, Experiencia, Habilidades, Proyectos, Footer, Contact],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
