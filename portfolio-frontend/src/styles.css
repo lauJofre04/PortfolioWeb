@@ -20,6 +20,8 @@
     --radius: 1.25rem;
   }
 
+  body.dark,
+  body.dark-theme,
   .dark,
   .dark-theme {
     --fondo: #050714;

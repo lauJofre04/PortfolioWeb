@@ -3,6 +3,8 @@
 }
 
 .header-shell {
+  background-color: color-mix(in srgb, var(--navbar-bg) 90%, transparent);
+  color: var(--navbar-text);
   border-bottom: 1px solid rgba(148, 163, 184, 0.18);
   backdrop-filter: blur(16px);
 }
