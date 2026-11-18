@@ -12,17 +12,69 @@ if (process.env.TRANSLATE_API_KEY) {
     translate.key = process.env.TRANSLATE_API_KEY;
 }
 
-const SECRET_KEY = 'mi_clave_secreta_portfolio_2026';
+const SECRET_KEY = process.env.JWT_SECRET;
+if (!SECRET_KEY || SECRET_KEY.length < 32) {
+    console.error('❌ Falta JWT_SECRET (mínimo 32 caracteres) en las variables de entorno.');
+    process.exit(1);
+}
 
 const app = express();
+app.set('trust proxy', 1); // detrás del proxy de Render, para que req.ip sea la IP real
 
 // Middlewares
+const allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:4200,https://portfolio-web-jofre-lautaro.vercel.app')
+    .split(',')
+    .map(o => o.trim())
+    .filter(Boolean);
+
 app.use(cors({
-    origin: '*', // Permite peticiones de cualquier origen
+    origin: allowedOrigins,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
-})); // Permite que Angular se conecte
-app.use(express.json()); // Permite recibir datos en formato JSON
+}));
+app.use(express.json({ limit: '100kb' })); // Permite recibir datos en formato JSON
+
+// Límites de intentos para frenar fuerza bruta y registros masivos
+// (limitador simple en memoria, suficiente para una sola instancia)
+const crearLimitador = ({ windowMs, max, message }) => {
+    const intentos = new Map();
+    setInterval(() => {
+        const ahora = Date.now();
+        for (const [ip, reg] of intentos) if (reg.reset <= ahora) intentos.delete(ip);
+    }, windowMs).unref();
+
+    return (req, res, next) => {
+        const ahora = Date.now();
+        let reg = intentos.get(req.ip);
+        if (!reg || reg.reset <= ahora) {
+            reg = { count: 0, reset: ahora + windowMs };
+            intentos.set(req.ip, reg);
+        }
+        reg.count++;
+        if (reg.count > max) {
+            res.set('Retry-After', String(Math.ceil((reg.reset - ahora) / 1000)));
+            return res.status(429).json(message);
+        }
+        next();
+    };
+};
+
+const loginLimiter = crearLimitador({
+    windowMs: 15 * 60 * 1000,
+    max: 10,
+    message: { success: false, message: 'Demasiados intentos. Probá de nuevo en unos minutos.' }
+});
+const registroLimiter = crearLimitador({
+    windowMs: 60 * 60 * 1000,
+    max: 5,
+    message: { error: 'Demasiados registros desde esta IP. Probá más tarde.' }
+});
+
+// Los errores de la base se registran en el servidor y al cliente le llega un mensaje genérico
+const errorBD = (res, err) => {
+    console.error('❌ Error de base de datos:', err && err.message ? err.message : err);
+    return res.status(500).json({ error: 'Error interno del servidor' });
+};
 
 // Configuración de la conexión
 const db = mysql.createPool({
@@ -59,10 +111,13 @@ const verificarAdmin = (req, res, next) => {
     }
 
     // El formato suele ser "Bearer eyJhbGciOiJIUzI1NiIsIn...", así que lo separamos
-    const token = authHeader.split(' ')[1]; 
+    const token = authHeader.split(' ')[1];
+    if (!token) {
+        return res.status(401).json({ error: 'Token inválido o expirado' });
+    }
 
     // 2. Verificamos si la pulsera es real y no ha expirado
-    jwt.verify(token, SECRET_KEY, (err, decoded) => {
+    jwt.verify(token, SECRET_KEY, { algorithms: ['HS256'] }, (err, decoded) => {
         if (err) {
             return res.status(401).json({ error: 'Token inválido o expirado' });
         }
@@ -83,7 +138,7 @@ app.get('/api/presentacion', (req, res) => {
     const idiomaSolicitado = req.query.lang || 'es';
 
     db.query('SELECT * FROM presentacion LIMIT 1', async (err, results) => {
-        if (err) return res.status(500).json(err);
+        if (err) return errorBD(res, err);
 
         const presentacionDB = results[0];
         const presentacion = presentacionDB || {
@@ -112,7 +167,7 @@ app.get('/api/estudios', (req, res) => {
     const idiomaSolicitado = req.query.lang || 'es';
 
     db.query('SELECT * FROM estudios', async (err, results) => {
-        if (err) return res.status(500).json(err);
+        if (err) return errorBD(res, err);
 
         try {
             const estudiosTraducidos = await traducirRegistros(results, ['titulo', 'institucion', 'descripcion'], idiomaSolicitado);
@@ -135,7 +190,7 @@ app.post('/api/estudios',verificarAdmin, (req, res) => {
     db.query(sql, [titulo, institucion, descripcion, fecha_inicio], (err, result) => {
         if (err) {
             console.error('❌ Error al guardar en MySQL:', err);
-            return res.status(500).json(err);
+            return errorBD(res, err);
         }
         // Si todo sale bien, respondemos a Angular
         res.json({ message: 'Estudio guardado', id: result.insertId });
@@ -150,7 +205,7 @@ app.put('/api/estudios/:id',verificarAdmin, (req, res) => {
     const sql = 'UPDATE estudios SET titulo = ?, institucion = ?, descripcion = ?, fecha_inicio = ? WHERE id = ?';
     
     db.query(sql, [titulo, institucion, descripcion, fecha_inicio, id], (err, result) => {
-        if (err) return res.status(500).json(err);
+        if (err) return errorBD(res, err);
         res.json({ message: 'Estudio actualizado' });
     });
 });
@@ -220,7 +275,7 @@ app.get('/api/experiencia', (req, res) => {
     const idiomaSolicitado = req.query.lang || 'es';
 
     db.query('SELECT * FROM experiencia', async (err, results) => {
-        if (err) return res.status(500).json(err);
+        if (err) return errorBD(res, err);
 
         try {
             const experienciaTraducida = await traducirRegistros(results, ['empresa', 'puesto', 'descripcion'], idiomaSolicitado);
@@ -242,7 +297,7 @@ app.post('/api/experiencia',verificarAdmin, (req, res) => {
     const query = 'INSERT INTO experiencia (empresa, puesto, fecha_inicio, fecha_fin, descripcion, logo_url) VALUES (?, ?, ?, ?, ?, ?)';
     
     db.query(query, [empresa, puesto, fecha_inicio, fecha_fin, descripcion, logo_url], (err, result) => {
-        if (err) return res.status(500).json(err);
+        if (err) return errorBD(res, err);
         res.json({ message: 'Experiencia agregada', id: result.insertId });
     });
 });
@@ -258,7 +313,7 @@ app.put('/api/experiencia/:id',verificarAdmin, (req, res) => {
     const query = 'UPDATE experiencia SET empresa = ?, puesto = ?, fecha_inicio = ?, fecha_fin = ?, descripcion = ?, logo_url = ? WHERE id = ?';
     
     db.query(query, [empresa, puesto, fecha_inicio, fecha_fin, descripcion, logo_url, id], (err, result) => {
-        if (err) return res.status(500).json(err);
+        if (err) return errorBD(res, err);
         res.json({ message: 'Experiencia actualizada' });
     });
 });
@@ -281,7 +336,7 @@ app.delete('/api/experiencia/:id', verificarAdmin, (req, res) => {
 // 4. Obtener Habilidades
 app.get('/api/habilidades', (req, res) => {
     db.query('SELECT * FROM habilidades', (err, results) => {
-        if (err) return res.status(500).json(err);
+        if (err) return errorBD(res, err);
         res.json(results);
     });
 });
@@ -289,7 +344,7 @@ app.post('/api/habilidades',verificarAdmin, (req, res) => {
     const { nombre, porcentaje, icono_url } = req.body;
     const query = 'INSERT INTO habilidades (nombre, porcentaje, icono_url) VALUES (?, ?, ?)';
     db.query(query, [nombre, porcentaje, icono_url], (err, result) => {
-        if (err) return res.status(500).json(err);
+        if (err) return errorBD(res, err);
         res.json({ message: 'Habilidad agregada', id: result.insertId });
     });
 });
@@ -299,7 +354,7 @@ app.put('/api/habilidades/:id',verificarAdmin, (req, res) => {
     const { nombre, porcentaje, icono_url } = req.body;
     const query = 'UPDATE habilidades SET nombre = ?, porcentaje = ?, icono_url = ? WHERE id = ?';
     db.query(query, [nombre, porcentaje, icono_url, id], (err, result) => {
-        if (err) return res.status(500).json(err);
+        if (err) return errorBD(res, err);
         res.json({ message: 'Habilidad actualizada' });
     });
 });
@@ -323,7 +378,7 @@ app.get('/api/proyectos', (req, res) => {
     const idiomaSolicitado = req.query.lang || 'es';
 
     db.query('SELECT * FROM proyectos', async (err, results) => {
-        if (err) return res.status(500).json(err);
+        if (err) return errorBD(res, err);
 
         try {
             const proyectosTraducidos = await traducirRegistros(results, ['descripcion'], idiomaSolicitado);
@@ -338,7 +393,7 @@ app.post('/api/proyectos',verificarAdmin, (req, res) => {
     const { nombre, tecnologias, link_repo, link_demo, descripcion } = req.body;
     const query = 'INSERT INTO proyectos (nombre, tecnologias, link_repo, link_demo, descripcion) VALUES (?, ?, ?, ?, ?)';
     db.query(query, [nombre, tecnologias, link_repo, link_demo, descripcion], (err, result) => {
-        if (err) return res.status(500).json(err);
+        if (err) return errorBD(res, err);
         res.json({ message: 'Proyecto agregado', id: result.insertId });
     });
 });
@@ -348,7 +403,7 @@ app.put('/api/proyectos/:id',verificarAdmin, (req, res) => {
     const { nombre, tecnologias, link_repo, link_demo, descripcion } = req.body;
     const query = 'UPDATE proyectos SET nombre = ?, tecnologias = ?, link_repo = ?, link_demo = ?, descripcion = ? WHERE id = ?';
     db.query(query, [nombre, tecnologias, link_repo, link_demo, descripcion, id], (err, result) => {
-        if (err) return res.status(500).json(err);
+        if (err) return errorBD(res, err);
         res.json({ message: 'Proyecto actualizado' });
     });
 });
@@ -370,9 +425,16 @@ app.delete('/api/proyectos/:id', verificarAdmin, (req, res) => {
 // ==========================================
 // RUTA PARA REGISTRO
 // ==========================================
-app.post('/api/registro', async (req, res) => {
-    const { username, password } = req.body;
-    
+app.post('/api/registro', registroLimiter, async (req, res) => {
+    const { username, password } = req.body || {};
+
+    if (typeof username !== 'string' || !/^[A-Za-z0-9_.-]{3,30}$/.test(username)) {
+        return res.status(400).json({ error: 'Usuario inválido: 3 a 30 caracteres (letras, números, _ . -)' });
+    }
+    if (typeof password !== 'string' || password.length < 8 || password.length > 72) {
+        return res.status(400).json({ error: 'La contraseña debe tener entre 8 y 72 caracteres' });
+    }
+
     try {
         // Encriptamos la contraseña (el número 10 es el nivel de seguridad/saltos)
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -381,7 +443,13 @@ app.post('/api/registro', async (req, res) => {
         const query = 'INSERT INTO usuarios (username, password, rol) VALUES (?, ?, "invitado")';
         
         db.query(query, [username, hashedPassword], (err, result) => {
-            if (err) return res.status(500).json({ error: 'Error al registrar usuario' });
+            if (err) {
+                if (err.code === 'ER_DUP_ENTRY') {
+                    return res.status(409).json({ error: 'Ese nombre de usuario ya está en uso' });
+                }
+                console.error('❌ Error al registrar usuario:', err.message);
+                return res.status(500).json({ error: 'Error al registrar usuario' });
+            }
             res.json({ message: 'Usuario registrado con éxito' });
         });
     } catch (error) {
@@ -392,8 +460,11 @@ app.post('/api/registro', async (req, res) => {
 // ==========================================
 // RUTA PARA LOGIN (COMPARANDO ENCRIPTACIÓN)
 // ==========================================
-app.post('/api/login', (req, res) => {
-    const { username, password } = req.body; 
+app.post('/api/login', loginLimiter, (req, res) => {
+    const { username, password } = req.body || {};
+    if (typeof username !== 'string' || typeof password !== 'string') {
+        return res.status(400).json({ success: false, message: 'Datos inválidos' });
+    }
     const query = 'SELECT * FROM usuarios WHERE username = ?';
     
     db.query(query, [username], async (err, results) => {
@@ -420,10 +491,10 @@ app.post('/api/login', (req, res) => {
                     token: token // <--- ¡AQUÍ VIAJA LA PULSERA VIP!
                 });
             } else {
-                res.status(401).json({ success: false, message: 'Contraseña incorrecta' });
+                res.status(401).json({ success: false, message: 'Usuario o contraseña incorrectos' });
             }
         } else {
-            res.status(401).json({ success: false, message: 'Usuario no encontrado' });
+            res.status(401).json({ success: false, message: 'Usuario o contraseña incorrectos' });
         }
     });
 });
