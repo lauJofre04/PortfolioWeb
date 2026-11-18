@@ -20,7 +20,12 @@
     "TITLE": "Perfil Profesional",
     "CLICK_HINT": "Haz clic para leer más sobre mí",
     "DOWNLOAD_CV": "Descargar CV",
-    "BACK": "Volver"
+    "BACK": "Volver",
+    "STATUS": {
+      "ACTIVE": "Activo",
+      "INACTIVE": "Inactivo",
+      "PENDING": "Pendiente"
+    }
   },
   "SECTIONS": {
     "EDUCATION": "Educación y Cursos",

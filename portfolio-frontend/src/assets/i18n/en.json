@@ -27,7 +27,8 @@
     "EDUCATION": "Education",
     "SKILLS": "Skills",
     "PROJECTS": "Projects",
-    "CONTACT": "Contact"
+    "CONTACT": "Contact",
+    "STATUS": "Status"
   },
   "SECTIONS": {
     "EDUCATION": "Education & Courses",
