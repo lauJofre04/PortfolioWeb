@@ -21,6 +21,7 @@ export class Header implements OnInit {
   menuOpen: boolean = false;
   showLoginModal: boolean = false;
   showRegisterModal: boolean = false;
+  isSidebarOpen: boolean = false; // <-- Nuevo estado para el sidebar
 
   constructor(
     private authService: AuthService,
@@ -47,6 +48,14 @@ export class Header implements OnInit {
 
   toggleMenu(): void {
     this.menuOpen = !this.menuOpen;
+  }
+
+  toggleSidebar(): void {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+  closeSidebar(): void {
+    this.isSidebarOpen = false;
   }
 
   openLogin(): void {

@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="es" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lautaro Jofré | Full Stack Developer</title>
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Bootstrap Icons CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+          },
+          colors: {
+            brand: {
+              bg: '#070a0f',
+              surface: '#0d131f',
+              border: '#1e293b',
+              indigo: '#6366f1',
+              emerald: '#10b981',
+            },
+          },
+          boxShadow: {
+            'glow-indigo': '0 0 30px -5px rgba(99, 102, 241, 0.35)',
+            'glow-emerald': '0 0 20px -5px rgba(16, 185, 129, 0.35)',
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    /* Ambient Tech Grid & Radial Glow */
+    .dark .ambient-bg {
+      background-color: #070a0f;
+      background-image:
+        radial-gradient(ellipse 65% 45% at 15% 0%, rgba(99, 102, 241, 0.14), transparent 60%),
+        radial-gradient(ellipse 50% 40% at 85% 15%, rgba(16, 185, 129, 0.09), transparent 55%),
+        radial-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 28px 28px;
+    }
+
+    html:not(.dark) .ambient-bg {
+      background-color: #f8fafc;
+      background-image:
+        radial-gradient(ellipse 65% 45% at 15% 0%, rgba(99, 102, 241, 0.10), transparent 60%),
+        radial-gradient(ellipse 50% 40% at 85% 15%, rgba(16, 185, 129, 0.07), transparent 55%),
+        radial-gradient(rgba(15, 23, 42, 0.06) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 28px 28px;
+    }
+
+    /* Glassmorphic Card Helper */
+    .glass-card {
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    /* Hide scrollbar for clean carousel */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+
+<body class="ambient-bg text-slate-900 dark:text-slate-100 font-sans antialiased selection:bg-indigo-500/30 selection:text-indigo-200 transition-colors duration-300 overflow-x-hidden">
+
+  <!-- ==================== TOP MINIMAL BAR ==================== -->
+  <header class="fixed top-0 inset-x-0 z-40 h-16 border-b border-slate-200/80 dark:border-slate-800/80 bg-white/75 dark:bg-[#070a0f]/75 glass-card transition-colors duration-300">
+    <div class="max-w-6xl mx-auto h-full px-4 sm:px-6 flex items-center justify-between">
+      <!-- Left: Menu Button + Brand -->
+      <div class="flex items-center gap-3">
+        <button
+          id="openSidebarBtn"
+          type="button"
+          aria-label="Open menu"
+          class="w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 hover:border-indigo-500/60 hover:text-indigo-500 dark:hover:text-indigo-400 flex items-center justify-center transition-all"
+        >
+          <i class="bi bi-list text-xl"></i>
+        </button>
+        <a href="#presentacion" class="flex items-center gap-2 font-bold tracking-tight text-base sm:text-lg">
+          <span class="font-mono text-indigo-500">&lt;/&gt;</span>
+          <span>Lautaro Jofré</span>
+        </a>
+      </div>
+
+      <!-- Right: Quick Controls (Language & Theme) -->
+      <div class="flex items-center gap-2">
+        <button
+          id="topLangBtn"
+          type="button"
+          class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 hover:border-indigo-500/60 font-mono text-xs font-semibold flex items-center gap-1.5 transition-all"
+        >
+          <i class="bi bi-translate text-indigo-500"></i>
+          <span class="lang-label">EN</span>
+        </button>
+
+        <button
+          id="topThemeBtn"
+          type="button"
+          aria-label="Toggle theme"
+          class="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 hover:border-indigo-500/60 flex items-center justify-center transition-all"
+        >
+          <i class="theme-icon bi bi-sun-fill text-amber-400 text-sm"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== SIDEBAR BACKDROP ==================== -->
+  <div
+    id="sidebarBackdrop"
+    class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300"
+  ></div>
+
+  <!-- ==================== COLLAPSIBLE SIDEBAR ==================== -->
+  <aside
+    id="sidebar"
+    class="fixed top-0 left-0 z-50 h-screen w-72 -translate-x-full border-r border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-[#090d14]/95 glass-card flex flex-col justify-between p-5 transition-transform duration-300 ease-out"
+  >
+    <div>
+      <!-- Sidebar Header -->
+      <div class="flex items-center justify-between pb-5 border-b border-slate-200 dark:border-slate-800">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center font-mono font-bold text-indigo-500">
+            LJ
+          </div>
+          <div>
+            <p class="font-bold text-sm leading-tight">Lautaro Jofré</p>
+            <p class="font-mono text-[11px] text-emerald-500 flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              online.dev
+            </p>
+          </div>
+        </div>
+        <button
+          id="closeSidebarBtn"
+          type="button"
+          aria-label="Close menu"
+          class="w-8 h-8 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 transition-colors"
+        >
+          <i class="bi bi-x-lg text-sm"></i>
+        </button>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="mt-6 space-y-1.5">
+        <p class="px-3 mb-2 font-mono text-[11px] uppercase tracking-wider text-slate-400 dark:text-slate-500" data-i18n="sidebar.navigation">Navegación</p>
+
+        <a href="#presentacion" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-indigo-500/10 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all">
+          <i class="bi bi-person-badge text-base text-indigo-500"></i>
+          <span data-i18n="nav.about">Presentación</span>
+        </a>
+
+        <a href="#proyectos" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-indigo-500/10 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all">
+          <i class="bi bi-kanban text-base text-indigo-500"></i>
+          <span data-i18n="nav.projects">Proyectos</span>
+        </a>
+
+        <a href="#habilidades" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-indigo-500/10 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all">
+          <i class="bi bi-cpu text-base text-indigo-500"></i>
+          <span data-i18n="nav.skills">Habilidades</span>
+        </a>
+
+        <a href="#estudios" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-indigo-500/10 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all">
+          <i class="bi bi-mortarboard text-base text-indigo-500"></i>
+          <span data-i18n="nav.education">Estudios</span>
+        </a>
+      </nav>
+
+      <!-- Preferences inside Sidebar -->
+      <div class="mt-6 pt-5 border-t border-slate-200 dark:border-slate-800 space-y-2.5">
+        <p class="px-3 mb-2 font-mono text-[11px] uppercase tracking-wider text-slate-400 dark:text-slate-500" data-i18n="sidebar.preferences">Preferencias</p>
+
+        <button
+          id="sideThemeBtn"
+          type="button"
+          class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 hover:border-indigo-500/50 text-sm font-medium transition-all"
+        >
+          <span class="flex items-center gap-2.5">
+            <i class="theme-icon bi bi-sun-fill text-amber-400"></i>
+            <span class="theme-text" data-i18n="theme.light">Modo Claro</span>
+          </span>
+          <span class="font-mono text-[10px] px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400">UI</span>
+        </button>
+
+        <button
+          id="sideLangBtn"
+          type="button"
+          class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 hover:border-indigo-500/50 text-sm font-medium transition-all"
+        >
+          <span class="flex items-center gap-2.5">
+            <i class="bi bi-globe2 text-indigo-500"></i>
+            <span data-i18n="lang.switch">Cambiar a Inglés</span>
+          </span>
+          <span class="lang-label font-mono text-[10px] px-2 py-0.5 rounded bg-indigo-500/15 text-indigo-500 font-semibold">EN</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Sidebar Footer: Social Links -->
+    <div class="pt-4 border-t border-slate-200 dark:border-slate-800">
+      <div class="grid grid-cols-2 gap-2">
+        <a
+          href="https://github.com/lauJofre04"
+          target="_blank"
+          rel="noreferrer"
+          class="flex items-center justify-center gap-2 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-indigo-500/60 hover:text-indigo-500 text-xs font-semibold transition-all"
+        >
+          <i class="bi bi-github text-sm"></i> GitHub
+        </a>
+        <a
+          href="https://www.linkedin.com/in/lautaro-jofre"
+          target="_blank"
+          rel="noreferrer"
+          class="flex items-center justify-center gap-2 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-indigo-500/60 hover:text-indigo-500 text-xs font-semibold transition-all"
+        >
+          <i class="bi bi-linkedin text-sm"></i> LinkedIn
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ==================== MAIN CONTENT ==================== -->
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 pt-28 pb-28 space-y-28">
+
+    <!-- ==================== 1. HERO / PRESENTACIÓN ==================== -->
+    <section id="presentacion" class="scroll-mt-24">
+      <div class="relative rounded-3xl border border-slate-200/90 dark:border-slate-800/90 bg-white/70 dark:bg-[#0c111c]/80 glass-card p-6 sm:p-10 lg:p-14 overflow-hidden shadow-xl dark:shadow-none">
+        <!-- Subtle inner corner glow -->
+        <div class="pointer-events-none absolute -top-24 -right-24 w-72 h-72 rounded-full bg-indigo-500/15 blur-3xl"></div>
+        <div class="pointer-events-none absolute -bottom-24 -left-24 w-72 h-72 rounded-full bg-emerald-500/10 blur-3xl"></div>
+
+        <div class="relative z-10 max-w-3xl">
+          <!-- Status Pill -->
+          <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-mono font-medium mb-6 shadow-glow-emerald">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            <span data-i18n="hero.status">Disponible para oportunidades IT</span>
+          </div>
+
+          <!-- Display Title -->
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.1]">
+            Lautaro <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-indigo-400 to-emerald-400">Jofré</span>
+          </h1>
+
+          <!-- Subtitle & Location -->
+          <p class="mt-4 text-lg sm:text-xl font-semibold text-slate-700 dark:text-slate-200" data-i18n="hero.subtitle">
+            Full Stack Developer | Estudiante de Ingeniería en Sistemas
+          </p>
+          <p class="mt-1.5 text-sm font-mono text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+            <i class="bi bi-geo-alt-fill text-indigo-500"></i>
+            General Daniel Cerri, Buenos Aires, Argentina
+          </p>
+
+          <!-- Bio -->
+          <p class="mt-6 text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl" data-i18n="hero.bio">
+            Especializado en el diseño de arquitecturas escalables y el desarrollo end-to-end de productos web y SaaS. Construyo APIs robustas con Java / Spring Boot y Node.js, e interfaces reactivas con Angular y React, aplicando testing de integración, Docker y despliegues en la nube.
+          </p>
+
+          <!-- CTA Buttons -->
+          <div class="mt-8 flex flex-wrap items-center gap-3">
+            <a
+              href="#proyectos"
+              class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm shadow-glow-indigo transition-all hover:-translate-y-0.5"
+            >
+              <i class="bi bi-rocket-takeoff-fill"></i>
+              <span data-i18n="hero.ctaProjects">Ver Proyectos</span>
+            </a>
+
+            <a
+              href="https://www.linkedin.com/in/lautaro-jofre"
+              target="_blank"
+              rel="noreferrer"
+              class="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-white/80 dark:bg-slate-900/70 hover:border-indigo-500/60 hover:text-indigo-500 dark:hover:text-indigo-400 font-semibold text-sm transition-all hover:-translate-y-0.5"
+            >
+              <i class="bi bi-linkedin"></i>
+              <span>LinkedIn</span>
+            </a>
+
+            <a
+              href="https://github.com/lauJofre04"
+              target="_blank"
+              rel="noreferrer"
+              class="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-white/80 dark:bg-slate-900/70 hover:border-indigo-500/60 hover:text-indigo-500 dark:hover:text-indigo-400 font-semibold text-sm transition-all hover:-translate-y-0.5"
+            >
+              <i class="bi bi-github"></i>
+              <span>GitHub</span>
+            </a>
+
+            <a
+              href="https://drive.google.com/file/d/1bWvIHJBhc5Q34GrmSl817NVlhUegZXaD/view?usp=drive_link"
+              target="_blank"
+              rel="noreferrer"
+              class="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-white/80 dark:bg-slate-900/70 hover:border-emerald-500/60 hover:text-emerald-600 dark:hover:text-emerald-400 font-semibold text-sm transition-all hover:-translate-y-0.5"
+            >
+              <i class="bi bi-file-earmark-arrow-down"></i>
+              <span data-i18n="hero.ctaCv">Descargar CV</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Bottom Metrics / Highlights Strip -->
+        <div class="relative z-10 mt-12 pt-8 border-t border-slate-200/80 dark:border-slate-800/80 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/80 dark:bg-[#070a0f]/70 p-4 flex items-center gap-4">
+            <div class="w-11 h-11 rounded-xl bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center text-indigo-500 shrink-0">
+              <i class="bi bi-layers-fill text-lg"></i>
+            </div>
+            <div>
+              <p class="font-bold text-sm sm:text-base text-slate-900 dark:text-white" data-i18n="metrics.m1Title">4+ Proyectos en Producción</p>
+              <p class="font-mono text-xs text-slate-500 dark:text-slate-400" data-i18n="metrics.m1Sub">Vercel, Render, Aiven &amp; Neon</p>
+            </div>
+          </div>
+
+          <div class="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/80 dark:bg-[#070a0f]/70 p-4 flex items-center gap-4">
+            <div class="w-11 h-11 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-500 shrink-0">
+              <i class="bi bi-code-slash text-lg"></i>
+            </div>
+            <div>
+              <p class="font-bold text-sm sm:text-base text-slate-900 dark:text-white">Java / Spring Boot &amp; Angular / React</p>
+              <p class="font-mono text-xs text-slate-500 dark:text-slate-400" data-i18n="metrics.m2Sub">Arquitectura Full Stack End-to-End</p>
+            </div>
+          </div>
+
+          <div class="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/80 dark:bg-[#070a0f]/70 p-4 flex items-center gap-4">
+            <div class="w-11 h-11 rounded-xl bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center text-indigo-400 shrink-0">
+              <i class="bi bi-cloud-check-fill text-lg"></i>
+            </div>
+            <div>
+              <p class="font-bold text-sm sm:text-base text-slate-900 dark:text-white">Cloud, Docker &amp; WebSockets</p>
+              <p class="font-mono text-xs text-slate-500 dark:text-slate-400" data-i18n="metrics.m3Sub">CI/CD, STOMP, JWT &amp; Testing</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 2. INTERACTIVE PROJECTS CAROUSEL ==================== -->
+    <section id="proyectos" class="scroll-mt-24">
+      <!-- Section Header + Controls -->
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+        <div>
+          <span class="font-mono text-xs uppercase tracking-widest text-indigo-500 font-semibold">// 01. Portfolio</span>
+          <h2 class="mt-1 text-3xl sm:text-4xl font-extrabold tracking-tight" data-i18n="projects.title">Proyectos Destacados</h2>
+          <p class="mt-2 text-sm sm:text-base text-slate-600 dark:text-slate-400" data-i18n="projects.subtitle">
+            Aplicaciones reales desplegadas en la nube con arquitecturas modernas.
+          </p>
+        </div>
+
+        <!-- Prev / Next Buttons -->
+        <div class="flex items-center gap-2">
+          <button
+            id="prevProjectBtn"
+            type="button"
+            aria-label="Previous project"
+            class="w-11 h-11 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 hover:border-indigo-500 hover:text-indigo-500 flex items-center justify-center transition-all"
+          >
+            <i class="bi bi-chevron-left text-lg"></i>
+          </button>
+          <button
+            id="nextProjectBtn"
+            type="button"
+            aria-label="Next project"
+            class="w-11 h-11 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 hover:border-indigo-500 hover:text-indigo-500 flex items-center justify-center transition-all"
+          >
+            <i class="bi bi-chevron-right text-lg"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Carousel Viewport -->
+      <div id="carouselViewport" class="relative overflow-hidden rounded-3xl border border-slate-200/90 dark:border-slate-800/90 bg-white/75 dark:bg-[#0c111c]/85 glass-card shadow-xl dark:shadow-none">
+        <div id="carouselTrack" class="flex transition-transform duration-500 ease-out">
+          <!-- Slides injected cleanly via JS for i18n + interactivity -->
+        </div>
+      </div>
+
+      <!-- Pagination Dots + Counter -->
+      <div class="mt-6 flex items-center justify-between">
+        <div id="carouselDots" class="flex items-center gap-2"></div>
+        <span id="carouselCounter" class="font-mono text-xs text-slate-500 dark:text-slate-400">01 / 04</span>
+      </div>
+    </section>
+
+    <!-- ==================== 3. HABILIDADES (TECH STACK BENTO) ==================== -->
+    <section id="habilidades" class="scroll-mt-24">
+      <div class="mb-8">
+        <span class="font-mono text-xs uppercase tracking-widest text-indigo-500 font-semibold">// 02. Tech Stack</span>
+        <h2 class="mt-1 text-3xl sm:text-4xl font-extrabold tracking-tight" data-i18n="skills.title">Habilidades Técnicas</h2>
+        <p class="mt-2 text-sm sm:text-base text-slate-600 dark:text-slate-400" data-i18n="skills.subtitle">
+          Herramientas y tecnologías que utilizo en el día a día para construir software escalable.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <!-- Category 1: Frontend -->
+        <div class="rounded-2xl border border-slate-200/90 dark:border-slate-800/90 bg-white/75 dark:bg-[#0c111c]/80 glass-card p-6 hover:border-indigo-500/50 transition-all">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-10 h-10 rounded-xl bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center text-indigo-500">
+              <i class="bi bi-window-sidebar text-lg"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-lg">Frontend</h3>
+              <p class="font-mono text-xs text-slate-500 dark:text-slate-400" data-i18n="skills.frontendSub">Interfaces reactivas &amp; UX</p>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1.5 rounded-lg font-mono text-xs font-medium bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/70">Angular</span>
+            <span class="px-3 py-1.5 rounded-lg font-mono text-xs font-medium bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/70">React</span>
+            <span class="px-3 py-1.5 rounded-lg font-mono text-xs font-medium bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/70">TypeScript</span>
+            <span class="px-3 py-1.5 rounded-lg font-mono text-xs font-medium bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/70">Tailwind CSS</span>
+          </div>
+        </div>
+
+        <!-- Category 2: Backend -->
+        <div class="rounded-2xl border border-slate-200/90 dark:border-slate-800/90 bg-white/75 dark:bg-[#0c111c]/80 glass-card p-6 hover:border-emerald-500/50 transition-all">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-500">
+              <i class="bi bi-hdd-network text-lg"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-lg">Backend</h3>
+              <p class="font-mono text-xs text-slate-500 dark:text-slate-400" data-i18n="skills.backendSub">APIs REST, Seguridad &amp; Tiempo Real</p>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1.5 rounded-lg font-mono text-xs font-medium bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/70">Java</span>
+            <span class="px-3 py-1.5 rounded-lg font-mono text-xs font-medium bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/70">Spring Boot</span>
+            <span class="px-3 py-1.5 rounded-lg font-mono text-xs font-medium bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/70">Node.js</span>
+            <span class="px-3 py-1.5 rounded-lg font-mono text-xs font-medium bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/70">NestJS</span>
+            <span class="px-3 py-1.5 rounded-lg font-mono text-xs font-medium bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/70">WebSockets</span>
+          </div>
+        </div>
+
+        <!-- Category 3: Databases -->
+        <div class="rounded-2xl border border-slate-200/90 dark:border-slate-800/90 bg-white/75 dark:bg-[#0c111c]/80 glass-card p-6 hover:border-indigo-500/50 transition-all">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-10 h-10 rounded-xl bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+              <i class="bi bi-database-fill text-lg"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-lg" data-i18n="skills.dbTitle">Bases de Datos</h3>
+              <p class="font-mono text-xs text-slate-500 dark:text-slate-400" data-i18n="skills.dbSub">Modelado relacional, ORM &amp; Caché</p>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1.5 rounded-lg font-mono text-xs font-medium bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/70">PostgreSQL</span>
+            <span class="px-3 py-1.5 rounded-lg font-mono text-xs font-medium bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/70">MySQL</span>
+            <span class="px-3 py-1.5 rounded-lg font-mono text-xs font-medium bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/70">Redis</span>
+            <span class="px-3 py-1.5 rounded-lg font-mono text-xs font-medium bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/70">Prisma</span>
+          </div>
+        </div>
+
+        <!-- Category 4: DevOps & Testing -->
+        <div class="rounded-2xl border border-slate-200/90 dark:border-slate-800/90 bg-white/75 dark:bg-[#0c111c]/80 glass-card p-6 hover:border-emerald-500/50 transition-all">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-500">
+              <i class="bi bi-shield-check text-lg"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-lg">DevOps &amp; Testing</h3>
+              <p class="font-mono text-xs text-slate-500 dark:text-slate-400" data-i18n="skills.devopsSub">Contenedores, CI/CD &amp; Calidad</p>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1.5 rounded-lg font-mono text-xs font-medium bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/70">Docker</span>
+            <span class="px-3 py-1.5 rounded-lg font-mono text-xs font-medium bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/70">GitHub Actions</span>
+            <span class="px-3 py-1.5 rounded-lg font-mono text-xs font-medium bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/70">JUnit</span>
+            <span class="px-3 py-1.5 rounded-lg font-mono text-xs font-medium bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/70">MockMvc</span>
+            <span class="px-3 py-1.5 rounded-lg font-mono text-xs font-medium bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/70">Playwright</span>
+            <span class="px-3 py-1.5 rounded-lg font-mono text-xs font-medium bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/70">Swagger</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 4. ESTUDIOS (EDUCATION TIMELINE) ==================== -->
+    <section id="estudios" class="scroll-mt-24">
+      <div class="mb-10">
+        <span class="font-mono text-xs uppercase tracking-widest text-indigo-500 font-semibold">// 03. Education</span>
+        <h2 class="mt-1 text-3xl sm:text-4xl font-extrabold tracking-tight" data-i18n="edu.title">Formación Académica</h2>
+        <p class="mt-2 text-sm sm:text-base text-slate-600 dark:text-slate-400" data-i18n="edu.subtitle">
+          Base teórica en ingeniería de software y tecnologías de la información.
+        </p>
+      </div>
+
+      <div class="relative border-l-2 border-slate-200 dark:border-slate-800 ml-3 sm:ml-4 space-y-8 pl-7 sm:pl-10">
+        <!-- Item 1 -->
+        <div class="relative">
+          <span class="absolute -left-[37px] sm:-left-[49px] top-1.5 w-4 h-4 rounded-full bg-emerald-500 ring-4 ring-emerald-500/20"></span>
+          <div class="rounded-2xl border border-slate-200/90 dark:border-slate-800/90 bg-white/75 dark:bg-[#0c111c]/80 glass-card p-6">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+              <h3 class="font-bold text-lg text-slate-900 dark:text-white" data-i18n="edu.e1Title">Tecnicatura Universitaria en Tecnologías de la Información</h3>
+              <span class="font-mono text-xs px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30" data-i18n="edu.e1Date">2025 - Actualidad</span>
+            </div>
+            <p class="text-sm font-medium text-indigo-500">Universidad Tecnológica Nacional (UTN)</p>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="relative">
+          <span class="absolute -left-[37px] sm:-left-[49px] top-1.5 w-4 h-4 rounded-full bg-indigo-500 ring-4 ring-indigo-500/20"></span>
+          <div class="rounded-2xl border border-slate-200/90 dark:border-slate-800/90 bg-white/75 dark:bg-[#0c111c]/80 glass-card p-6">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+              <h3 class="font-bold text-lg text-slate-900 dark:text-white" data-i18n="edu.e2Title">Ingeniería en Sistemas de Información</h3>
+              <span class="font-mono text-xs px-2.5 py-1 rounded-full bg-indigo-500/15 text-indigo-500 border border-indigo-500/30">2022 - 2025</span>
+            </div>
+            <p class="text-sm font-medium text-indigo-500">Universidad Nacional del Sur (UNS)</p>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="relative">
+          <span class="absolute -left-[37px] sm:-left-[49px] top-1.5 w-4 h-4 rounded-full bg-slate-400 dark:bg-slate-600 ring-4 ring-slate-500/20"></span>
+          <div class="rounded-2xl border border-slate-200/90 dark:border-slate-800/90 bg-white/75 dark:bg-[#0c111c]/80 glass-card p-6">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+              <h3 class="font-bold text-lg text-slate-900 dark:text-white" data-i18n="edu.e3Title">Bachillerato en Informática</h3>
+              <span class="font-mono text-xs px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">2019 - 2021</span>
+            </div>
+            <p class="text-sm font-medium text-indigo-500">Escuela de Comercio Prudencio Cornejo</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="pt-10 border-t border-slate-200/80 dark:border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-500">
+      <p>© 2026 Lautaro Jofré. <span data-i18n="footer.rights">Diseñado con foco en arquitectura y UX.</span></p>
+      <div class="flex items-center gap-4">
+        <a href="https://github.com/lauJofre04" target="_blank" rel="noreferrer" class="hover:text-indigo-500 transition-colors">GitHub</a>
+        <a href="https://www.linkedin.com/in/lautaro-jofre" target="_blank" rel="noreferrer" class="hover:text-indigo-500 transition-colors">LinkedIn</a>
+      </div>
+    </footer>
+  </main>
+
+  <!-- ==================== 5. FLOATING ACTION BUTTON (FAB) ==================== -->
+  <button
+    id="openContactBtn"
+    type="button"
+    aria-label="Open contact form"
+    class="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white shadow-glow-indigo flex items-center justify-center transition-all hover:scale-110 active:scale-95"
+  >
+    <i class="bi bi-chat-dots-fill text-xl"></i>
+  </button>
+
+  <!-- ==================== 6. CONTACT MODAL ==================== -->
+  <div
+    id="contactModal"
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/65 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300"
+  >
+    <div
+      id="contactModalCard"
+      class="w-full max-w-md rounded-3xl border border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-[#0c111c]/95 glass-card p-6 sm:p-8 shadow-2xl scale-95 transition-transform duration-300"
+    >
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <span class="font-mono text-xs text-indigo-500 uppercase tracking-wider">// Contact</span>
+          <h3 class="text-xl font-bold mt-0.5" data-i18n="contact.title">Hablemos</h3>
+        </div>
+        <button
+          id="closeContactBtn"
+          type="button"
+          aria-label="Close contact modal"
+          class="w-9 h-9 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-500 transition-colors"
+        >
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+
+      <form id="contactForm" class="space-y-4">
+        <div>
+          <label class="block text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5" data-i18n="contact.nameLabel">Nombre</label>
+          <input
+            type="text"
+            required
+            placeholder="Tu nombre"
+            data-i18n-placeholder="contact.namePlaceholder"
+            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#070a0f] text-sm focus:outline-none focus:border-indigo-500 transition-colors"
+          />
+        </div>
+
+        <div>
+          <label class="block text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Email</label>
+          <input
+            type="email"
+            required
+            placeholder="nombre@empresa.com"
+            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#070a0f] text-sm focus:outline-none focus:border-indigo-500 transition-colors"
+          />
+        </div>
+
+        <div>
+          <label class="block text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5" data-i18n="contact.messageLabel">Mensaje</label>
+          <textarea
+            rows="4"
+            required
+            placeholder="Contame sobre tu proyecto u oportunidad..."
+            data-i18n-placeholder="contact.messagePlaceholder"
+            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#070a0f] text-sm focus:outline-none focus:border-indigo-500 transition-colors resize-none"
+          ></textarea>
+        </div>
+
+        <button
+          type="submit"
+          class="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm shadow-glow-indigo flex items-center justify-center gap-2 transition-all"
+        >
+          <i class="bi bi-send-fill text-xs"></i>
+          <span data-i18n="contact.send">Enviar Mensaje</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== SUCCESS TOAST ==================== -->
+  <div
+    id="toast"
+    class="fixed bottom-24 right-6 z-50 flex items-center gap-3 px-4 py-3 rounded-2xl border border-emerald-500/40 bg-white dark:bg-[#0d131f] shadow-xl translate-y-6 opacity-0 pointer-events-none transition-all duration-300"
+  >
+    <div class="w-8 h-8 rounded-lg bg-emerald-500/15 text-emerald-500 flex items-center justify-center">
+      <i class="bi bi-check-lg text-lg"></i>
+    </div>
+    <div>
+      <p class="text-sm font-bold text-slate-900 dark:text-white" data-i18n="toast.title">¡Mensaje enviado!</p>
+      <p class="text-xs text-slate-500 dark:text-slate-400" data-i18n="toast.sub">Gracias por contactarte, te responderé pronto.</p>
+    </div>
+  </div>
+
+  <!-- ==================== INTERACTIVE SCRIPT ==================== -->
+  <script>
+    // ---------- 1. I18N DICTIONARY ----------
+    const i18n = {
+      es: {
+        'sidebar.navigation': 'Navegación',
+        'sidebar.preferences': 'Preferencias',
+        'nav.about': 'Presentación',
+        'nav.projects': 'Proyectos',
+        'nav.skills': 'Habilidades',
+        'nav.education': 'Estudios',
+        'theme.light': 'Modo Claro',
+        'theme.dark': 'Modo Oscuro',
+        'lang.switch': 'Cambiar a Inglés',
+        'hero.status': 'Disponible para oportunidades IT',
+        'hero.subtitle': 'Full Stack Developer | Estudiante de Ingeniería en Sistemas',
+        'hero.bio': 'Especializado en el diseño de arquitecturas escalables y el desarrollo end-to-end de productos web y SaaS. Construyo APIs robustas con Java / Spring Boot y Node.js, e interfaces reactivas con Angular y React, aplicando testing de integración, Docker y despliegues en la nube.',
+        'hero.ctaProjects': 'Ver Proyectos',
+        'hero.ctaCv': 'Descargar CV',
+        'metrics.m1Title': '4+ Proyectos en Producción',
+        'metrics.m1Sub': 'Vercel, Render, Aiven & Neon',
+        'metrics.m2Sub': 'Arquitectura Full Stack End-to-End',
+        'metrics.m3Sub': 'CI/CD, STOMP, JWT & Testing',
+        'projects.title': 'Proyectos Destacados',
+        'projects.subtitle': 'Aplicaciones reales desplegadas en la nube con arquitecturas modernas.',
+        'projects.demo': 'Demo Live',
+        'projects.code': 'Código',
+        'skills.title': 'Habilidades Técnicas',
+        'skills.subtitle': 'Herramientas y tecnologías que utilizo en el día a día para construir software escalable.',
+        'skills.frontendSub': 'Interfaces reactivas & UX',
+        'skills.backendSub': 'APIs REST, Seguridad & Tiempo Real',
+        'skills.dbTitle': 'Bases de Datos',
+        'skills.dbSub': 'Modelado relacional, ORM & Caché',
+        'skills.devopsSub': 'Contenedores, CI/CD & Calidad',
+        'edu.title': 'Formación Académica',
+        'edu.subtitle': 'Base teórica en ingeniería de software y tecnologías de la información.',
+        'edu.e1Title': 'Tecnicatura Universitaria en Tecnologías de la Información',
+        'edu.e1Date': '2025 - Actualidad',
+        'edu.e2Title': 'Ingeniería en Sistemas de Información',
+        'edu.e3Title': 'Bachillerato en Informática',
+        'footer.rights': 'Diseñado con foco en arquitectura y UX.',
+        'contact.title': 'Hablemos',
+        'contact.nameLabel': 'Nombre',
+        'contact.namePlaceholder': 'Tu nombre',
+        'contact.messageLabel': 'Mensaje',
+        'contact.messagePlaceholder': 'Contame sobre tu proyecto u oportunidad...',
+        'contact.send': 'Enviar Mensaje',
+        'toast.title': '¡Mensaje enviado!',
+        'toast.sub': 'Gracias por contactarte, te responderé pronto.'
+      },
+      en: {
+        'sidebar.navigation': 'Navigation',
+        'sidebar.preferences': 'Preferences',
+        'nav.about': 'About',
+        'nav.projects': 'Projects',
+        'nav.skills': 'Skills',
+        'nav.education': 'Education',
+        'theme.light': 'Light Mode',
+        'theme.dark': 'Dark Mode',
+        'lang.switch': 'Switch to Spanish',
+        'hero.status': 'Available for IT opportunities',
+        'hero.subtitle': 'Full Stack Developer | Systems Engineering Student',
+        'hero.bio': 'Specialized in designing scalable architectures and building end-to-end web and SaaS products. I craft robust APIs with Java / Spring Boot and Node.js, and reactive UIs with Angular and React, backed by integration testing, Docker, and cloud deployments.',
+        'hero.ctaProjects': 'View Projects',
+        'hero.ctaCv': 'Download Resume',
+        'metrics.m1Title': '4+ Projects in Production',
+        'metrics.m1Sub': 'Vercel, Render, Aiven & Neon',
+        'metrics.m2Sub': 'End-to-End Full Stack Architecture',
+        'metrics.m3Sub': 'CI/CD, STOMP, JWT & Testing',
+        'projects.title': 'Featured Projects',
+        'projects.subtitle': 'Real-world applications deployed to the cloud with modern architectures.',
+        'projects.demo': 'Live Demo',
+        'projects.code': 'Code',
+        'skills.title': 'Technical Skills',
+        'skills.subtitle': 'Tools and technologies I use daily to build scalable software.',
+        'skills.frontendSub': 'Reactive UIs & UX',
+        'skills.backendSub': 'REST APIs, Security & Real-Time',
+        'skills.dbTitle': 'Databases',
+        'skills.dbSub': 'Relational modeling, ORM & Caching',
+        'skills.devopsSub': 'Containers, CI/CD & Quality',
+        'edu.title': 'Education',
+        'edu.subtitle': 'Academic foundation in software engineering and information technologies.',
+        'edu.e1Title': 'University Technician in Information Technologies',
+        'edu.e1Date': '2025 - Present',
+        'edu.e2Title': 'Information Systems Engineering',
+        'edu.e3Title': 'High School Diploma in Computer Science',
+        'footer.rights': 'Crafted with a focus on architecture and UX.',
+        'contact.title': "Let's Talk",
+        'contact.nameLabel': 'Name',
+        'contact.namePlaceholder': 'Your name',
+        'contact.messageLabel': 'Message',
+        'contact.messagePlaceholder': 'Tell me about your project or opportunity...',
+        'contact.send': 'Send Message',
+        'toast.title': 'Message sent!',
+        'toast.sub': 'Thanks for reaching out, I will reply soon.'
+      }
+    };
+
+    // ---------- 2. PROJECTS DATA ----------
+    const projectsData = [
+      {
+        badge: 'SaaS LMS',
+        accent: 'from-indigo-600/30 via-slate-900 to-emerald-500/20',
+        icon: 'bi-mortarboard-fill',
+        title: {
+          es: 'DevCursos - Plataforma LMS SaaS',
+          en: 'DevCursos - SaaS LMS Platform'
+        },
+        desc: {
+          es: 'Plataforma e-learning end-to-end con arquitectura híbrida REST + WebSockets (STOMP) para notificaciones en tiempo real, pagos automatizados con webhooks de Mercado Pago, control de roles (RBAC), tests transaccionales y Docker.',
+          en: 'End-to-end e-learning platform featuring a hybrid REST + WebSockets (STOMP) architecture for real-time notifications, automated Mercado Pago webhooks, RBAC security, transactional tests, and Docker.'
+        },
+        tech: ['Spring Boot', 'React', 'PostgreSQL', 'WebSockets STOMP', 'Mercado Pago', 'Docker'],
+        demo: 'https://lnkd.in/dZSsUgV6',
+        code: 'https://github.com/lauJofre04/CursoFullStackReservas',
+        previewMetric: 'STOMP Live • RBAC • CI/CD'
+      },
+      {
+        badge: 'Automation & Data',
+        accent: 'from-emerald-600/25 via-slate-900 to-indigo-600/25',
+        icon: 'bi-graph-up-arrow',
+        title: {
+          es: 'Hardware Price Tracker',
+          en: 'Hardware Price Tracker'
+        },
+        desc: {
+          es: 'Monitor de precios en tiempo real con web scraping asíncrono en Playwright, historial gráfico interactivo con Recharts, base de datos PostgreSQL en Neon.tech y bot de Telegram con alertas automáticas ante bajas de precio.',
+          en: 'Real-time price tracker powered by asynchronous Playwright web scraping, interactive Recharts history graphs, PostgreSQL on Neon.tech, and a Telegram bot sending instant price-drop alerts.'
+        },
+        tech: ['React', 'Node.js', 'Playwright', 'PostgreSQL', 'Recharts', 'Telegram Bot'],
+        demo: '#',
+        code: 'https://github.com/lauJofre04',
+        previewMetric: 'Playwright Scraper • Telegram Alerts'
+      },
+      {
+        badge: 'E-Commerce',
+        accent: 'from-indigo-500/30 via-slate-900 to-cyan-500/20',
+        icon: 'bi-bag-check-fill',
+        title: {
+          es: 'Tech Store - E-commerce Full Stack',
+          en: 'Tech Store - Full Stack E-Commerce'
+        },
+        desc: {
+          es: 'Tienda online completa con carrito, gestión inteligente de stock, panel de administración, subida de imágenes persistente en Cloudinary, autenticación JWT y backend modular en NestJS + Prisma ORM.',
+          en: 'Full-featured online store with shopping cart, smart inventory management, admin dashboard, persistent Cloudinary image uploads, JWT authentication, and a modular NestJS + Prisma ORM backend.'
+        },
+        tech: ['Angular', 'NestJS', 'Prisma ORM', 'PostgreSQL', 'Cloudinary', 'Tailwind'],
+        demo: '#',
+        code: 'https://github.com/lauJofre04/ecommerce-proyecto-backend',
+        previewMetric: 'NestJS API • Prisma • Cloudinary'
+      },
+      {
+        badge: 'Web App',
+        accent: 'from-violet-600/30 via-slate-900 to-indigo-500/20',
+        icon: 'bi-terminal-fill',
+        title: {
+          es: 'Portfolio Web Personal',
+          en: 'Personal Web Portfolio'
+        },
+        desc: {
+          es: 'Single Page Application responsiva con panel de administración protegido con JWT, API REST en Node.js conectada a MySQL en la nube, soporte multidioma dinámico y diseño moderno con Tailwind CSS.',
+          en: 'Responsive Single Page Application with a JWT-protected admin panel, Node.js REST API connected to cloud MySQL, dynamic multi-language support, and modern Tailwind CSS styling.'
+        },
+        tech: ['Angular', 'Node.js', 'TypeScript', 'MySQL', 'Tailwind CSS', 'JWT'],
+        demo: 'https://portfolio-web-jofre-lautaro.vercel.app',
+        code: 'https://github.com/lauJofre04/PortfolioWeb',
+        previewMetric: 'SPA • JWT Auth • Cloud MySQL'
+      }
+    ];
+
+    // ---------- 3. STATE ----------
+    let currentLang = 'es';
+    let currentSlide = 0;
+
+    // ---------- 4. THEME TOGGLE ----------
+    const htmlEl = document.documentElement;
+    const topThemeBtn = document.getElementById('topThemeBtn');
+    const sideThemeBtn = document.getElementById('sideThemeBtn');
+
+    function updateThemeUI() {
+      const isDark = htmlEl.classList.contains('dark');
+      document.querySelectorAll('.theme-icon').forEach(icon => {
+        icon.className = isDark
+          ? 'theme-icon bi bi-sun-fill text-amber-400 text-sm'
+          : 'theme-icon bi bi-moon-stars-fill text-indigo-500 text-sm';
+      });
+      document.querySelectorAll('.theme-text').forEach(el => {
+        el.textContent = isDark ? i18n[currentLang]['theme.light'] : i18n[currentLang]['theme.dark'];
+      });
+    }
+
+    function toggleTheme() {
+      htmlEl.classList.toggle('dark');
+      updateThemeUI();
+    }
+
+    topThemeBtn.addEventListener('click', toggleTheme);
+    sideThemeBtn.addEventListener('click', toggleTheme);
+
+    // ---------- 5. LANGUAGE SWITCHER ----------
+    const topLangBtn = document.getElementById('topLangBtn');
+    const sideLangBtn = document.getElementById('sideLangBtn');
+
+    function applyTranslations() {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (i18n[currentLang][key]) el.textContent = i18n[currentLang][key];
+      });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (i18n[currentLang][key]) el.setAttribute('placeholder', i18n[currentLang][key]);
+      });
+      document.querySelectorAll('.lang-label').forEach(el => {
+        el.textContent = currentLang === 'es' ? 'EN' : 'ES';
+      });
+      updateThemeUI();
+      renderCarousel();
+    }
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'es' ? 'en' : 'es';
+      htmlEl.setAttribute('lang', currentLang);
+      applyTranslations();
+    }
+
+    topLangBtn.addEventListener('click', toggleLanguage);
+    sideLangBtn.addEventListener('click', toggleLanguage);
+
+    // ---------- 6. SIDEBAR LOGIC ----------
+    const sidebar = document.getElementById('sidebar');
+    const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+    const openSidebarBtn = document.getElementById('openSidebarBtn');
+    const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+
+    function openSidebar() {
+      sidebar.classList.remove('-translate-x-full');
+      sidebarBackdrop.classList.remove('opacity-0', 'pointer-events-none');
+    }
+
+    function closeSidebar() {
+      sidebar.classList.add('-translate-x-full');
+      sidebarBackdrop.classList.add('opacity-0', 'pointer-events-none');
+    }
+
+    openSidebarBtn.addEventListener('click', openSidebar);
+    closeSidebarBtn.addEventListener('click', closeSidebar);
+    sidebarBackdrop.addEventListener('click', closeSidebar);
+    document.querySelectorAll('.sidebar-link').forEach(link => {
+      link.addEventListener('click', closeSidebar);
+    });
+
+    // ---------- 7. INTERACTIVE PROJECTS CAROUSEL ----------
+    const carouselTrack = document.getElementById('carouselTrack');
+    const carouselDots = document.getElementById('carouselDots');
+    const carouselCounter = document.getElementById('carouselCounter');
+    const prevProjectBtn = document.getElementById('prevProjectBtn');
+    const nextProjectBtn = document.getElementById('nextProjectBtn');
+    const carouselViewport = document.getElementById('carouselViewport');
+
+    function renderCarousel() {
+      carouselTrack.innerHTML = projectsData.map((p, idx) => `
+        <div class="w-full shrink-0 grid grid-cols-1 lg:grid-cols-12">
+          <!-- Stylized Tech Preview Banner -->
+          <div class="lg:col-span-5 relative min-h-[240px] lg:min-h-[380px] bg-gradient-to-br ${p.accent} p-6 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-slate-200/80 dark:border-slate-800/80 overflow-hidden">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-1.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-rose-500/80"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-400/80"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400/80"></span>
+              </div>
+              <span class="font-mono text-[11px] px-2.5 py-1 rounded-full bg-white/10 text-white border border-white/15 backdrop-blur">
+                ${p.badge}
+              </span>
+            </div>
+
+            <!-- Stylized Center Visual -->
+            <div class="my-6 flex flex-col items-center justify-center text-center">
+              <div class="w-16 h-16 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-lg mb-4">
+                <i class="bi ${p.icon} text-3xl"></i>
+              </div>
+              <div class="w-full max-w-[240px] space-y-2">
+                <div class="h-2 rounded-full bg-white/20 w-3/4 mx-auto"></div>
+                <div class="h-2 rounded-full bg-white/10 w-1/2 mx-auto"></div>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between font-mono text-[11px] text-slate-200/90 bg-black/30 rounded-xl px-3 py-2 border border-white/10">
+              <span class="flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                ${p.previewMetric}
+              </span>
+              <span>0${idx + 1}</span>
+            </div>
+          </div>
+
+          <!-- Project Details -->
+          <div class="lg:col-span-7 p-6 sm:p-8 lg:p-10 flex flex-col justify-between">
+            <div>
+              <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                ${p.title[currentLang]}
+              </h3>
+              <p class="mt-4 text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+                ${p.desc[currentLang]}
+              </p>
+
+              <!-- Tech Stack Pills -->
+              <div class="mt-6 flex flex-wrap gap-2">
+                ${p.tech.map(t => `
+                  <span class="px-2.5 py-1 rounded-lg font-mono text-xs font-medium bg-indigo-500/10 text-indigo-600 dark:text-indigo-300 border border-indigo-500/20">
+                    ${t}
+                  </span>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-8 pt-6 border-t border-slate-200/80 dark:border-slate-800/80 flex flex-wrap items-center gap-3">
+              <a
+                href="${p.demo}"
+                target="_blank"
+                rel="noreferrer"
+                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold shadow-glow-indigo transition-all"
+              >
+                <i class="bi bi-box-arrow-up-right text-xs"></i>
+                ${i18n[currentLang]['projects.demo']}
+              </a>
+              <a
+                href="${p.code}"
+                target="_blank"
+                rel="noreferrer"
+                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-indigo-500/60 hover:text-indigo-500 text-sm font-semibold transition-all"
+              >
+                <i class="bi bi-github"></i>
+                ${i18n[currentLang]['projects.code']}
+              </a>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      updateCarouselPosition();
+    }
+
+    function updateCarouselPosition() {
+      carouselTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+      carouselCounter.textContent = `0${currentSlide + 1} / 0${projectsData.length}`;
+
+      carouselDots.innerHTML = projectsData.map((_, idx) => `
+        <button
+          type="button"
+          aria-label="Go to slide ${idx + 1}"
+          onclick="goToSlide(${idx})"
+          class="h-2 rounded-full transition-all duration-300 ${
+            idx === currentSlide
+              ? 'w-8 bg-indigo-500'
+              : 'w-2 bg-slate-300 dark:bg-slate-700 hover:bg-indigo-400'
+          }"
+        ></button>
+      `).join('');
+    }
+
+    function goToSlide(index) {
+      currentSlide = (index + projectsData.length) % projectsData.length;
+      updateCarouselPosition();
+    }
+
+    prevProjectBtn.addEventListener('click', () => goToSlide(currentSlide - 1));
+    nextProjectBtn.addEventListener('click', () => goToSlide(currentSlide + 1));
+
+    // Touch Swipe Support for Carousel
+    let touchStartX = 0;
+    carouselViewport.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    carouselViewport.addEventListener('touchend', e => {
+      const diff = touchStartX - e.changedTouches[0].screenX;
+      if (Math.abs(diff) > 45) {
+        goToSlide(diff > 0 ? currentSlide + 1 : currentSlide - 1);
+      }
+    }, { passive: true });
+
+    // ---------- 8. CONTACT MODAL & TOAST ----------
+    const contactModal = document.getElementById('contactModal');
+    const contactModalCard = document.getElementById('contactModalCard');
+    const openContactBtn = document.getElementById('openContactBtn');
+    const closeContactBtn = document.getElementById('closeContactBtn');
+    const contactForm = document.getElementById('contactForm');
+    const toast = document.getElementById('toast');
+
+    function openContactModal() {
+      contactModal.classList.remove('opacity-0', 'pointer-events-none');
+      contactModalCard.classList.remove('scale-95');
+      contactModalCard.classList.add('scale-100');
+    }
+
+    function closeContactModal() {
+      contactModal.classList.add('opacity-0', 'pointer-events-none');
+      contactModalCard.classList.add('scale-95');
+      contactModalCard.classList.remove('scale-100');
+    }
+
+    function showToast() {
+      toast.classList.remove('translate-y-6', 'opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        toast.classList.add('translate-y-6', 'opacity-0', 'pointer-events-none');
+      }, 3500);
+    }
+
+    openContactBtn.addEventListener('click', openContactModal);
+    closeContactBtn.addEventListener('click', closeContactModal);
+    contactModal.addEventListener('click', e => {
+      if (e.target === contactModal) closeContactModal();
+    });
+
+    contactForm.addEventListener('submit', e => {
+      e.preventDefault();
+      contactForm.reset();
+      closeContactModal();
+      showToast();
+    });
+
+    // Keyboard Escape closes sidebar & modal
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        closeSidebar();
+        closeContactModal();
+      }
+    });
+
+    // Initial render
+    applyTranslations();
+  </script>
+</body>
+</html>

@@ -52,6 +52,9 @@ export class Proyectos {
   cargarProyectos(lang: string = 'es') {
     this.proyService.getProyectos(lang).subscribe(data => {
       this.misProyectos = data;
+      if (this.currentSlideIndex >= this.misProyectos.length) {
+        this.currentSlideIndex = 0;
+      }
       this.cdr.detectChanges();
     });
   }
@@ -69,15 +72,13 @@ export class Proyectos {
   }
 
   nextSlide(): void {
-    const visibleSlides = this.getVisibleSlides();
-    const maxIndex = Math.ceil(this.misProyectos.length / visibleSlides) - 1;
-    this.currentSlideIndex = (this.currentSlideIndex + 1) % (maxIndex + 1);
+    if (!this.misProyectos.length) return;
+    this.currentSlideIndex = (this.currentSlideIndex + 1) % this.misProyectos.length;
   }
 
   prevSlide(): void {
-    const visibleSlides = this.getVisibleSlides();
-    const maxIndex = Math.ceil(this.misProyectos.length / visibleSlides) - 1;
-    this.currentSlideIndex = (this.currentSlideIndex - 1 + (maxIndex + 1)) % (maxIndex + 1);
+    if (!this.misProyectos.length) return;
+    this.currentSlideIndex = (this.currentSlideIndex - 1 + this.misProyectos.length) % this.misProyectos.length;
   }
 
   goToSlide(index: number): void {

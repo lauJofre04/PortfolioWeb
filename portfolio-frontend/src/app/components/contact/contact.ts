@@ -18,6 +18,7 @@ export class Contact {
     message: ''
   };
   isSubmitting: boolean = false;
+  mensajeEnviado: boolean = false;
 
   openContactModal(): void {
     this.isContactModalOpen = true;
@@ -46,11 +47,11 @@ export class Contact {
           message: this.formData.message
         })
       }).then(() => {
-        alert('¡Mensaje enviado correctamente!');
         this.closeContactModal();
         this.isSubmitting = false;
+        this.mensajeEnviado = true;
+        setTimeout(() => (this.mensajeEnviado = false), 3500);
       }).catch(error => {
-        alert('Error al enviar el mensaje. Intenta de nuevo.');
         this.isSubmitting = false;
       });
     }

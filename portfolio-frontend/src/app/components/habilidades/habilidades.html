@@ -1,64 +1,58 @@
-<section id="habilidades" class="container mx-auto mb-5 pt-20 -mt-20 px-4">
+<section id="habilidades" class="scroll-mt-24 px-4 py-16">
+  <div class="mx-auto max-w-6xl">
+    <div class="mb-8 flex items-end justify-between gap-4">
+      <div>
+        <span class="font-mono text-xs font-semibold uppercase tracking-widest text-[var(--primary)]">// 02. Tech Stack</span>
+        <h2 class="mt-1 text-3xl font-extrabold text-[var(--texto)] sm:text-4xl">{{ 'SECTIONS.SKILLS' | translate }}</h2>
+        <p class="mt-2 text-[var(--texto-secundario)]">{{ 'SKILLS.SUBTITLE' | translate }}</p>
+      </div>
+      <button *ngIf="esAdmin" class="rounded-xl border border-[var(--border)] bg-[var(--card-bg)] px-4 py-2.5 text-sm font-bold text-[var(--texto)]" (click)="limpiarFormulario()">+ Agregar</button>
+    </div>
 
-  <div class="flex justify-between items-center mb-4">
-    <h2 class="text-2xl font-bold">{{ 'SECTIONS.SKILLS' | translate }}</h2>
-    <button *ngIf="esAdmin" class="btn-primary rounded-full px-4 shadow font-bold" (click)="limpiarFormulario(); openSkillsModal()">
-      + Agregar
-    </button>
-  </div>
-
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <div *ngFor="let hab of misHabilidades" class="mb-4">
-      <div class="card-surface h-full p-3 flex items-center justify-between rounded-2xl">
-        <div class="flex items-center w-3/4">
-          <img *ngIf="hab.icono_url" [src]="hab.icono_url" alt="{{ hab.nombre }}" class="w-11 h-11 mr-4 object-contain">
-          <div class="w-full pr-3">
-            <h6 class="mb-2 font-bold text-[var(--texto)]">{{ hab.nombre }}</h6>
-            <div class="w-full bg-[var(--fondo-secundario)] rounded h-2">
-              <div class="bg-[var(--primary)] h-2 rounded" [style.width.%]="hab.porcentaje"></div>
+    <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+      <div *ngFor="let hab of misHabilidades" class="rounded-2xl border border-[var(--border)] bg-[var(--card-bg)] p-6 transition hover:border-[var(--primary)]/60">
+        <div class="flex items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div class="flex h-11 w-11 items-center justify-center rounded-xl border border-[var(--primary)]/30 bg-[var(--primary)]/10 text-[var(--primary)]">
+              <img *ngIf="hab.icono_url" [src]="hab.icono_url" [alt]="hab.nombre" class="h-7 w-7 object-contain">
+              <i *ngIf="!hab.icono_url" class="bi bi-code-slash text-lg"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-[var(--texto)]">{{ hab.nombre }}</h3>
+              <p class="font-mono text-xs text-[var(--texto-secundario)]">{{ hab.porcentaje }}%</p>
             </div>
           </div>
+          <div *ngIf="esAdmin" class="flex gap-2">
+            <button (click)="cargarDatosParaEditar(hab); openSkillsModal()" class="text-amber-500">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+            <button (click)="borrarHabilidad(hab.id)" class="text-red-500">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
         </div>
-
-        <div class="flex gap-2" *ngIf="esAdmin">
-          <button class="p-2 text-yellow-500" (click)="cargarDatosParaEditar(hab); openSkillsModal()" title="Editar">
-            <i class="bi bi-pencil-square fs-5"></i>
-          </button>
-          <button class="p-2 text-red-500" (click)="borrarHabilidad(hab.id)" title="Borrar">
-            <i class="bi bi-trash fs-5"></i>
-          </button>
+        <div class="mt-5 h-2 overflow-hidden rounded-full bg-[var(--fondo)]">
+          <div class="h-full rounded-full bg-[var(--primary)] transition-all" [style.width.%]="hab.porcentaje"></div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div *ngIf="showSkillsModal" class="fixed inset-0 z-[70] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+    <div class="w-full max-w-md rounded-2xl border border-[var(--border)] bg-[var(--card-bg)] p-5 shadow-2xl">
+      <div class="mb-4 flex justify-between">
+        <h5 class="font-bold">{{ esEdicion ? 'Editar' : 'Nueva' }} Habilidad</h5>
+        <button (click)="closeSkillsModal()">✕</button>
+      </div>
+      <form (ngSubmit)="guardarCambios()" class="space-y-3">
+        <input class="form-input w-full" [(ngModel)]="formHab.nombre" name="nombre" placeholder="Nombre">
+        <input type="number" min="1" max="100" class="form-input w-full" [(ngModel)]="formHab.porcentaje" name="porcentaje" placeholder="Porcentaje">
+        <input class="form-input w-full" [(ngModel)]="formHab.icono_url" name="icono_url" placeholder="URL del icono">
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" class="rounded-xl border border-[var(--border)] px-4 py-2" (click)="closeSkillsModal()">Cancelar</button>
+          <button type="submit" class="rounded-xl bg-[var(--primary)] px-4 py-2 text-white">Guardar</button>
+        </div>
+      </form>
     </div>
   </div>
 </section>
-
-<!-- Habilidades Modal -->
-<div *ngIf="showSkillsModal" class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-  <div class="card-surface rounded-2xl p-4 w-full max-w-md shadow-lg">
-    <div class="flex justify-between items-center mb-4">
-      <h5 class="font-bold">{{ esEdicion ? 'Editar' : 'Nueva' }} Habilidad</h5>
-      <button (click)="closeSkillsModal()">✕</button>
-    </div>
-
-    <form (ngSubmit)="guardarCambios()">
-      <div class="mb-3">
-        <label class="small">NOMBRE (Ej: Angular)</label>
-        <input type="text" class="form-input w-full p-2 rounded" [(ngModel)]="formHab.nombre" name="nombre">
-      </div>
-      <div class="mb-3">
-        <label class="small">PORCENTAJE (1 al 100)</label>
-        <input type="number" class="form-input w-full p-2 rounded" [(ngModel)]="formHab.porcentaje" name="porcentaje">
-      </div>
-      <div class="mb-3">
-        <label class="small">URL DEL ICONO</label>
-        <input type="text" class="form-input w-full p-2 rounded" [(ngModel)]="formHab.icono_url" name="icono_url">
-      </div>
-
-      <div class="mt-4 flex justify-end gap-2">
-        <button type="button" class="px-4 py-2 rounded border" (click)="closeSkillsModal()">Cancelar</button>
-        <button type="submit" class="px-4 py-2 rounded bg-[var(--primary)] text-white">Guardar</button>
-      </div>
-    </form>
-  </div>
-</div>

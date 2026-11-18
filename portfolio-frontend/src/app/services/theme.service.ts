@@ -1,7 +1,7 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,12 +17,10 @@ export class ThemeService {
     private translate: TranslateService
   ) {
     if (isPlatformBrowser(this.platformId)) {
-      // Cargar preferencia de tema desde localStorage
       const savedTheme = localStorage.getItem('theme');
-      this.isDarkMode = savedTheme === 'dark';
+      this.isDarkMode = savedTheme ? savedTheme === 'dark' : true;
       this.applyTheme();
 
-      // Cargar idioma desde localStorage
       const savedLang = localStorage.getItem('language') || 'es';
       this.setLanguage(savedLang);
     }
@@ -37,16 +35,13 @@ export class ThemeService {
   }
 
   private applyTheme(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      const body = document.body;
-      if (this.isDarkMode) {
-        body.classList.add('dark');
-        body.classList.remove('dark-theme');
-      } else {
-        body.classList.remove('dark');
-        body.classList.remove('dark-theme');
-      }
-    }
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    const body = document.body;
+    const html = document.documentElement;
+    body.classList.toggle('dark', this.isDarkMode);
+    body.classList.toggle('dark-theme', this.isDarkMode);
+    html.classList.toggle('dark', this.isDarkMode);
   }
 
   setLanguage(lang: string): void {
@@ -55,6 +50,7 @@ export class ThemeService {
     this.translate.use(lang);
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem('language', lang);
+      document.documentElement.lang = lang;
     }
   }
 

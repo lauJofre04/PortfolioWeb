@@ -37,7 +37,8 @@
     "PLACEHOLDER_EMAIL": "nombre@ejemplo.com",
     "LABEL_MESSAGE": "Mensaje",
     "PLACEHOLDER_MESSAGE": "¿En qué puedo ayudarte?",
-    "SEND_BUTTON": "Enviar Mensaje"
+    "SEND_BUTTON": "Enviar Mensaje",
+    "SUCCESS": "¡Mensaje enviado con éxito!"
   },
   "LOGIN": {
     "TITLE": "¡Bienvenido de vuelta!",

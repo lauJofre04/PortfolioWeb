@@ -20,7 +20,14 @@
     "TITLE": "Professional Profile",
     "CLICK_HINT": "Click to read more about me",
     "DOWNLOAD_CV": "Download CV",
-    "BACK": "Back"
+    "BACK": "Back",
+    "DESCRIPTION": "I am a passionate and dedicated professional with experience in...",
+    "OBJECTIVE": "To leverage my skills and experience in a challenging new role...",
+    "EXPERIENCE": "Experience",
+    "EDUCATION": "Education",
+    "SKILLS": "Skills",
+    "PROJECTS": "Projects",
+    "CONTACT": "Contact"
   },
   "SECTIONS": {
     "EDUCATION": "Education & Courses",
@@ -37,7 +44,8 @@
     "PLACEHOLDER_EMAIL": "name@example.com",
     "LABEL_MESSAGE": "Message",
     "PLACEHOLDER_MESSAGE": "How can I help you?",
-    "SEND_BUTTON": "Send Message"
+    "SEND_BUTTON": "Send Message",
+    "SUCCESS": "Message sent successfully!"
   },
   "LOGIN": {
     "TITLE": "Welcome back!",
