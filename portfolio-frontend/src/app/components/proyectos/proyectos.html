@@ -4,7 +4,7 @@
       <div>
         <span class="font-mono text-xs font-semibold uppercase tracking-widest text-[var(--primary)]">// 01. Portfolio</span>
         <h2 class="mt-1 text-3xl font-extrabold tracking-tight text-[var(--texto)] sm:text-4xl">{{ 'SECTIONS.PROJECTS' | translate }}</h2>
-        <p class="mt-2 text-sm text-[var(--texto-secundario)] sm:text-base">{{ 'PROJECTS.SUBTITLE' | translate }}</p>
+        <p class="mt-2 text-sm text-[var(--texto-secundario)] sm:text-base">Aplicaciones reales desplegadas en la nube con arquitecturas modernas.</p>
       </div>
       <div class="flex items-center gap-2">
         <button *ngIf="esAdmin" class="rounded-xl border border-[var(--border)] bg-[var(--card-bg)] px-4 py-2.5 text-sm font-bold text-[var(--texto)]" (click)="limpiarFormulario()">+ Agregar</button>
@@ -26,8 +26,8 @@
               <div class="mt-6 flex flex-wrap gap-2"><span *ngFor="let tech of (proy.tecnologias || '').split(',')" class="rounded-lg border border-[var(--primary)]/20 bg-[var(--primary)]/10 px-2.5 py-1 font-mono text-xs text-[var(--primary)]">{{ tech.trim() }}</span></div>
             </div>
             <div class="mt-8 flex flex-wrap items-center gap-3 border-t border-[var(--border)] pt-6">
-              <a *ngIf="proy.link_demo" [href]="proy.link_demo" target="_blank" class="inline-flex items-center gap-2 rounded-xl bg-[var(--primary)] px-5 py-2.5 text-sm font-semibold text-white"><i class="bi bi-box-arrow-up-right"></i>{{ 'PROJECTS.DEMO' | translate }}</a>
-              <a *ngIf="proy.link_repo" [href]="proy.link_repo" target="_blank" class="inline-flex items-center gap-2 rounded-xl border border-[var(--border)] px-5 py-2.5 text-sm font-semibold text-[var(--texto)]"><i class="bi bi-github"></i>{{ 'PROJECTS.CODE' | translate }}</a>
+              <a *ngIf="proy.link_demo" [href]="proy.link_demo" target="_blank" class="inline-flex items-center gap-2 rounded-xl bg-[var(--primary)] px-5 py-2.5 text-sm font-semibold text-white"><i class="bi bi-box-arrow-up-right"></i>Demo en vivo</a>
+              <a *ngIf="proy.link_repo" [href]="proy.link_repo" target="_blank" class="inline-flex items-center gap-2 rounded-xl border border-[var(--border)] px-5 py-2.5 text-sm font-semibold text-[var(--texto)]"><i class="bi bi-github"></i>GitHub</a>
               <div *ngIf="esAdmin" class="ml-auto flex gap-2"><button (click)="cargarDatosParaEditar(proy)" class="text-amber-500" title="Editar"><i class="bi bi-pencil-square"></i></button><button (click)="borrarProyecto(proy.id)" class="text-red-500" title="Borrar"><i class="bi bi-trash"></i></button></div>
             </div>
           </div>
