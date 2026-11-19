@@ -67,14 +67,5 @@
   "LANG": {
     "SPANISH": "Español",
     "ENGLISH": "English"
-  },
-  "HERO": {
-    "TITLE": "Hi, I'm John Doe",
-    "SUBTITLE": "A passionate web developer",
-    "BUTTON": "View Projects"
-  },
-  "PROJECTS": {
-    "TITLE": "My Projects",
-    "DESCRIPTION": "Here are some of the projects I've worked on."
   }
 }

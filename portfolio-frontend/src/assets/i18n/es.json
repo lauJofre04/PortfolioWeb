@@ -64,14 +64,5 @@
   "LANG": {
     "SPANISH": "Español",
     "ENGLISH": "English"
-  },
-  "HERO": {
-    "TITLE": "Bienvenido a Mi Portafolio",
-    "SUBTITLE": "Desarrollador Web | Diseñador Gráfico",
-    "BUTTON": "Ver Proyectos"
-  },
-  "PROJECTS": {
-    "TITLE": "Mis Proyectos",
-    "DESCRIPTION": "Aquí hay una selección de algunos de mis trabajos recientes."
   }
 }
