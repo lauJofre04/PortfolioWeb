@@ -2,9 +2,9 @@
   <div class="mx-auto max-w-6xl">
     <div class="mb-8 flex items-end justify-between gap-4">
       <div>
-        <span class="font-mono text-xs font-semibold uppercase tracking-widest text-[var(--primary)]">// 02. Tech Stack</span>
+        <span class="font-mono text-xs font-semibold uppercase tracking-widest text-[var(--primary-text)]">{{ 'SECTIONS.LABEL_SKILLS' | translate }}</span>
         <h2 class="mt-1 text-3xl font-extrabold text-[var(--texto)] sm:text-4xl">{{ 'SECTIONS.SKILLS' | translate }}</h2>
-        <p class="mt-2 text-[var(--texto-secundario)]">Herramientas y tecnologías utilizadas para construir software escalable.</p>
+        <p class="mt-2 text-[var(--texto-secundario)]">{{ 'SECTIONS.SKILLS_DESC' | translate }}</p>
       </div>
       <button *ngIf="esAdmin" class="rounded-xl border border-[var(--border)] bg-[var(--card-bg)] px-4 py-2.5 text-sm font-bold text-[var(--texto)]" (click)="limpiarFormulario()">+ Agregar</button>
     </div>
@@ -13,7 +13,7 @@
       <div *ngFor="let hab of misHabilidades" class="rounded-2xl border border-[var(--border)] bg-[var(--card-bg)] p-6 transition hover:border-[var(--primary)]/60">
         <div class="flex items-center justify-between gap-4">
           <div class="flex items-center gap-3">
-            <div class="flex h-11 w-11 items-center justify-center rounded-xl border border-[var(--primary)]/30 bg-[var(--primary)]/10 text-[var(--primary)]">
+            <div class="flex h-11 w-11 items-center justify-center rounded-xl border border-[var(--primary)]/30 bg-[var(--primary)]/10 text-[var(--primary-text)]">
               <img *ngIf="hab.icono_url" [src]="hab.icono_url" [alt]="hab.nombre" class="h-7 w-7 object-contain">
               <i *ngIf="!hab.icono_url" class="bi bi-code-slash text-lg"></i>
             </div>

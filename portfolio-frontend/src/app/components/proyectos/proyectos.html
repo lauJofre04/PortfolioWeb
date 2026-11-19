@@ -2,14 +2,14 @@
   <div class="mx-auto max-w-6xl">
     <div class="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
       <div>
-        <span class="font-mono text-xs font-semibold uppercase tracking-widest text-[var(--primary)]">// 01. Portfolio</span>
+        <span class="font-mono text-xs font-semibold uppercase tracking-widest text-[var(--primary-text)]">{{ 'SECTIONS.LABEL_PROJECTS' | translate }}</span>
         <h2 class="mt-1 text-3xl font-extrabold tracking-tight text-[var(--texto)] sm:text-4xl">{{ 'SECTIONS.PROJECTS' | translate }}</h2>
-        <p class="mt-2 text-sm text-[var(--texto-secundario)] sm:text-base">Aplicaciones reales desplegadas en la nube con arquitecturas modernas.</p>
+        <p class="mt-2 text-sm text-[var(--texto-secundario)] sm:text-base">{{ 'SECTIONS.PROJECTS_DESC' | translate }}</p>
       </div>
       <div class="flex items-center gap-2">
         <button *ngIf="esAdmin" class="rounded-xl border border-[var(--border)] bg-[var(--card-bg)] px-4 py-2.5 text-sm font-bold text-[var(--texto)]" (click)="limpiarFormulario()">+ Agregar</button>
-        <button (click)="prevSlide()" aria-label="Anterior" class="flex h-11 w-11 items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--card-bg)] text-[var(--texto)] hover:border-[var(--primary)]"><i class="bi bi-chevron-left"></i></button>
-        <button (click)="nextSlide()" aria-label="Siguiente" class="flex h-11 w-11 items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--card-bg)] text-[var(--texto)] hover:border-[var(--primary)]"><i class="bi bi-chevron-right"></i></button>
+        <button (click)="prevSlide()" [attr.aria-label]="'A11Y.PREV' | translate" class="flex h-11 w-11 items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--card-bg)] text-[var(--texto)] hover:border-[var(--primary)]"><i class="bi bi-chevron-left" aria-hidden="true"></i></button>
+        <button (click)="nextSlide()" [attr.aria-label]="'A11Y.NEXT' | translate" class="flex h-11 w-11 items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--card-bg)] text-[var(--texto)] hover:border-[var(--primary)]"><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
     </div>
 
@@ -17,17 +17,17 @@
       <div class="flex transition-transform duration-500" [style.transform]="'translateX(-' + (currentSlideIndex * 100) + '%)'">
         <article *ngFor="let proy of misProyectos" class="grid w-full shrink-0 lg:grid-cols-12">
           <div class="relative min-h-[260px] overflow-hidden border-b border-[var(--border)] bg-gradient-to-br from-indigo-950 via-slate-900 to-emerald-950 p-6 lg:col-span-5 lg:border-b-0 lg:border-r">
-            <div class="flex items-center justify-between"><div class="flex gap-1.5"><span class="h-2.5 w-2.5 rounded-full bg-rose-500"></span><span class="h-2.5 w-2.5 rounded-full bg-amber-400"></span><span class="h-2.5 w-2.5 rounded-full bg-emerald-400"></span></div><span class="rounded-full border border-white/15 bg-white/10 px-2.5 py-1 font-mono text-[11px] text-white">{{ proy.tecnologias }}</span></div>
+            <div class="flex items-center justify-between"><div class="flex gap-1.5"><span class="h-2.5 w-2.5 rounded-full bg-rose-500"></span><span class="h-2.5 w-2.5 rounded-full bg-amber-400"></span><span class="h-2.5 w-2.5 rounded-full bg-emerald-400"></span></div></div>
             <div class="absolute inset-0 flex items-center justify-center p-8"><img *ngIf="proy.imagen_url" [src]="proy.imagen_url" [alt]="proy.nombre" class="max-h-48 w-full rounded-2xl object-contain"></div>
           </div>
 
           <div class="flex flex-col justify-between p-6 sm:p-8 lg:col-span-7 lg:p-10">
             <div><h3 class="text-2xl font-extrabold tracking-tight text-[var(--texto)] sm:text-3xl">{{ proy.nombre }}</h3><p class="mt-4 leading-relaxed text-[var(--texto-secundario)]">{{ proy.descripcion }}</p>
-              <div class="mt-6 flex flex-wrap gap-2"><span *ngFor="let tech of (proy.tecnologias || '').split(',')" class="rounded-lg border border-[var(--primary)]/20 bg-[var(--primary)]/10 px-2.5 py-1 font-mono text-xs text-[var(--primary)]">{{ tech.trim() }}</span></div>
+              <div class="mt-6 flex flex-wrap gap-2"><span *ngFor="let tech of techList(proy)" class="rounded-lg border border-[var(--primary)]/20 bg-[var(--primary)]/10 px-2.5 py-1 font-mono text-xs text-[var(--primary-text)]">{{ tech }}</span></div>
             </div>
             <div class="mt-8 flex flex-wrap items-center gap-3 border-t border-[var(--border)] pt-6">
-              <a *ngIf="proy.link_demo" [href]="proy.link_demo" target="_blank" class="inline-flex items-center gap-2 rounded-xl bg-[var(--primary)] px-5 py-2.5 text-sm font-semibold text-white"><i class="bi bi-box-arrow-up-right"></i>Demo en vivo</a>
-              <a *ngIf="proy.link_repo" [href]="proy.link_repo" target="_blank" class="inline-flex items-center gap-2 rounded-xl border border-[var(--border)] px-5 py-2.5 text-sm font-semibold text-[var(--texto)]"><i class="bi bi-github"></i>GitHub</a>
+              <a *ngIf="proy.link_demo" [href]="proy.link_demo" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-xl bg-[var(--primary)] px-5 py-2.5 text-sm font-semibold text-white"><i class="bi bi-box-arrow-up-right" aria-hidden="true"></i>{{ 'PROJECTS.DEMO' | translate }}</a>
+              <a *ngIf="proy.link_repo" [href]="proy.link_repo" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-xl border border-[var(--border)] px-5 py-2.5 text-sm font-semibold text-[var(--texto)]"><i class="bi bi-github" aria-hidden="true"></i>{{ 'PROJECTS.REPO' | translate }}</a>
               <div *ngIf="esAdmin" class="ml-auto flex gap-2"><button (click)="cargarDatosParaEditar(proy)" class="text-amber-500" title="Editar"><i class="bi bi-pencil-square"></i></button><button (click)="borrarProyecto(proy.id)" class="text-red-500" title="Borrar"><i class="bi bi-trash"></i></button></div>
             </div>
           </div>
@@ -36,12 +36,12 @@
     </div>
 
     <div class="mt-6 flex items-center justify-between">
-      <div class="flex gap-2"><button *ngFor="let _ of misProyectos; let i = index" (click)="goToSlide(i)" [class]="i === currentSlideIndex ? 'h-2 w-8 rounded-full bg-[var(--primary)]' : 'h-2 w-2 rounded-full bg-[var(--texto-secundario)]/30'"></button></div>
+      <div class="flex gap-2"><button *ngFor="let _ of misProyectos; let i = index" type="button" (click)="goToSlide(i)" [attr.aria-label]="'A11Y.GO_TO_PROJECT' | translate:{ n: i + 1 }" [attr.aria-current]="i === currentSlideIndex" [class]="i === currentSlideIndex ? 'h-2 w-8 rounded-full bg-[var(--primary)]' : 'h-2 w-2 rounded-full bg-[var(--texto-secundario)]/30'"></button></div>
       <span class="font-mono text-xs text-[var(--texto-secundario)]">{{ (currentSlideIndex + 1) | number:'2.0-0' }} / {{ misProyectos.length | number:'2.0-0' }}</span>
     </div>
   </div>
 
-  <div *ngIf="showProjectModal" class="fixed inset-0 z-[70] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+  <div *ngIf="showProjectModal" role="dialog" aria-modal="true" class="fixed inset-0 z-[70] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
     <div class="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-[var(--border)] bg-[var(--card-bg)] p-5 shadow-2xl">
       <div class="mb-4 flex justify-between"><h5 class="font-bold">{{ esEdicion ? 'Editar' : 'Nuevo' }} Proyecto</h5><button (click)="closeProjectModal()">✕</button></div>
       <form (ngSubmit)="guardarCambios()" class="grid grid-cols-1 gap-3 md:grid-cols-2">

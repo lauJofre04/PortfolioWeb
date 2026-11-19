@@ -2,26 +2,18 @@
   display: block;
 }
 
-.header-shell {
-  background-color: color-mix(in srgb, var(--navbar-bg) 90%, transparent);
-  color: var(--navbar-text);
-  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
-  backdrop-filter: blur(16px);
-}
-
 .nav-link {
-  color: var(--navbar-text);
-  transition: background-color 180ms ease, transform 180ms ease, color 180ms ease;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--texto-secundario);
+  transition: 180ms ease;
 }
 
-.nav-link:hover,
-.nav-link:focus-visible {
-  background-color: rgba(148, 163, 184, 0.16);
-  transform: translateY(-1px);
-}
-
-.mobile-panel {
-  backdrop-filter: blur(16px);
+.nav-link:hover {
+  color: var(--texto);
+  background-color: var(--card-bg);
 }
 
 .sidebar-link {

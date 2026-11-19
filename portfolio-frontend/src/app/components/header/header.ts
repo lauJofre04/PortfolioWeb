@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth-service';
@@ -18,7 +18,6 @@ export class Header implements OnInit {
 
   estaLogueado: boolean = false;
   rolActual: string = '';
-  menuOpen: boolean = false;
   showLoginModal: boolean = false;
   showRegisterModal: boolean = false;
   isSidebarOpen: boolean = false; // <-- Nuevo estado para el sidebar
@@ -46,16 +45,22 @@ export class Header implements OnInit {
     this.themeService.toggleTheme();
   }
 
-  toggleMenu(): void {
-    this.menuOpen = !this.menuOpen;
-  }
-
   toggleSidebar(): void {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
 
   closeSidebar(): void {
     this.isSidebarOpen = false;
+  }
+
+  // Esc cierra el panel lateral y los modales (la app no usa zone.js: se fuerza la actualización de la vista)
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    if (this.isSidebarOpen || this.showLoginModal || this.showRegisterModal) {
+      this.closeSidebar();
+      this.closeModals();
+      this.cdr.detectChanges();
+    }
   }
 
   openLogin(): void {

@@ -2,7 +2,7 @@
   <div class="mx-auto max-w-6xl">
     <div class="mb-8 flex items-end justify-between gap-4">
       <div>
-        <span class="font-mono text-xs font-semibold uppercase tracking-widest text-[var(--primary)]">// 04. Experience</span>
+        <span class="font-mono text-xs font-semibold uppercase tracking-widest text-[var(--primary-text)]">{{ 'SECTIONS.LABEL_EXPERIENCE' | translate }}</span>
         <h2 class="mt-1 text-3xl font-extrabold text-[var(--texto)] sm:text-4xl">{{ 'SECTIONS.EXPERIENCE' | translate }}</h2>
       </div>
       <button *ngIf="esAdmin" class="rounded-xl border border-[var(--border)] bg-[var(--card-bg)] px-4 py-2.5 text-sm font-bold text-[var(--texto)]" (click)="limpiarFormulario()">+ Agregar</button>
@@ -15,7 +15,7 @@
             <div class="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <h3 class="text-lg font-bold text-[var(--texto)]">{{ exp.puesto }}</h3>
-                <p class="mt-1 text-sm font-medium text-[var(--primary)]">{{ exp.empresa }}</p>
+                <p class="mt-1 text-sm font-medium text-[var(--primary-text)]">{{ exp.empresa }}</p>
               </div>
               <span class="rounded-full border border-[var(--border)] bg-[var(--fondo)] px-3 py-1 font-mono text-xs text-[var(--texto-secundario)]">
                 {{ exp.fecha_inicio | date:'MMM yyyy' }} - {{ exp.fecha_fin ? (exp.fecha_fin | date:'MMM yyyy') : 'Actualidad' }}

@@ -1,7 +1,4 @@
 {
-  "COMMON": {
-    "CANCEL": "Cancel"
-  },
   "NAV": {
     "PRESENTACION": "Presentation",
     "ESTUDIOS": "Studies",
@@ -17,24 +14,20 @@
     "TOGGLE_LIGHT": "Light Mode"
   },
   "PRESENTACION": {
-    "TITLE": "Professional Profile",
-    "CLICK_HINT": "Click to read more about me",
-    "DOWNLOAD_CV": "Download CV",
-    "BACK": "Back",
-    "DESCRIPTION": "I am a passionate and dedicated professional with experience in...",
-    "OBJECTIVE": "To leverage my skills and experience in a challenging new role...",
-    "EXPERIENCE": "Experience",
-    "EDUCATION": "Education",
-    "SKILLS": "Skills",
-    "PROJECTS": "Projects",
-    "CONTACT": "Contact",
-    "STATUS": "Status"
+    "DOWNLOAD_CV": "Download CV"
   },
   "SECTIONS": {
     "EDUCATION": "Education & Courses",
     "EXPERIENCE": "Work Experience",
     "SKILLS": "Skills and Technologies",
-    "PROJECTS": "Projects"
+    "PROJECTS": "Projects",
+    "LABEL_PROJECTS": "// 01. Portfolio",
+    "LABEL_SKILLS": "// 02. Tech Stack",
+    "LABEL_EDUCATION": "// 03. Education",
+    "LABEL_EXPERIENCE": "// 04. Experience",
+    "PROJECTS_DESC": "Real applications deployed to the cloud with modern architectures.",
+    "SKILLS_DESC": "Tools and technologies used to build scalable software.",
+    "EDUCATION_DESC": "Theoretical foundation in software engineering and information technology."
   },
   "CONTACT": {
     "TITLE": "Let’s Talk!",
@@ -46,7 +39,9 @@
     "LABEL_MESSAGE": "Message",
     "PLACEHOLDER_MESSAGE": "How can I help you?",
     "SEND_BUTTON": "Send Message",
-    "SUCCESS": "Message sent successfully!"
+    "SUCCESS": "Message sent successfully!",
+    "SENDING": "Sending...",
+    "ERROR": "The message could not be sent. Please try again in a few minutes."
   },
   "LOGIN": {
     "TITLE": "Welcome back!",
@@ -64,8 +59,30 @@
     "PASSWORD_PLACEHOLDER": "********",
     "BUTTON": "Register"
   },
-  "LANG": {
-    "SPANISH": "Español",
-    "ENGLISH": "English"
+  "HERO": {
+    "AVAILABLE": "Open to IT opportunities",
+    "CTA_PROJECTS": "View projects",
+    "CARD2_TITLE": "Scalable architectures"
+  },
+  "PROJECTS": {
+    "DEMO": "Live demo",
+    "REPO": "GitHub"
+  },
+  "SIDEBAR": {
+    "SWITCH_LANG": "Switch to Spanish",
+    "ACTIVE_ROLE": "Active role"
+  },
+  "A11Y": {
+    "OPEN_MENU": "Open menu",
+    "CLOSE_MENU": "Close menu",
+    "CLOSE": "Close",
+    "MAIN_NAV": "Main navigation",
+    "PREV": "Previous",
+    "NEXT": "Next",
+    "CONTACT": "Contact",
+    "GO_TO_PROJECT": "Go to project {{n}}"
+  },
+  "FOOTER": {
+    "RIGHTS": "© 2026 Lautaro Jofre. Designed with a focus on architecture and UX."
   }
 }
