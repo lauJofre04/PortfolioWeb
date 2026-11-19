@@ -1,28 +1,40 @@
 <header class="fixed top-0 left-0 right-0 z-40 h-16 border-b border-[var(--border)] backdrop-blur-md"
         style="background-color: var(--navbar-bg);">
-  <div class="max-w-6xl mx-auto h-full px-4 sm:px-6 flex items-center justify-between">
+  <div class="max-w-6xl mx-auto h-full px-4 sm:px-6 flex items-center justify-between gap-3">
     <div class="flex items-center gap-3">
-      <button (click)="toggleSidebar()" aria-label="Abrir menú"
+      <button type="button" (click)="toggleSidebar()"
+              [attr.aria-label]="'A11Y.OPEN_MENU' | translate"
+              [attr.aria-expanded]="isSidebarOpen" aria-controls="sidebar"
               class="p-2 rounded-xl border border-[var(--border)] bg-[var(--card-bg)] text-[var(--texto)] hover:border-[var(--primary)] transition">
-        <i class="bi bi-list text-xl leading-none"></i>
+        <i class="bi bi-list text-xl leading-none" aria-hidden="true"></i>
       </button>
       <a href="#presentacion" class="flex items-center gap-2 font-bold text-base sm:text-lg tracking-tight text-[var(--texto)]">
-        <span class="text-[var(--primary)] font-mono">&lt;/&gt;</span>
+        <span class="text-[var(--primary-text)] font-mono">&lt;/&gt;</span>
         <span>Lautaro Jofre</span>
       </a>
     </div>
 
+    <nav class="hidden md:flex items-center gap-1" [attr.aria-label]="'A11Y.MAIN_NAV' | translate">
+      <a href="#presentacion" class="nav-link">{{ 'NAV.PRESENTACION' | translate }}</a>
+      <a href="#proyectos" class="nav-link">{{ 'NAV.PROYECTOS' | translate }}</a>
+      <a href="#habilidades" class="nav-link">{{ 'NAV.HABILIDADES' | translate }}</a>
+      <a href="#estudios" class="nav-link">{{ 'NAV.ESTUDIOS' | translate }}</a>
+      <a href="#experiencia" class="nav-link">{{ 'NAV.EXPERIENCIA' | translate }}</a>
+    </nav>
+
     <div class="flex items-center gap-2">
-      <button (click)="toggleTheme()"
+      <button type="button" (click)="toggleTheme()"
               class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--card-bg)] text-[var(--texto)] hover:border-[var(--primary)] transition">
-        <i class="bi" [ngClass]="isDarkMode ? 'bi-sun text-amber-400' : 'bi-moon-stars text-indigo-500'"></i>
+        <i class="bi" [ngClass]="isDarkMode ? 'bi-sun text-amber-400' : 'bi-moon-stars text-indigo-500'" aria-hidden="true"></i>
         <span class="hidden sm:inline text-xs sm:text-sm font-medium">
           {{ isDarkMode ? ('THEME.TOGGLE_LIGHT' | translate) : ('THEME.TOGGLE_DARK' | translate) }}
         </span>
+        <span class="sr-only sm:hidden">{{ isDarkMode ? ('THEME.TOGGLE_LIGHT' | translate) : ('THEME.TOGGLE_DARK' | translate) }}</span>
       </button>
-      <button (click)="changeLanguage(currentLang === 'es' ? 'en' : 'es')"
-              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--primary)]/40 bg-[var(--primary)]/10 text-[var(--primary)] hover:bg-[var(--primary)] hover:text-white transition">
-        <i class="bi bi-translate"></i>
+      <button type="button" (click)="changeLanguage(currentLang === 'es' ? 'en' : 'es')"
+              [attr.aria-label]="'SIDEBAR.SWITCH_LANG' | translate"
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[var(--primary)]/40 bg-[var(--primary)]/10 text-[var(--primary-text)] hover:bg-[var(--primary)] hover:text-white transition">
+        <i class="bi bi-translate" aria-hidden="true"></i>
         <span class="text-xs sm:text-sm font-semibold">{{ currentLang === 'es' ? 'EN' : 'ES' }}</span>
       </button>
     </div>
@@ -32,95 +44,99 @@
 <div *ngIf="isSidebarOpen" (click)="closeSidebar()"
      class="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm transition-opacity"></div>
 
-<aside [class.-translate-x-full]="!isSidebarOpen"
+<aside id="sidebar"
+       [attr.aria-hidden]="!isSidebarOpen"
+       [attr.inert]="!isSidebarOpen ? '' : null"
+       [class.-translate-x-full]="!isSidebarOpen"
        [class.translate-x-0]="isSidebarOpen"
        class="fixed top-0 left-0 z-50 h-screen w-72 bg-[var(--fondo-secundario)] border-r border-[var(--border)] flex flex-col justify-between p-5 transition-transform duration-300 ease-in-out shadow-2xl">
   <div>
     <div class="flex items-center justify-between pb-5 mb-5 border-b border-[var(--border)]">
       <div class="flex items-center gap-2 font-bold text-lg text-[var(--texto)]">
-        <span class="text-[var(--primary)] font-mono">&lt;/&gt;</span>
-        <span>Lautaro<span class="text-[var(--primary)]">.dev</span></span>
+        <span class="text-[var(--primary-text)] font-mono">&lt;/&gt;</span>
+        <span>Lautaro<span class="text-[var(--primary-text)]">.dev</span></span>
       </div>
-      <button (click)="closeSidebar()" class="p-1.5 rounded-lg text-[var(--texto-secundario)] hover:text-[var(--texto)] hover:bg-[var(--card-bg)] transition">
-        <i class="bi bi-x-lg"></i>
+      <button type="button" (click)="closeSidebar()" [attr.aria-label]="'A11Y.CLOSE_MENU' | translate"
+              class="p-1.5 rounded-lg text-[var(--texto-secundario)] hover:text-[var(--texto)] hover:bg-[var(--card-bg)] transition">
+        <i class="bi bi-x-lg" aria-hidden="true"></i>
       </button>
     </div>
 
-    <nav class="space-y-1.5">
+    <nav class="space-y-1.5" [attr.aria-label]="'A11Y.MAIN_NAV' | translate">
       <a href="#presentacion" (click)="closeSidebar()" class="sidebar-link">
-        <i class="bi bi-person text-lg text-[var(--primary)]"></i><span>{{ 'NAV.PRESENTACION' | translate }}</span>
+        <i class="bi bi-person text-lg text-[var(--primary-text)]" aria-hidden="true"></i><span>{{ 'NAV.PRESENTACION' | translate }}</span>
       </a>
       <a href="#proyectos" (click)="closeSidebar()" class="sidebar-link">
-        <i class="bi bi-folder2-open text-lg text-[var(--primary)]"></i><span>{{ 'NAV.PROYECTOS' | translate }}</span>
+        <i class="bi bi-folder2-open text-lg text-[var(--primary-text)]" aria-hidden="true"></i><span>{{ 'NAV.PROYECTOS' | translate }}</span>
       </a>
       <a href="#habilidades" (click)="closeSidebar()" class="sidebar-link">
-        <i class="bi bi-cpu text-lg text-[var(--primary)]"></i><span>{{ 'NAV.HABILIDADES' | translate }}</span>
+        <i class="bi bi-cpu text-lg text-[var(--primary-text)]" aria-hidden="true"></i><span>{{ 'NAV.HABILIDADES' | translate }}</span>
       </a>
       <a href="#estudios" (click)="closeSidebar()" class="sidebar-link">
-        <i class="bi bi-mortarboard text-lg text-[var(--primary)]"></i><span>{{ 'NAV.ESTUDIOS' | translate }}</span>
+        <i class="bi bi-mortarboard text-lg text-[var(--primary-text)]" aria-hidden="true"></i><span>{{ 'NAV.ESTUDIOS' | translate }}</span>
       </a>
       <a href="#experiencia" (click)="closeSidebar()" class="sidebar-link">
-        <i class="bi bi-briefcase text-lg text-[var(--primary)]"></i><span>{{ 'NAV.EXPERIENCIA' | translate }}</span>
+        <i class="bi bi-briefcase text-lg text-[var(--primary-text)]" aria-hidden="true"></i><span>{{ 'NAV.EXPERIENCIA' | translate }}</span>
       </a>
     </nav>
 
     <div class="mt-6 pt-5 border-t border-[var(--border)] space-y-2.5">
-      <button (click)="toggleTheme()" class="sidebar-control">
-        <span class="flex items-center gap-2.5"><i class="bi" [ngClass]="isDarkMode ? 'bi-sun text-amber-400' : 'bi-moon-stars text-indigo-500'"></i>{{ isDarkMode ? ('THEME.TOGGLE_LIGHT' | translate) : ('THEME.TOGGLE_DARK' | translate) }}</span>
+      <button type="button" (click)="toggleTheme()" class="sidebar-control">
+        <span class="flex items-center gap-2.5"><i class="bi" [ngClass]="isDarkMode ? 'bi-sun text-amber-400' : 'bi-moon-stars text-indigo-500'" aria-hidden="true"></i>{{ isDarkMode ? ('THEME.TOGGLE_LIGHT' | translate) : ('THEME.TOGGLE_DARK' | translate) }}</span>
         <span class="text-[10px] px-2 py-0.5 rounded bg-[var(--card-bg)] text-[var(--texto-secundario)]">UI</span>
       </button>
-      <button (click)="changeLanguage(currentLang === 'es' ? 'en' : 'es')" class="sidebar-control">
-        <span class="flex items-center gap-2.5"><i class="bi bi-globe2 text-[var(--primary)]"></i>{{ currentLang === 'es' ? 'Cambiar a Inglés' : 'Change to Spanish' }}</span>
-        <span class="text-[10px] px-2 py-0.5 rounded bg-[var(--primary)]/15 text-[var(--primary)] font-bold">{{ currentLang === 'es' ? 'EN' : 'ES' }}</span>
+      <button type="button" (click)="changeLanguage(currentLang === 'es' ? 'en' : 'es')" class="sidebar-control">
+        <span class="flex items-center gap-2.5"><i class="bi bi-globe2 text-[var(--primary-text)]" aria-hidden="true"></i>{{ 'SIDEBAR.SWITCH_LANG' | translate }}</span>
+        <span class="text-[10px] px-2 py-0.5 rounded bg-[var(--primary)]/15 text-[var(--primary-text)] font-bold">{{ currentLang === 'es' ? 'EN' : 'ES' }}</span>
       </button>
     </div>
   </div>
 
   <div class="pt-4 border-t border-[var(--border)] space-y-2">
     <ng-container *ngIf="!estaLogueado">
-      <button (click)="closeSidebar(); openLogin()" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold bg-[var(--primary)] text-white hover:opacity-90 transition">
-        <i class="bi bi-box-arrow-in-right"></i><span>{{ 'NAV.INGRESAR' | translate }}</span>
+      <button type="button" (click)="closeSidebar(); openLogin()" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold bg-[var(--primary)] text-white hover:bg-[var(--primary-hover)] transition">
+        <i class="bi bi-box-arrow-in-right" aria-hidden="true"></i><span>{{ 'NAV.INGRESAR' | translate }}</span>
       </button>
-      <button (click)="closeSidebar(); openRegister()" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold border border-[var(--border)] bg-[var(--card-bg)] text-[var(--texto)] hover:border-[var(--primary)] transition">
-        <i class="bi bi-person-plus"></i><span>{{ 'NAV.REGISTRARSE' | translate }}</span>
+      <button type="button" (click)="closeSidebar(); openRegister()" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold border border-[var(--border)] bg-[var(--card-bg)] text-[var(--texto)] hover:border-[var(--primary)] transition">
+        <i class="bi bi-person-plus" aria-hidden="true"></i><span>{{ 'NAV.REGISTRARSE' | translate }}</span>
       </button>
     </ng-container>
 
     <ng-container *ngIf="estaLogueado">
       <div class="px-3 py-2 rounded-xl bg-[var(--card-bg)] border border-[var(--border)] text-xs text-[var(--texto-secundario)] flex items-center justify-between">
-        <span>Rol activo</span><span class="font-bold text-[var(--primary)] uppercase">{{ rolActual || 'USER' }}</span>
+        <span>{{ 'SIDEBAR.ACTIVE_ROLE' | translate }}</span><span class="font-bold text-[var(--primary-text)] uppercase">{{ rolActual || 'USER' }}</span>
       </div>
-      <button (click)="cerrarSesion(); closeSidebar()" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500 hover:text-white transition">
-        <i class="bi bi-box-arrow-right"></i><span>{{ 'NAV.CERRAR_SESION' | translate }}</span>
+      <button type="button" (click)="cerrarSesion(); closeSidebar()" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20 hover:bg-red-500 hover:text-white transition">
+        <i class="bi bi-box-arrow-right" aria-hidden="true"></i><span>{{ 'NAV.CERRAR_SESION' | translate }}</span>
       </button>
     </ng-container>
 
     <div class="grid grid-cols-2 gap-2 pt-2">
-      <a href="https://github.com/lauJofre04" target="_blank" rel="noreferrer" class="sidebar-control justify-center"><i class="bi bi-github"></i> GitHub</a>
-      <a href="https://www.linkedin.com/in/lautaro-jofre" target="_blank" rel="noreferrer" class="sidebar-control justify-center"><i class="bi bi-linkedin"></i> LinkedIn</a>
+      <a href="https://github.com/lauJofre04" target="_blank" rel="noopener noreferrer" class="sidebar-control justify-center"><i class="bi bi-github" aria-hidden="true"></i> GitHub</a>
+      <a href="https://www.linkedin.com/in/lautaro-jofre" target="_blank" rel="noopener noreferrer" class="sidebar-control justify-center"><i class="bi bi-linkedin" aria-hidden="true"></i> LinkedIn</a>
     </div>
   </div>
 </aside>
 
 <!-- Login Modal -->
-<div *ngIf="showLoginModal" class="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-[70] p-4" (click)="closeModals()">
+<div *ngIf="showLoginModal" role="dialog" aria-modal="true" class="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-[70] p-4" (click)="closeModals()">
   <div class="bg-[var(--card-bg)] border border-[var(--border)] rounded-2xl p-6 w-full max-w-md shadow-2xl" (click)="$event.stopPropagation()">
-    <div class="flex justify-between items-center mb-4"><h4 class="font-bold text-[var(--texto)]">{{ 'LOGIN.TITLE' | translate }}</h4><button (click)="closeModals()" class="text-[var(--texto-secundario)]">✕</button></div>
+    <div class="flex justify-between items-center mb-4"><h4 class="font-bold text-[var(--texto)]">{{ 'LOGIN.TITLE' | translate }}</h4><button type="button" (click)="closeModals()" [attr.aria-label]="'A11Y.CLOSE' | translate" class="text-[var(--texto-secundario)]">✕</button></div>
     <form (ngSubmit)="iniciarSesion()" class="space-y-4">
-      <div><label class="block text-sm font-semibold mb-1 text-[var(--texto-secundario)]">{{ 'LOGIN.USERNAME_LABEL' | translate }}</label><input type="text" class="w-full form-input" [(ngModel)]="credenciales.username" name="username" required></div>
-      <div><label class="block text-sm font-semibold mb-1 text-[var(--texto-secundario)]">{{ 'LOGIN.PASSWORD_LABEL' | translate }}</label><input type="password" class="w-full form-input" [(ngModel)]="credenciales.password" name="password" required></div>
+      <div><label class="block text-sm font-semibold mb-1 text-[var(--texto-secundario)]">{{ 'LOGIN.USERNAME_LABEL' | translate }}</label><input type="text" class="w-full form-input" [(ngModel)]="credenciales.username" name="username" required [placeholder]="'LOGIN.USERNAME_PLACEHOLDER' | translate" autocomplete="username"></div>
+      <div><label class="block text-sm font-semibold mb-1 text-[var(--texto-secundario)]">{{ 'LOGIN.PASSWORD_LABEL' | translate }}</label><input type="password" class="w-full form-input" [(ngModel)]="credenciales.password" name="password" required [placeholder]="'LOGIN.PASSWORD_PLACEHOLDER' | translate" autocomplete="current-password"></div>
       <button type="submit" class="w-full py-3 rounded-xl bg-[var(--primary)] text-white font-bold">{{ 'LOGIN.BUTTON' | translate }}</button>
     </form>
   </div>
 </div>
 
 <!-- Register Modal -->
-<div *ngIf="showRegisterModal" class="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-[70] p-4" (click)="closeModals()">
+<div *ngIf="showRegisterModal" role="dialog" aria-modal="true" class="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-[70] p-4" (click)="closeModals()">
   <div class="bg-[var(--card-bg)] border border-[var(--border)] rounded-2xl p-6 w-full max-w-md shadow-2xl" (click)="$event.stopPropagation()">
-    <div class="flex justify-between items-center mb-4"><h4 class="font-bold text-[var(--texto)]">{{ 'REGISTER.TITLE' | translate }}</h4><button (click)="closeModals()" class="text-[var(--texto-secundario)]">✕</button></div>
+    <div class="flex justify-between items-center mb-4"><h4 class="font-bold text-[var(--texto)]">{{ 'REGISTER.TITLE' | translate }}</h4><button type="button" (click)="closeModals()" [attr.aria-label]="'A11Y.CLOSE' | translate" class="text-[var(--texto-secundario)]">✕</button></div>
     <form (ngSubmit)="registrarse()" class="space-y-4">
-      <div><label class="block text-sm font-semibold mb-1 text-[var(--texto-secundario)]">{{ 'REGISTER.USERNAME_LABEL' | translate }}</label><input type="text" class="w-full form-input" [(ngModel)]="credencialesRegistro.username" name="regUsername" required></div>
-      <div><label class="block text-sm font-semibold mb-1 text-[var(--texto-secundario)]">{{ 'REGISTER.PASSWORD_LABEL' | translate }}</label><input type="password" class="w-full form-input" [(ngModel)]="credencialesRegistro.password" name="regPassword" required></div>
+      <div><label class="block text-sm font-semibold mb-1 text-[var(--texto-secundario)]">{{ 'REGISTER.USERNAME_LABEL' | translate }}</label><input type="text" class="w-full form-input" [(ngModel)]="credencialesRegistro.username" name="regUsername" required [placeholder]="'REGISTER.USERNAME_PLACEHOLDER' | translate" autocomplete="username"></div>
+      <div><label class="block text-sm font-semibold mb-1 text-[var(--texto-secundario)]">{{ 'REGISTER.PASSWORD_LABEL' | translate }}</label><input type="password" class="w-full form-input" [(ngModel)]="credencialesRegistro.password" name="regPassword" required [placeholder]="'REGISTER.PASSWORD_PLACEHOLDER' | translate" autocomplete="new-password"></div>
       <button type="submit" class="w-full py-3 rounded-xl bg-[var(--primary)] text-white font-bold">{{ 'REGISTER.BUTTON' | translate }}</button>
     </form>
   </div>

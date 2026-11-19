@@ -1,18 +1,18 @@
 <!-- Floating Action Button (FAB) -->
-<button (click)="openContactModal()" aria-label="Contacto"
+<button type="button" (click)="openContactModal()" [attr.aria-label]="'A11Y.CONTACT' | translate" [attr.aria-expanded]="isContactModalOpen"
         class="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--primary)] text-white shadow-lg transition-transform hover:scale-110"
         [style.box-shadow]="'0 10px 25px var(--primary-glow)'">
-  <i class="bi text-2xl" [ngClass]="isContactModalOpen ? 'bi-x-lg' : 'bi-chat-dots-fill'"></i>
+  <i class="bi text-2xl" [ngClass]="isContactModalOpen ? 'bi-x-lg' : 'bi-chat-dots-fill'" aria-hidden="true"></i>
 </button>
 
 <!-- Contact Modal -->
-<div *ngIf="isContactModalOpen" (click)="closeContactModal()"
+<div *ngIf="isContactModalOpen" role="dialog" aria-modal="true" (click)="closeContactModal()"
      class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
   <div (click)="$event.stopPropagation()"
        class="w-full max-w-md rounded-2xl border border-[var(--border)] bg-[var(--fondo-secundario)] p-6 shadow-2xl">
     <div class="mb-5 flex items-center justify-between">
       <div><h3 class="text-xl font-bold text-[var(--texto)]">{{ 'CONTACT.TITLE' | translate }}</h3><p class="text-xs text-[var(--texto-secundario)]">{{ 'CONTACT.DESCRIPTION' | translate }}</p></div>
-      <button (click)="closeContactModal()" class="text-[var(--texto-secundario)] hover:text-[var(--texto)]"><i class="bi bi-x-lg"></i></button>
+      <button type="button" (click)="closeContactModal()" [attr.aria-label]="'A11Y.CLOSE' | translate" class="text-[var(--texto-secundario)] hover:text-[var(--texto)]"><i class="bi bi-x-lg" aria-hidden="true"></i></button>
     </div>
 
     <!-- Contact Form -->
@@ -20,30 +20,34 @@
       <!-- Name Field -->
       <div>
         <label class="mb-1 block text-xs font-semibold text-[var(--texto-secundario)]">{{ 'CONTACT.LABEL_NAME' | translate }}</label>
-        <input type="text" name="name" [(ngModel)]="formData.name" required autocomplete="name" class="w-full rounded-xl border border-[var(--border)] bg-[var(--card-bg)] px-3.5 py-2.5 text-sm text-[var(--texto)] focus:border-[var(--primary)] focus:outline-none">
+        <input type="text" name="name" [(ngModel)]="formData.name" required autocomplete="name" [placeholder]="'CONTACT.PLACEHOLDER_NAME' | translate" class="w-full rounded-xl border border-[var(--border)] bg-[var(--card-bg)] px-3.5 py-2.5 text-sm text-[var(--texto)] focus:border-[var(--primary)] focus:outline-none">
       </div>
 
       <!-- Email Field -->
       <div>
-        <label class="mb-1 block text-xs font-semibold text-[var(--texto-secundario)]">Email</label>
-        <input type="email" name="email" [(ngModel)]="formData.email" required autocomplete="email" class="w-full rounded-xl border border-[var(--border)] bg-[var(--card-bg)] px-3.5 py-2.5 text-sm text-[var(--texto)] focus:border-[var(--primary)] focus:outline-none">
+        <label class="mb-1 block text-xs font-semibold text-[var(--texto-secundario)]">{{ 'CONTACT.LABEL_EMAIL' | translate }}</label>
+        <input type="email" name="email" [(ngModel)]="formData.email" required autocomplete="email" [placeholder]="'CONTACT.PLACEHOLDER_EMAIL' | translate" class="w-full rounded-xl border border-[var(--border)] bg-[var(--card-bg)] px-3.5 py-2.5 text-sm text-[var(--texto)] focus:border-[var(--primary)] focus:outline-none">
       </div>
 
       <!-- Message Field -->
       <div>
         <label class="mb-1 block text-xs font-semibold text-[var(--texto-secundario)]">{{ 'CONTACT.LABEL_MESSAGE' | translate }}</label>
-        <textarea name="message" [(ngModel)]="formData.message" rows="4" required class="w-full resize-none rounded-xl border border-[var(--border)] bg-[var(--card-bg)] px-3.5 py-2.5 text-sm text-[var(--texto)] focus:border-[var(--primary)] focus:outline-none"></textarea>
+        <textarea name="message" [(ngModel)]="formData.message" rows="4" required [placeholder]="'CONTACT.PLACEHOLDER_MESSAGE' | translate" class="w-full resize-none rounded-xl border border-[var(--border)] bg-[var(--card-bg)] px-3.5 py-2.5 text-sm text-[var(--texto)] focus:border-[var(--primary)] focus:outline-none"></textarea>
       </div>
+
+      <p *ngIf="errorEnvio" role="alert" class="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-600 dark:text-red-400">
+        {{ 'CONTACT.ERROR' | translate }}
+      </p>
 
       <!-- Button Group -->
       <button type="submit" [disabled]="isSubmitting" class="w-full rounded-xl bg-[var(--primary)] py-3 text-sm font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50">
-        {{ isSubmitting ? 'ENVIANDO...' : ('CONTACT.SEND_BUTTON' | translate) }}
+        {{ isSubmitting ? ('CONTACT.SENDING' | translate) : ('CONTACT.SEND_BUTTON' | translate) }}
       </button>
     </form>
   </div>
 </div>
 
 <!-- TOAST -->
-<div *ngIf="mensajeEnviado" class="fixed bottom-24 right-6 z-[60] flex items-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/15 px-4 py-3 text-sm font-medium text-emerald-500 shadow-lg backdrop-blur-md">
-  <i class="bi bi-check-circle-fill"></i><span>{{ 'CONTACT.SUCCESS' | translate }}</span>
+<div *ngIf="mensajeEnviado" role="status" aria-live="polite" class="fixed bottom-24 right-6 z-[60] flex items-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/15 px-4 py-3 text-sm font-medium text-emerald-700 dark:text-emerald-400 shadow-lg backdrop-blur-md">
+  <i class="bi bi-check-circle-fill" aria-hidden="true"></i><span>{{ 'CONTACT.SUCCESS' | translate }}</span>
 </div>

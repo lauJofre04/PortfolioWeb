@@ -1,7 +1,4 @@
 {
-  "COMMON": {
-    "CANCEL": "Cancelar"
-  },
   "NAV": {
     "PRESENTACION": "Presentación",
     "ESTUDIOS": "Estudios",
@@ -17,21 +14,20 @@
     "TOGGLE_LIGHT": "Modo Claro"
   },
   "PRESENTACION": {
-    "TITLE": "Perfil Profesional",
-    "CLICK_HINT": "Haz clic para leer más sobre mí",
-    "DOWNLOAD_CV": "Descargar CV",
-    "BACK": "Volver",
-    "STATUS": {
-      "ACTIVE": "Activo",
-      "INACTIVE": "Inactivo",
-      "PENDING": "Pendiente"
-    }
+    "DOWNLOAD_CV": "Descargar CV"
   },
   "SECTIONS": {
     "EDUCATION": "Educación y Cursos",
     "EXPERIENCE": "Experiencia Laboral",
     "SKILLS": "Habilidades y Tecnologías",
-    "PROJECTS": "Proyectos"
+    "PROJECTS": "Proyectos",
+    "LABEL_PROJECTS": "// 01. Portfolio",
+    "LABEL_SKILLS": "// 02. Stack tecnológico",
+    "LABEL_EDUCATION": "// 03. Educación",
+    "LABEL_EXPERIENCE": "// 04. Experiencia",
+    "PROJECTS_DESC": "Aplicaciones reales desplegadas en la nube con arquitecturas modernas.",
+    "SKILLS_DESC": "Herramientas y tecnologías utilizadas para construir software escalable.",
+    "EDUCATION_DESC": "Base teórica en ingeniería de software y tecnologías de la información."
   },
   "CONTACT": {
     "TITLE": "¡Hablemos!",
@@ -43,7 +39,9 @@
     "LABEL_MESSAGE": "Mensaje",
     "PLACEHOLDER_MESSAGE": "¿En qué puedo ayudarte?",
     "SEND_BUTTON": "Enviar Mensaje",
-    "SUCCESS": "¡Mensaje enviado con éxito!"
+    "SUCCESS": "¡Mensaje enviado con éxito!",
+    "SENDING": "Enviando...",
+    "ERROR": "No se pudo enviar el mensaje. Probá de nuevo en unos minutos."
   },
   "LOGIN": {
     "TITLE": "¡Bienvenido de vuelta!",
@@ -61,8 +59,30 @@
     "PASSWORD_PLACEHOLDER": "********",
     "BUTTON": "Registrarme"
   },
-  "LANG": {
-    "SPANISH": "Español",
-    "ENGLISH": "English"
+  "HERO": {
+    "AVAILABLE": "Disponible para oportunidades IT",
+    "CTA_PROJECTS": "Ver proyectos",
+    "CARD2_TITLE": "Arquitecturas escalables"
+  },
+  "PROJECTS": {
+    "DEMO": "Demo en vivo",
+    "REPO": "GitHub"
+  },
+  "SIDEBAR": {
+    "SWITCH_LANG": "Cambiar a inglés",
+    "ACTIVE_ROLE": "Rol activo"
+  },
+  "A11Y": {
+    "OPEN_MENU": "Abrir menú",
+    "CLOSE_MENU": "Cerrar menú",
+    "CLOSE": "Cerrar",
+    "MAIN_NAV": "Navegación principal",
+    "PREV": "Anterior",
+    "NEXT": "Siguiente",
+    "CONTACT": "Contacto",
+    "GO_TO_PROJECT": "Ir al proyecto {{n}}"
+  },
+  "FOOTER": {
+    "RIGHTS": "© 2026 Lautaro Jofre. Diseñado con foco en arquitectura y UX."
   }
 }

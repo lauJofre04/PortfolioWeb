@@ -2,9 +2,9 @@
   <div class="mx-auto max-w-6xl">
     <div class="mb-10 flex items-end justify-between gap-4">
       <div>
-        <span class="font-mono text-xs font-semibold uppercase tracking-widest text-[var(--primary)]">// 03. Education</span>
+        <span class="font-mono text-xs font-semibold uppercase tracking-widest text-[var(--primary-text)]">{{ 'SECTIONS.LABEL_EDUCATION' | translate }}</span>
         <h2 class="mt-1 text-3xl font-extrabold text-[var(--texto)] sm:text-4xl">{{ 'SECTIONS.EDUCATION' | translate }}</h2>
-        <p class="mt-2 text-[var(--texto-secundario)]">Base teórica en ingeniería de software y tecnologías de la información.</p>
+        <p class="mt-2 text-[var(--texto-secundario)]">{{ 'SECTIONS.EDUCATION_DESC' | translate }}</p>
       </div>
       <button *ngIf="esAdmin" class="rounded-xl border border-[var(--border)] bg-[var(--card-bg)] px-4 py-2.5 text-sm font-bold text-[var(--texto)]" (click)="limpiarFormulario()">+ Agregar</button>
     </div>
@@ -16,11 +16,11 @@
           <div class="flex flex-wrap items-start justify-between gap-3">
             <div>
               <h3 class="text-lg font-bold text-[var(--texto)]">{{ estudio.titulo }}</h3>
-              <p class="mt-1 text-sm font-medium text-[var(--primary)]">{{ estudio.institucion }}</p>
+              <p class="mt-1 text-sm font-medium text-[var(--primary-text)]">{{ estudio.institucion }}</p>
               <p *ngIf="estudio.descripcion" class="mt-3 text-sm text-[var(--texto-secundario)]">{{ estudio.descripcion }}</p>
             </div>
             <div class="flex items-center gap-2">
-              <span class="rounded-full border border-[var(--primary)]/30 bg-[var(--primary)]/10 px-3 py-1 font-mono text-xs text-[var(--primary)]">{{ estudio.fecha_inicio | date:'yyyy' }}</span>
+              <span class="rounded-full border border-[var(--primary)]/30 bg-[var(--primary)]/10 px-3 py-1 font-mono text-xs text-[var(--primary-text)]">{{ estudio.fecha_inicio | date:'yyyy' }}</span>
               <div *ngIf="esAdmin" class="flex gap-2">
                 <button (click)="cargarDatosParaEditar(estudio)" class="text-amber-500">
                   <i class="bi bi-pencil-square"></i>

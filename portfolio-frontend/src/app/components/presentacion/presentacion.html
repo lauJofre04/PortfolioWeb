@@ -4,9 +4,9 @@
     <div class="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-emerald-500/10 blur-3xl"></div>
 
     <div class="relative z-10 max-w-3xl">
-      <div class="mb-6 inline-flex items-center gap-2.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1.5 text-xs font-mono text-emerald-500">
+      <div class="mb-6 inline-flex items-center gap-2.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1.5 text-xs font-mono text-emerald-700 dark:text-emerald-400">
         <span class="h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,.8)]"></span>
-        Disponible para oportunidades IT
+        {{ 'HERO.AVAILABLE' | translate }}
       </div>
 
       <h1 class="text-4xl font-extrabold leading-[1.1] tracking-tight text-[var(--texto)] sm:text-5xl lg:text-6xl">
@@ -14,7 +14,7 @@
       </h1>
       <p class="mt-4 text-lg font-semibold text-[var(--texto)] sm:text-xl">{{ presentacionData.titulo }}</p>
       <p class="mt-2 flex items-center gap-1.5 text-sm text-[var(--texto-secundario)]">
-        <i class="bi bi-geo-alt-fill text-[var(--primary)]"></i>
+        <i class="bi bi-geo-alt-fill text-[var(--primary-text)]"></i>
         General Daniel Cerri, Buenos Aires, Argentina
       </p>
       <p class="mt-6 max-w-2xl text-base leading-relaxed text-[var(--texto-secundario)] sm:text-lg">
@@ -23,7 +23,7 @@
 
       <div class="mt-8 flex flex-wrap items-center gap-3">
         <a href="#proyectos" class="inline-flex items-center gap-2 rounded-xl bg-[var(--primary)] px-6 py-3 text-sm font-semibold text-white shadow-[0_10px_25px_var(--primary-glow)] transition hover:-translate-y-0.5">
-          <i class="bi bi-rocket-takeoff-fill"></i>Ver proyectos
+          <i class="bi bi-rocket-takeoff-fill" aria-hidden="true"></i>{{ 'HERO.CTA_PROJECTS' | translate }}
         </a>
         <a href="https://www.linkedin.com/in/lautaro-jofre" target="_blank" rel="noreferrer" class="inline-flex items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--card-bg)] px-5 py-3 text-sm font-semibold text-[var(--texto)] transition hover:border-[var(--primary)]">
           <i class="bi bi-linkedin"></i>LinkedIn
@@ -42,7 +42,7 @@
         <p class="font-bold text-[var(--texto)]">Java / Spring Boot</p><p class="mt-1 font-mono text-xs text-[var(--texto-secundario)]">Angular / React</p>
       </div>
       <div class="rounded-2xl border border-[var(--border)] bg-[var(--card-bg)]/80 p-4">
-        <p class="font-bold text-[var(--texto)]">Arquitecturas escalables</p><p class="mt-1 font-mono text-xs text-[var(--texto-secundario)]">REST, JWT & WebSockets</p>
+        <p class="font-bold text-[var(--texto)]">{{ 'HERO.CARD2_TITLE' | translate }}</p><p class="mt-1 font-mono text-xs text-[var(--texto-secundario)]">REST, JWT & WebSockets</p>
       </div>
       <div class="rounded-2xl border border-[var(--border)] bg-[var(--card-bg)]/80 p-4">
         <p class="font-bold text-[var(--texto)]">Cloud & DevOps</p><p class="mt-1 font-mono text-xs text-[var(--texto-secundario)]">Docker, CI/CD & Testing</p>

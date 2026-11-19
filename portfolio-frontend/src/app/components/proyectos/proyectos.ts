@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProyectosServices } from '../../services/proyectos/proyectos-services';
@@ -59,16 +59,12 @@ export class Proyectos {
     });
   }
 
-  getVisibleSlides(): number {
-    if (window.innerWidth < 768) return 1;
-    if (window.innerWidth < 1024) return 2;
-    return 3;
-  }
-
-  getPaginationDots(): number[] {
-    const visibleSlides = this.getVisibleSlides();
-    const totalDots = Math.ceil(this.misProyectos.length / visibleSlides);
-    return Array.from({ length: totalDots }, (_, i) => i);
+  // Tecnologías como lista limpia: sin espacios ni elementos vacíos (p. ej. una coma al final)
+  techList(proy: any): string[] {
+    return String(proy?.tecnologias || '')
+      .split(',')
+      .map(t => t.trim())
+      .filter(Boolean);
   }
 
   nextSlide(): void {
@@ -113,6 +109,14 @@ export class Proyectos {
 
   closeProjectModal() {
     this.showProjectModal = false;
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    if (this.showProjectModal) {
+      this.closeProjectModal();
+      this.cdr.detectChanges();
+    }
   }
 
   borrarProyecto(id: number) {
